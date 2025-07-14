@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id                   String                 @id @default(uuid()) @db.Uuid
+  name                 String
+  email                String                 @unique
+  cpf                  String                 @unique
+  password             String
+  avatar               String?
+  xp                   Int                    @default(0)
+  level                Int                    @default(1)
+  deletedAt            DateTime?              @db.Date
+  preferences          Preferences[]
+  userAchievements     UserAchievements[]
+  activityParticipants ActivityParticipants[]
+  activitiesCreated    Activities[]           @relation("CreatedActivities")
+}
+
+model Preferences {
+  id            String        @id @default(uuid()) @db.Uuid
+  userId        String        @db.Uuid
+  typeId        String        @db.Uuid
+  user          Users         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activityTypes ActivityTypes @relation(fields: [typeId], references: [id], onDelete: Cascade)
+}
+
+model Achievements {
+  id               String             @id @default(uuid()) @db.Uuid
+  name             String             @unique
+  criterion        String
+  userAchievements UserAchievements[]
+}
+
+model UserAchievements {
+  id            String       @id @default(uuid()) @db.Uuid
+  achievementId String       @db.Uuid
+  userId        String       @db.Uuid
+  user          Users        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement   Achievements @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId], name: "userId_achievementId")
+}
+
+model Activities {
+  id               String                 @id @default(uuid()) @db.Uuid
+  title            String
+  description      String
+  typeId           String                 @db.Uuid
+  confirmationCode String                 @default(cuid())
+  image            String?
+  scheduledDate    DateTime
+  createdAt        DateTime               @default(now())
+  deletedAt        DateTime?
+  completedAt      DateTime?
+  private          Boolean                @default(false)
+  creatorId        String                 @db.Uuid
+  creator          Users                  @relation(fields: [creatorId], references: [id], onDelete: Cascade, name: "CreatedActivities")
+  type             ActivityTypes          @relation(fields: [typeId], references: [id], onDelete: Cascade)
+  activityAddress  ActivityAddresses?
+  participants     ActivityParticipants[]
+}
+
+model ActivityAddresses {
+  id         String     @id @default(uuid()) @db.Uuid
+  activityId String     @unique @db.Uuid
+  latitude   Float
+  longitude  Float
+  activity   Activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
+}
+
+model ActivityParticipants {
+  activityId  String     @db.Uuid
+  userId      String     @db.Uuid
+  approved    Boolean    @default(false)
+  confirmedAt DateTime?
+  user        Users      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activity    Activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
+
+  @@id([activityId, userId])
+}
+
+model ActivityTypes {
+  id          String        @id @default(uuid()) @db.Uuid
+  name        String
+  description String
+  image       String?
+  activities  Activities[]
+  preferences Preferences[]
+}
