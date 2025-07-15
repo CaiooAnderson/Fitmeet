@@ -46,39 +46,37 @@ function Register() {
   const navigate = useNavigate();
 
   const onSubmit = async (data: any) => {
-    try {
-      const response = await fetch("http://localhost:3000/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-      if (!response.ok) {
-        const errorData = await response.json();
+    if (!response.ok) {
+      const errorData = await response.json();
 
-        if (response.status === 409) {
-          toast.error(errorData.error);
-        } else if (response.status === 400) {
-          toast.error(errorData.error);
-        } else {
-          toast.error("Erro inesperado.");
-        }
-
-        return;
-      }
-
-      navigate("/");
-      toast.success("Conta criada com sucesso!");
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        toast.error(`Erro ao conectar com o servidor: ${err.message}`);
+      if (response.status === 409 || response.status === 400) {
+        toast.error(errorData.error);
       } else {
-        toast.error("Erro ao conectar com o servidor.");
+        toast.error("Erro inesperado.");
       }
+
+      return;
     }
-  };
+
+    navigate("/");
+    toast.success("Conta criada com sucesso!");
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      toast.error(`Erro ao conectar com o servidor: ${err.message}`);
+    } else {
+      toast.error("Erro ao conectar com o servidor.");
+    }
+  }
+};
 
   return (
     <>
