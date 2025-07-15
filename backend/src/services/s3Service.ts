@@ -25,8 +25,8 @@ export async function createBucketIfNotExists() {
   } catch (error: any) {
     if (error.$metadata?.httpStatusCode === 404) {
       console.log("Bucket não encontrado, criando...");
-      await s3.send(new CreateBucketCommand({ Bucket: bucketName }));
-      console.log("Bucket criado:", bucketName);
+      // await s3.send(new CreateBucketCommand({ Bucket: bucketName }));
+      console.log("Por favor crie o bucket manualmente no Backblaze B2");
     } else {
       throw error;
     }
