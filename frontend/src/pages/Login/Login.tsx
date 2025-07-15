@@ -34,33 +34,33 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data: any) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/sign-in`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/sign-in`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-      if (!response.ok) {
-        if (response.status === 400 || 401 || 403 || 404) {
-          toast.error("Credenciais inválidas.");
-        } else {
-          toast.error("Erro inesperado.");
-        }
-        return;
+    if (!response.ok) {
+      if ([400, 401, 403, 404].includes(response.status)) {
+        toast.error("Credenciais inválidas.");
+      } else {
+        toast.error("Erro inesperado.");
       }
-
-      const responseData = await response.json();
-
-      sessionStorage.setItem("token", responseData.token);
-      toast.success("Login bem-sucedido!");
-      navigate("/menu");
-    } catch (error) {
-      toast.error("Erro ao conectar com o servidor.");
+      return;
     }
-  };
+
+    const responseData = await response.json();
+
+    sessionStorage.setItem("token", responseData.token);
+    toast.success("Login bem-sucedido!");
+    navigate("/menu");
+  } catch (error) {
+    toast.error("Erro ao conectar com o servidor.");
+  }
+};
 
   return (
     <>
