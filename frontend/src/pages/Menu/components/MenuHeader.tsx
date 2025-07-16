@@ -51,7 +51,7 @@ const MenuHeader = ({
                 <div className="bg-white rounded-full p-[2px]">
                   <Avatar className="w-11 h-11">
                     <AvatarImage
-                      src={avatar?.replace("localstack", "localhost")}
+                      src={avatar}
                       alt="Avatar do usuário"
                       className="w-11 h-11 object-cover rounded-full"
                     />
