@@ -1,9 +1,6 @@
 import { Request, Response } from 'express';
 import * as UserService from '../services/userService';
 import { uploadImage } from "../services/s3Service";
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { GetObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedAvatarUrl, bucketName } from '../services/s3Service';
 
 interface AuthenticatedRequest extends Request {
   user?: { id: string };
@@ -30,14 +27,9 @@ export const getUser = async (req: AuthenticatedRequest, res: Response) => {
 
     const { password, deletedAt, userAchievements, ...userWithoutSensitiveInfo } = user;
 
-    if (user.avatar) {
-      const key = user.avatar.split(`/${bucketName}/`)[1];
-      if (key) {
-        userWithoutSensitiveInfo.avatar = await getSignedAvatarUrl(key);
-      }
-    }
-
-    const achievements = userAchievements?.map((ua) => ua.achievement) || [];
+    const achievements = userAchievements
+      ? userAchievements.map((ua) => ua.achievement)
+      : [];
 
     const userResponse = {
       ...userWithoutSensitiveInfo,
