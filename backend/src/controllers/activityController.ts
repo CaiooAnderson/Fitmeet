@@ -5,6 +5,9 @@ import * as UserService from '../services/userService';
 import { uploadImage } from '../services/s3Service';
 import * as UserRepository from '../repositories/userRepository';
 import { PrismaClient } from '@prisma/client';
+import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { s3, bucketName } from "../services/s3Service";
 
 interface AuthenticatedRequest extends Request {
   user?: { id: string };
@@ -117,13 +120,22 @@ export const listActivities = async (req: AuthenticatedRequest, res: Response) =
 
         const userSubscriptionStatus = await ActivityService.determineUserSubscriptionStatus(userId, activity.id);
         const isCreator = userId === activity.creatorId;
+
+        let signedImageUrl = null;
+          if (activity.image?.includes(bucketName)) {
+            const key = activity.image.split(`/${bucketName}/`)[1];
+            if (key) {
+              const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
+              signedImageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+          }
+        }
         
         return {
           id: activity.id,
           title: activity.title,
           description: activity.description,
           type: activity.type.name,
-          image: activity.image,
+          image: signedImageUrl,
           ...(isCreator && { confirmationCode: activity.confirmationCode }),
           participantCount,
           address: activity.activityAddress ? {
@@ -195,11 +207,20 @@ export const listAllActivities = async (req: AuthenticatedRequest, res: Response
 
         const isCreator = userId === activity.creatorId;
 
+        let signedImageUrl = null;
+        if (activity.image?.includes(bucketName)) {
+          const key = activity.image.split(`/${bucketName}/`)[1];
+          if (key) {
+            const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
+            signedImageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+          }
+        }
+
         const baseActivity: Record<string, any> = {
           id: activity.id,
           title: activity.title,
           description: activity.description,
-          image: activity.image,
+          image: signedImageUrl,
           type: activity.type.name,
           scheduledDate: activity.scheduledDate,
           createdAt: activity.createdAt,
@@ -591,12 +612,21 @@ export const createActivity = async (req: AuthenticatedRequest, res: Response) =
 
     const createdActivity = await ActivityService.createActivity(req.user.id, activityData, req.file);
 
+    let signedImageUrl = null;
+    if (createdActivity.image?.includes(bucketName)) {
+      const key = createdActivity.image.split(`/${bucketName}/`)[1];
+      if (key) {
+        const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
+        signedImageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+      }
+    }
+
     const response = {
       id: createdActivity.id,
       title: createdActivity.title,
       description: createdActivity.description,
       typeId: createdActivity.typeId,
-      image: createdActivity.image,
+      image: signedImageUrl,
       address: {
         latitude: createdActivity.activityAddress?.latitude,
         longitude: createdActivity.activityAddress?.longitude,
