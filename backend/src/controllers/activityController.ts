@@ -389,29 +389,42 @@ export const getUserParticipantActivities = async (req: AuthenticatedRequest, re
       totalPages,
       previous: page > 0 ? page - 1 : null,
       next: page < totalPages - 1 ? page + 1 : null,
-      activities: activities.map(participant => ({
-        id: participant.activity.id,
-        title: participant.activity.title,
-        description: participant.activity.description,
-        type: participant.activity.type.name,
-        image: participant.activity.image,
-        confirmationCode: participant.activity.confirmationCode,
-        participantCount: participant.activity.participants.length,
-        address: participant.activity.activityAddress
-          ? {
-              latitude: participant.activity.activityAddress.latitude,
-              longitude: participant.activity.activityAddress.longitude,
-            }
-          : null,
-        scheduledDate: participant.activity.scheduledDate,
-        createdAt: participant.activity.createdAt,
-        completedAt: participant.activity.completedAt,
-        private: participant.activity.private,
-        creator: {
-          id: participant.activity.creatorId,
-          name: participant.activity.creator.name,
-          avatar: participant.activity.creator.avatar || 'default-avatar-url',
-        },
+      activities: await Promise.all(activities.map(async (participant) => {
+        const creatorAvatar = participant.activity.creator.avatar;
+        let signedAvatarUrl = null;
+
+        if (creatorAvatar?.includes(bucketName)) {
+          const key = creatorAvatar.split(`/${bucketName}/`)[1];
+          if (key) {
+            const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
+            signedAvatarUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+          }
+        }
+
+        return {
+          id: participant.activity.id,
+          title: participant.activity.title,
+          description: participant.activity.description,
+          type: participant.activity.type.name,
+          image: participant.activity.image,
+          confirmationCode: participant.activity.confirmationCode,
+          participantCount: participant.activity.participants.length,
+          address: participant.activity.activityAddress
+            ? {
+                latitude: participant.activity.activityAddress.latitude,
+                longitude: participant.activity.activityAddress.longitude,
+              }
+            : null,
+          scheduledDate: participant.activity.scheduledDate,
+          createdAt: participant.activity.createdAt,
+          completedAt: participant.activity.completedAt,
+          private: participant.activity.private,
+          creator: {
+            id: participant.activity.creatorId,
+            name: participant.activity.creator.name,
+            avatar: signedAvatarUrl ?? null,
+          },
+        };
       })),
     };
 
@@ -447,6 +460,17 @@ export const getAllUserParticipantActivities = async (req: AuthenticatedRequest,
         req.user!.id,
         activity.activity.id
       );
+
+      const avatarKey = activity.activity.creator.avatar?.split(`/${bucketName}/`)[1];
+      let signedAvatarUrl = null;
+
+      if (avatarKey) {
+        const command = new GetObjectCommand({
+          Bucket: bucketName,
+          Key: avatarKey,
+        });
+        signedAvatarUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+      }
 
       return {
         id: activity.activity.id,
