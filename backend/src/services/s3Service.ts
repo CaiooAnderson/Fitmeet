@@ -127,5 +127,10 @@ export async function getSignedAvatarUrl(key: string, expiresInSeconds = 3600) {
 }
 
 export async function AvatarUrl() {
-  return await getSignedAvatarUrl("avatars/default-avatar.png");
+  const command = new GetObjectCommand({
+    Bucket: bucketName,
+    Key: "avatars/default-avatar.png",
+  });
+
+  return await getSignedUrl(s3, command, { expiresIn: 60 * 60 });
 }
