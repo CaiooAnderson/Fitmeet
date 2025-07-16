@@ -297,10 +297,12 @@ export default function ActivityDetails({
                         <div className="w-11 h-11 rounded-full bg-emerald-500 p-1">
                           <Avatar className="w-full h-full">
                             <AvatarImage
-                              src={participant.avatar?.replace(
-                                "localstack",
-                                "localhost"
-                              )}
+                              src={
+                                participant.avatar
+                                  ? participant.avatar
+                                  : import.meta.env.VITE_DEFAULT_AVATAR_URL
+                              }
+                              alt={`${participant.name || "Usuário"} avatar`}
                             />
                           </Avatar>
                         </div>
