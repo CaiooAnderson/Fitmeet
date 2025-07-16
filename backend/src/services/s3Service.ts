@@ -1,13 +1,5 @@
-import {
-  CreateBucketCommand,
-  PutObjectCommand,
-  S3Client,
-  HeadBucketCommand,
-  HeadObjectCommand,
-  GetObjectCommand,
-} from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import https from "https";
+import { CreateBucketCommand, PutObjectCommand, S3Client, HeadBucketCommand, HeadObjectCommand } from "@aws-sdk/client-s3";
+import https from 'https';
 
 export interface SimpleFile {
   originalname: string;
@@ -41,7 +33,7 @@ export async function createBucketIfNotExists() {
   }
 }
 
-export async function uploadImage(file: SimpleFile, folder: string) {
+export async function uploadImage(file: SimpleFile, folder: string) {  
   const fileKey = `${folder}/${file.originalname}`;
   const uploadParams = {
     Bucket: bucketName,
@@ -51,7 +43,8 @@ export async function uploadImage(file: SimpleFile, folder: string) {
   };
 
   await s3.send(new PutObjectCommand(uploadParams));
-  return fileKey;
+
+  return `${process.env.S3_ENDPOINT}/${bucketName}/${fileKey}`;
 }
 
 export async function uploadImageFromUrl(url: string, key: string) {
@@ -102,6 +95,7 @@ export async function uploadDefaultAvatar() {
       Bucket: bucketName,
       Key: imageKey,
     }));
+
     console.log("Imagem padrão já existe no S3.");
   } catch (error: any) {
     if (error.$metadata?.httpStatusCode === 404) {
@@ -113,24 +107,6 @@ export async function uploadDefaultAvatar() {
   }
 }
 
-export async function getSignedAvatarUrl(key: string, expiresInSeconds = 3600) {
-  const command = new GetObjectCommand({
-    Bucket: bucketName,
-    Key: key,
-  });
-
-  const signedUrl = await getSignedUrl(s3, command, {
-    expiresIn: expiresInSeconds,
-  });
-
-  return signedUrl;
-}
-
-export async function AvatarUrl() {
-  const command = new GetObjectCommand({
-    Bucket: bucketName,
-    Key: "avatars/default-avatar.png",
-  });
-
-  return await getSignedUrl(s3, command, { expiresIn: 60 * 60 });
+export async function getDefaultAvatarUrl() {
+  return `${process.env.S3_ENDPOINT}/${bucketName}/avatars/default-avatar.png`;
 }
