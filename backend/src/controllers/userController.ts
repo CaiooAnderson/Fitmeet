@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as UserService from '../services/userService';
-import { uploadImage, getSignedAvatarUrl } from "../services/s3Service";
+import { uploadImage, getSignedAvatarUrl, bucketName } from "../services/s3Service";
 
 interface AuthenticatedRequest extends Request {
   user?: { id: string };
