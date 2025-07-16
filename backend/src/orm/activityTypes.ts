@@ -15,7 +15,7 @@ export async function seedActivityTypes() {
       image: 'https://www.catho.com.br/carreira-sucesso/wp-content/uploads/sites/3/2019/09/Design-sem-nome-9.jpg'
     },
     { 
-      name: 'Desenvolvimento Pessoal e Profissional', 
+      name: 'Oportunidades', 
       description: 'Mentoria, coaching, projetos de voluntariado e desenvolvimento de habilidades.',
       image: 'https://img.freepik.com/vetores-gratis/lider-empresarial-de-pe-na-seta-e-segurando-a-ilustracao-em-vetor-plana-bandeira-desenhos-animados-pessoas-treinando-e-fazendo-plano-de-negocios-conceito-de-lideranca-vitoria-e-desafio_74855-9812.jpg' 
     },
