@@ -552,10 +552,20 @@ export const getActivityParticipants = async (req: AuthenticatedRequest, res: Re
     }
 
     const participantsWithStatus = await Promise.all(participants.map(async (participant) => {
-      return {
-        ...participant,
-      };
-    }));
+  let avatarUrl = await getDefaultAvatarUrl();
+
+  if (participant.avatar) {
+    try {
+      avatarUrl = await getSignedAvatarUrl(`avatars/${participant.avatar}`);
+    } catch {
+    }
+  }
+
+  return {
+    ...participant,
+    avatar: avatarUrl,
+  };
+}));
 
     res.status(200).json(participantsWithStatus);
   } catch (error) {
