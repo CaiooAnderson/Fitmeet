@@ -3,7 +3,7 @@ import * as UserService from '../services/userService';
 import { uploadImage } from "../services/s3Service";
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { GetObjectCommand } from '@aws-sdk/client-s3';
-import { s3, bucketName } from '../services/s3Service';
+import { getSignedAvatarUrl, bucketName } from '../services/s3Service';
 
 interface AuthenticatedRequest extends Request {
   user?: { id: string };
@@ -30,25 +30,17 @@ export const getUser = async (req: AuthenticatedRequest, res: Response) => {
 
     const { password, deletedAt, userAchievements, ...userWithoutSensitiveInfo } = user;
 
-    let avatarUrl = null;
     if (user.avatar) {
-      const avatarKey = user.avatar.split(`/${bucketName}/`)[1];
-      if (avatarKey) {
-        const command = new GetObjectCommand({
-          Bucket: bucketName,
-          Key: avatarKey,
-        });
-        avatarUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+      const key = user.avatar.split(`/${bucketName}/`)[1];
+      if (key) {
+        userWithoutSensitiveInfo.avatar = await getSignedAvatarUrl(key);
       }
     }
 
-    const achievements = userAchievements
-      ? userAchievements.map((ua) => ua.achievement)
-      : [];
+    const achievements = userAchievements?.map((ua) => ua.achievement) || [];
 
     const userResponse = {
       ...userWithoutSensitiveInfo,
-      avatar: avatarUrl,
       achievements,
     };
 
