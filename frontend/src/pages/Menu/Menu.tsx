@@ -42,106 +42,107 @@ function Menu() {
   }, [token, activities]);
 
   const validateToken = async (token: string) => {
-    try {
-      const response = await fetch("http://localhost:3000/user", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) throw new Error("Token inválido");
-      const data = await response.json();
-      setUser({ name: data.name, avatar: data.avatar, level: data.level });
-      await fetchActivities(token);
-      await fetchPreferences(token);
-    } catch {
-      toast.error("Token inválido.");
-      sessionStorage.removeItem("token");
-      navigate("/");
-    }
-  };
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) throw new Error("Token inválido");
+
+    const data = await response.json();
+    setUser({ name: data.name, avatar: data.avatar, level: data.level });
+
+    await fetchActivities(token);
+    await fetchPreferences(token);
+  } catch {
+    toast.error("Token inválido.");
+    sessionStorage.removeItem("token");
+    navigate("/");
+  }
+};
 
   const fetchPreferences = async (token: string) => {
-    try {
-      const res = await fetch("http://localhost:3000/user/preferences", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      const preferenceIds = data.map((item: any) => item.typeId);
-      setPreferences(preferenceIds);
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/user/preferences`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      if (preferenceIds.length === 0) {
-        setShowPreferencesDialog(true);
-      } else {
-        setShowPreferencesDialog(false);
-      }
-    } catch {
-      toast.error("Erro ao carregar preferências do usuário.");
-    }
-  };
+    const data = await res.json();
+    const preferenceIds = data.map((item: any) => item.typeId);
+    setPreferences(preferenceIds);
+
+    setShowPreferencesDialog(preferenceIds.length === 0);
+  } catch {
+    toast.error("Erro ao carregar preferências do usuário.");
+  }
+};
 
   const fetchActivities = async (token: string) => {
-    try {
-      const page = 0;
-      const pageSize = 50;
+  try {
+    const page = 0;
+    const pageSize = 50;
 
-      const [activitiesRes, typesRes] = await Promise.all([
-        fetch(
-          `http://localhost:3000/activities?page=${page}&pageSize=${pageSize}`,
+    const [activitiesRes, typesRes] = await Promise.all([
+      fetch(`${import.meta.env.VITE_API_URL}/activities?page=${page}&pageSize=${pageSize}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      fetch(`${import.meta.env.VITE_API_URL}/activities/types`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+    ]);
+
+    const [activitiesData, typesData] = await Promise.all([
+      activitiesRes.json(),
+      typesRes.json(),
+    ]);
+
+    const filtered = activitiesData.activities.filter(
+      (activity: any) => !activity.completedAt && !activity.deletedAt
+    );
+
+    const enriched = filtered.map((activity: any) => {
+      const match = typesData.find(
+        (t: { id: string; name: string }) => t.name === activity.type
+      );
+      return {
+        ...activity,
+        type: match?.id ?? activity.type,
+      };
+    });
+
+    setActivities(enriched);
+
+    const groupedByType = await Promise.all(
+      typesData.map(async (type: any) => {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/activities?page=0&pageSize=6&typeId=${type.id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
-        ),
-        fetch("http://localhost:3000/activities/types", {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-      ]);
-
-      const [activitiesData, typesData] = await Promise.all([
-        activitiesRes.json(),
-        typesRes.json(),
-      ]);
-
-      const filtered = activitiesData.activities.filter(
-        (activity: any) => !activity.completedAt && !activity.deletedAt
-      );
-
-      const enriched = filtered.map((activity: any) => {
-        const match = typesData.find(
-          (t: { id: string; name: string }) => t.name === activity.type
         );
+
+        const data = await res.json();
+
         return {
-          ...activity,
-          type: match?.id ?? activity.type,
+          id: type.id,
+          name: type.name,
+          activities: data.activities.filter(
+            (a: any) => !a.completedAt && !a.deletedAt
+          ),
         };
-      });
+      })
+    );
 
-      setActivities(enriched);
-
-      const groupedByType = await Promise.all(
-        typesData.map(async (type: any) => {
-          const res = await fetch(
-            `http://localhost:3000/activities?page=0&pageSize=6&typeId=${type.id}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
-
-          const data = await res.json();
-
-          return {
-            id: type.id,
-            name: type.name,
-            activities: data.activities.filter(
-              (a: any) => !a.completedAt && !a.deletedAt
-            ),
-          };
-        })
-      );
-
-      setActivitiesGrouped(groupedByType);
-      setError(null);
-    } catch {
-      setError("Erro ao carregar atividades.");
-    }
-  };
+    setActivitiesGrouped(groupedByType);
+    setError(null);
+  } catch {
+    setError("Erro ao carregar atividades.");
+  }
+};
 
   const handleTypeClick = (typeId: string) => {
     navigate(`/activities/${typeId}`);

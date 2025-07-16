@@ -46,9 +46,11 @@ export default function EditActivity({
 
     const fetchTypesAndFill = async () => {
       try {
-        const res = await fetch("http://localhost:3000/activities/types", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/activities/types`, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 
         const typesData = await res.json();
         setActivityTypes(typesData);
@@ -123,13 +125,15 @@ export default function EditActivity({
 
     try {
       const response = await fetch(
-        `http://localhost:3000/activities/${activity.id}/update`,
-        {
-          method: "PUT",
-          headers: { Authorization: `Bearer ${token}` },
-          body: formData,
-        }
-      );
+  `${import.meta.env.VITE_API_URL}/activities/${activity.id}/update`,
+  {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  }
+);
 
       const result = await response.json();
       if (!response.ok) {
@@ -155,14 +159,14 @@ export default function EditActivity({
 
     try {
       const res = await fetch(
-        `http://localhost:3000/activities/${activity.id}/delete`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  `${import.meta.env.VITE_API_URL}/activities/${activity.id}/delete`,
+  {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
 
       if (!res.ok) {
         const data = await res.json();

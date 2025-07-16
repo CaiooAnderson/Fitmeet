@@ -15,7 +15,7 @@ export default function DeactivateUser() {
 
   const handleDeactivate = async () => {
     const token = sessionStorage.getItem("token");
-    const res = await fetch("http://localhost:3000/user/deactivate", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/user/deactivate`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });

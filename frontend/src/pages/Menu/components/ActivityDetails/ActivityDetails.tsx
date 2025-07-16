@@ -45,7 +45,7 @@ export default function ActivityDetails({
 
     try {
       const res = await fetch(
-        `http://localhost:3000/activities/${activity.id}/participants`,
+        `${import.meta.env.VITE_API_URL}/activities/${activity.id}/participants`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -102,7 +102,7 @@ export default function ActivityDetails({
       );
 
       const response = await fetch(
-        `http://localhost:3000/activities/${activity.id}/approve`,
+        `${import.meta.env.VITE_API_URL}/activities/${activity.id}/approve`,
         {
           method: "PUT",
           headers: {
@@ -150,7 +150,7 @@ export default function ActivityDetails({
 
     try {
       const res = await fetch(
-        `http://localhost:3000/activities/${activity.id}/conclude`,
+        `${import.meta.env.VITE_API_URL}/activities/${activity.id}/conclude`,
         {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` },

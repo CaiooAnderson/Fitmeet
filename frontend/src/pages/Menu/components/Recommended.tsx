@@ -34,7 +34,7 @@ const Recommended = ({
       if (!token) return;
 
       try {
-        const res = await fetch("http://localhost:3000/user", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const user = await res.json();

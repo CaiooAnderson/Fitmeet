@@ -20,7 +20,7 @@ const ActivityTypes = ({
     const fetchActivityTypes = async () => {
       if (token) {
         try {
-          const res = await fetch("http://localhost:3000/activities/types", {
+          const res = await fetch(`${import.meta.env.VITE_API_URL}/activities/types`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           const data = await res.json();

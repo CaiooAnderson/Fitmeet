@@ -37,16 +37,18 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
   const [approvalRequired, setApprovalRequired] = useState<boolean>(false);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      fetch("http://localhost:3000/activities/types", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((res) => res.json())
-        .then((data) => setActivityTypes(data))
-        .catch(() => toast.error("Erro ao carregar os tipos de atividade."));
-    }
-  }, []);
+  const token = sessionStorage.getItem("token");
+  if (!token) return;
+
+  fetch(`${import.meta.env.VITE_API_URL}/activities/types`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => setActivityTypes(data))
+    .catch(() => toast.error("Erro ao carregar os tipos de atividade."));
+}, []);
 
   useEffect(() => {
     if (!isOpen) {
@@ -110,7 +112,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
     formData.append("private", String(approvalRequired));
 
     try {
-      const response = await fetch("http://localhost:3000/activities/new", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/activities/new`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

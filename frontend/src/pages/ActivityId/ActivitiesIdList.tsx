@@ -32,7 +32,7 @@ export default function ActivitiesIdList({
   const fetchAllActivities = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/activities/all?typeId=${typeId}&orderBy=createdAt&order=desc`,
+        `${import.meta.env.VITE_API_URL}/activities/all?typeId=${typeId}&orderBy=createdAt&order=desc`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -103,7 +103,7 @@ export default function ParticipantButton({
 
       if (button.action === "subscribe") {
         const res = await fetch(
-          `http://localhost:3000/activities/${activity.id}/subscribe`,
+          `${import.meta.env.VITE_API_URL}/activities/${activity.id}/subscribe`,
           {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },
@@ -121,7 +121,7 @@ export default function ParticipantButton({
 
       if (button.action === "unsubscribe") {
         const res = await fetch(
-          `http://localhost:3000/activities/${activity.id}/unsubscribe`,
+          `${import.meta.env.VITE_API_URL}/activities/${activity.id}/unsubscribe`,
           {
             method: "DELETE",
             headers: { Authorization: `Bearer ${token}` },
@@ -140,7 +140,7 @@ export default function ParticipantButton({
         }
 
         const res = await fetch(
-          `http://localhost:3000/activities/${activity.id}/check-in`,
+          `${import.meta.env.VITE_API_URL}/activities/${activity.id}/check-in`,
           {
             method: "PUT",
             headers: {

@@ -35,7 +35,7 @@ export default function SubscribeActivity({
   const fetchUser = async () => {
     const token = sessionStorage.getItem("token");
     if (!token) return;
-    const res = await fetch("http://localhost:3000/user", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const user = await res.json();
@@ -47,7 +47,7 @@ export default function SubscribeActivity({
     if (!activity?.id || !token) return;
 
     const res = await fetch(
-      `http://localhost:3000/activities/${activity.id}/participants`,
+      `${import.meta.env.VITE_API_URL}/activities/${activity.id}/participants`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
     const data = await res.json();

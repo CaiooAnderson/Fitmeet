@@ -37,13 +37,13 @@ export default function EditProfile() {
       if (!token) return navigate("/");
 
       const [userRes, prefsRes, typesRes] = await Promise.all([
-        fetch("http://localhost:3000/user", {
+        fetch(`${import.meta.env.VITE_API_URL}/user`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch("http://localhost:3000/user/preferences", {
+        fetch(`${import.meta.env.VITE_API_URL}/user/preferences`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch("http://localhost:3000/activities/types", {
+        fetch(`${import.meta.env.VITE_API_URL}/activities/types`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
@@ -73,7 +73,7 @@ export default function EditProfile() {
         const formData = new FormData();
         formData.append("avatar", newAvatar);
 
-        const res = await fetch("http://localhost:3000/user/avatar", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/user/avatar`, {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` },
           body: formData,
@@ -93,7 +93,7 @@ export default function EditProfile() {
       };
       if (password) body.password = password;
 
-      const resUpdate = await fetch("http://localhost:3000/user/update", {
+      const resUpdate = await fetch(`${import.meta.env.VITE_API_URL}/user/update`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -110,7 +110,7 @@ export default function EditProfile() {
       }
 
       const resPrefs = await fetch(
-        "http://localhost:3000/user/preferences/define",
+        `${import.meta.env.VITE_API_URL}/user/preferences/define`,
         {
           method: "POST",
           headers: {

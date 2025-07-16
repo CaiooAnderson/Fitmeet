@@ -40,7 +40,7 @@ function Menu() {
 
   const validateToken = async (token: string) => {
     try {
-      const response = await fetch("http://localhost:3000/user", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error("Token inválido");
@@ -62,7 +62,7 @@ function Menu() {
   const fetchUserActivities = async (token: string) => {
     try {
       const res = await fetch(
-        "http://localhost:3000/activities/user/creator?page=0&pageSize=100",
+        `${import.meta.env.VITE_API_URL}/activities/user/creator?page=0&pageSize=100`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -77,7 +77,7 @@ function Menu() {
   const fetchUserHistoryActivities = async (token: string) => {
     try {
       const res = await fetch(
-        "http://localhost:3000/activities/user/participant?page=0&pageSize=100",
+        `${import.meta.env.VITE_API_URL}/activities/user/participant?page=0&pageSize=100`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

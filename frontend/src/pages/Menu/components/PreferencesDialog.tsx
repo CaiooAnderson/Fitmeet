@@ -49,7 +49,7 @@ export default function PreferencesDialog({
 
   const fetchActivityTypes = async () => {
     try {
-      const res = await fetch("http://localhost:3000/activities/types", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/activities/types`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -61,7 +61,7 @@ export default function PreferencesDialog({
 
   const handleConfirm = async () => {
     try {
-      await fetch("http://localhost:3000/user/preferences/define", {
+      await fetch(`${import.meta.env.VITE_API_URL}/user/preferences/define`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

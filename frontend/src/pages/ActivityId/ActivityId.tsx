@@ -35,7 +35,7 @@ export default function ActivityId() {
 
   const validateToken = async (token: string) => {
     try {
-      const res = await fetch("http://localhost:3000/user", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Token inválido");
@@ -51,7 +51,7 @@ export default function ActivityId() {
 
   const fetchAll = async (token: string) => {
     try {
-      const typesRes = await fetch("http://localhost:3000/activities/types", {
+      const typesRes = await fetch(`${import.meta.env.VITE_API_URL}/activities/types`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const typesData = await typesRes.json();
@@ -60,7 +60,7 @@ export default function ActivityId() {
       setTypeName(currentType?.name ?? "Tipo");
 
       const activitiesRes = await fetch(
-        `http://localhost:3000/activities?page=0&pageSize=100&typeId=${typeId}`,
+        `${import.meta.env.VITE_API_URL}/activities?page=0&pageSize=100&typeId=${typeId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
