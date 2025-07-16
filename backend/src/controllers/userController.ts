@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as UserService from '../services/userService';
-import { uploadImage } from "../services/s3Service";
+import { uploadImage, getSignedAvatarUrl } from "../services/s3Service";
 
 interface AuthenticatedRequest extends Request {
   user?: { id: string };
@@ -27,12 +27,21 @@ export const getUser = async (req: AuthenticatedRequest, res: Response) => {
 
     const { password, deletedAt, userAchievements, ...userWithoutSensitiveInfo } = user;
 
+    let avatarUrl = null;
+    if (user.avatar) {
+      const avatarKey = user.avatar.split(`/${bucketName}/`)[1];
+      if (avatarKey) {
+        avatarUrl = await getSignedAvatarUrl(avatarKey);
+      }
+    }
+
     const achievements = userAchievements
       ? userAchievements.map((ua) => ua.achievement)
       : [];
 
     const userResponse = {
       ...userWithoutSensitiveInfo,
+      avatar: avatarUrl,
       achievements,
     };
 
