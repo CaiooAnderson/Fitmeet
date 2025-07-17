@@ -552,16 +552,17 @@ export const getActivityParticipants = async (req: AuthenticatedRequest, res: Re
       return;
     }
 
+    console.log('Participantes recebidos:', participants);
+
     const participantsWithAvatar = await Promise.all(
   participants.map(async (participant) => {
     let avatarUrl: string;
 
-    const avatarFile = participant.avatar ?? participant.user?.avatar;
-
-    if (avatarFile) {
+    if (participant.avatar) {
       try {
-        avatarUrl = await getSignedAvatarUrl(`avatars/${avatarFile}`);
+        avatarUrl = await getSignedAvatarUrl(`avatars/${participant.avatar}`);
       } catch (err) {
+        console.error("Erro ao gerar URL do avatar:", err);
         avatarUrl = await getDefaultAvatarUrl();
       }
     } else {
