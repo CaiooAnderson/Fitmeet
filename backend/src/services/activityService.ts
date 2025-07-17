@@ -102,7 +102,6 @@ const getActivityParticipants = async (activityId: string) => {
   const participants = await ActivityRepository.getActivityParticipants(activityId);
 
   return participants.map((p) => ({
-    id: p.id,
     activityId: p.activityId,
     userId: p.user.id,
     name: p.user.name,
