@@ -8,6 +8,7 @@ import { PrismaClient } from '@prisma/client';
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { s3, bucketName } from "../services/s3Service";
+import { getSignedAvatarUrl, getDefaultAvatarUrl } from "../services/s3Service";
 
 interface AuthenticatedRequest extends Request {
   user?: { id: string };
@@ -551,13 +552,28 @@ export const getActivityParticipants = async (req: AuthenticatedRequest, res: Re
       return;
     }
 
-    const participantsWithStatus = await Promise.all(participants.map(async (participant) => {
-      return {
-        ...participant,
-      };
-    }));
+    const participantsWithAvatar = await Promise.all(
+      participants.map(async (participant) => {
+        let avatarUrl: string;
 
-    res.status(200).json(participantsWithStatus);
+        if (participant.avatar) {
+          try {
+            avatarUrl = await getSignedAvatarUrl(`avatars/${participant.avatar}`);
+          } catch (err) {
+            avatarUrl = await getDefaultAvatarUrl();
+          }
+        } else {
+          avatarUrl = await getDefaultAvatarUrl();
+        }
+
+        return {
+          ...participant,
+          avatar: avatarUrl,
+        };
+      })
+    );
+
+    res.status(200).json(participantsWithAvatar);
   } catch (error) {
     console.error('Erro ao buscar participantes da atividade:', error);
     res.status(500).json({ error: 'Erro inesperado.' });
