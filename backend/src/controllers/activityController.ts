@@ -553,25 +553,27 @@ export const getActivityParticipants = async (req: AuthenticatedRequest, res: Re
     }
 
     const participantsWithAvatar = await Promise.all(
-      participants.map(async (participant) => {
-        let avatarUrl: string;
+  participants.map(async (participant) => {
+    let avatarUrl: string;
 
-        if (participant.avatar) {
-          try {
-            avatarUrl = await getSignedAvatarUrl(`avatars/${participant.avatar}`);
-          } catch (err) {
-            avatarUrl = await getDefaultAvatarUrl();
-          }
-        } else {
-          avatarUrl = await getDefaultAvatarUrl();
-        }
+    const avatarFile = participant.avatar ?? participant.user?.avatar;
 
-        return {
-          ...participant,
-          avatar: avatarUrl,
-        };
-      })
-    );
+    if (avatarFile) {
+      try {
+        avatarUrl = await getSignedAvatarUrl(`avatars/${avatarFile}`);
+      } catch (err) {
+        avatarUrl = await getDefaultAvatarUrl();
+      }
+    } else {
+      avatarUrl = await getDefaultAvatarUrl();
+    }
+
+    return {
+      ...participant,
+      avatar: avatarUrl,
+    };
+  })
+);
 
     res.status(200).json(participantsWithAvatar);
   } catch (error) {
