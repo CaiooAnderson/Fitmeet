@@ -552,31 +552,7 @@ export const getActivityParticipants = async (req: AuthenticatedRequest, res: Re
       return;
     }
 
-    console.log('Participantes recebidos:', participants);
-
-    const participantsWithAvatar = await Promise.all(
-  participants.map(async (participant) => {
-    let avatarUrl: string;
-
-    if (participant.avatar) {
-      try {
-        avatarUrl = await getSignedAvatarUrl(`avatars/${participant.avatar}`);
-      } catch (err) {
-        console.error("Erro ao gerar URL do avatar:", err);
-        avatarUrl = await getDefaultAvatarUrl();
-      }
-    } else {
-      avatarUrl = await getDefaultAvatarUrl();
-    }
-
-    return {
-      ...participant,
-      avatar: avatarUrl,
-    };
-  })
-);
-
-    res.status(200).json(participantsWithAvatar);
+    res.status(200).json(participants);
   } catch (error) {
     console.error('Erro ao buscar participantes da atividade:', error);
     res.status(500).json({ error: 'Erro inesperado.' });

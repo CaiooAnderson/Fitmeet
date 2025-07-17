@@ -2,7 +2,7 @@ import * as ActivityRepository from '../repositories/activityRepository';
 import * as UserRepository from '../repositories/userRepository';
 import * as UserService from './userService';
 import { grantAchievementIfNotExists } from '../repositories/userRepository';
-import { uploadImage } from './s3Service';
+import { getDefaultAvatarUrl, getSignedAvatarUrl, uploadImage } from './s3Service';
 import prisma from "../orm/database";
 import { generateToken } from '../middlewares/authMiddleware';
 
@@ -101,14 +101,31 @@ const getAllUserParticipantActivities = async (userId: string) => {
 const getActivityParticipants = async (activityId: string) => {
   const participants = await ActivityRepository.getActivityParticipants(activityId);
 
-  return participants.map((p) => ({
-    activityId: p.activityId,
-    userId: p.user.id,
-    name: p.user.name,
-    avatar: p.user.avatar,
-    subscriptionStatus: p.approved ? 'Inscrito' : 'Pendente',
-    confirmedAt: p.confirmedAt,
-  }));
+  return await Promise.all(
+    participants.map(async (p) => {
+      let avatarUrl: string;
+
+      if (p.user.avatar) {
+        try {
+          avatarUrl = await getSignedAvatarUrl(`avatars/${p.user.avatar}`);
+        } catch (err) {
+          console.error('Erro ao gerar URL do avatar:', err);
+          avatarUrl = await getDefaultAvatarUrl();
+        }
+      } else {
+        avatarUrl = await getDefaultAvatarUrl();
+      }
+
+      return {
+        activityId: p.activityId,
+        userId: p.user.id,
+        name: p.user.name,
+        avatar: avatarUrl,
+        subscriptionStatus: p.approved ? 'Inscrito' : 'Pendente',
+        confirmedAt: p.confirmedAt,
+      };
+    })
+  );
 };
 
 const getActivityById = async (id: string) => {
