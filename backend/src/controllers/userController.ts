@@ -141,11 +141,11 @@ export const updateUserAvatar = async (req: AuthenticatedRequest, res: Response)
       return;
     }
 
-    const avatarUrl = await uploadImage(req.file, 'avatars');
+    const avatarKey = await uploadImage(req.file, 'avatars');
 
-    await UserService.updateUserAvatar(req.user.id, avatarUrl);
+    await UserService.updateUserAvatar(req.user.id, avatarKey);
 
-    res.status(200).json({ avatarUrl });
+    res.status(200).json({ avatarKey });
   } catch (error) {
     console.error('Erro ao atualizar avatar:', error);
     res.status(500).json({ error: 'Erro inesperado.' });
