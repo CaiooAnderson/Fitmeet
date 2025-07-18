@@ -6,7 +6,7 @@ import {
   getDefaultAvatarUrl,
   getSignedAvatarUrl,
   uploadImage,
-  bucketName,
+  bucketName
 } from "./s3Service";
 import prisma from "../orm/database";
 import { generateToken } from "../middlewares/authMiddleware";
@@ -54,21 +54,7 @@ export const determineUserSubscriptionStatus = async (
 };
 
 const getActivityTypes = async () => {
-  const types = await ActivityRepository.getActivityTypes();
-
-  const typesWithSignedUrl = await Promise.all(
-    types.map(async (type) => {
-      // Se o campo 'image' armazenar a key no bucket (ex: 'activities/gym.png')
-      const signedUrl = type.image ? await getSignedAvatarUrl(type.image) : null;
-
-      return {
-        ...type,
-        image: signedUrl,
-      };
-    })
-  );
-
-  return typesWithSignedUrl;
+  return await ActivityRepository.getActivityTypes();
 };
 
 const listActivities = async (userId: string, filters: any) => {
