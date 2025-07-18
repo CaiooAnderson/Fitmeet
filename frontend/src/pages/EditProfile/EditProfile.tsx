@@ -53,7 +53,7 @@ export default function EditProfile() {
       const typesData = await typesRes.json();
 
       setUser(userData);
-      setPreviewUrl(userData.avatar?.replace("localstack", "localhost") || "");
+      setPreviewUrl(userData.avatar);
       setSelectedPreferences(prefsData.map((item: any) => item.typeId));
       setActivityTypes(typesData);
       setIsReady(true);
@@ -82,7 +82,7 @@ export default function EditProfile() {
         if (!res.ok) throw new Error("Erro ao atualizar avatar");
 
         const data = await res.json();
-        const updatedAvatar = data.avatar?.replace("localstack", "localhost");
+        const updatedAvatar = data.avatar;
         setUser((prev) => ({ ...prev, avatar: updatedAvatar }));
         setPreviewUrl(updatedAvatar);
       }
