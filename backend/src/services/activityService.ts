@@ -168,7 +168,7 @@ const getActivityParticipants = async (activityId: string) => {
               }
             }
           } else {
-            avatarUrl = await getSignedAvatarUrl(p.user.avatar`);
+            avatarUrl = await getSignedAvatarUrl(p.user.avatar);
           }
         } else {
           avatarUrl = await getDefaultAvatarUrl();
