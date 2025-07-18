@@ -287,76 +287,83 @@ export default function ActivityDetails({
               >
                 <h3 className="text-[1.75rem] h-8 font-bebas">PARTICIPANTES</h3>
                 <div className="flex flex-col gap-2 h-full overflow-auto pr-1">
-  {participants.map((participant) => {
-    console.log('Avatar do participante:', {
-      name: participant.name,
-      avatar: participant.avatar,
-    });
+                  {participants.map((participant) => {
+                    console.log("Avatar do participante:", {
+                      name: participant.name,
+                      avatar: participant.avatar,
+                    });
 
-    return (
-      <div
-        key={participant.id}
-        className="flex items-center justify-between h-13"
-        data-userid={participant.userId}
-      >
-        <div className="flex items-center gap-2">
-          <div className="w-11 h-11 rounded-full bg-emerald-500 p-1">
-            <Avatar className="w-full h-full">
-              <AvatarImage
-                src={
-                  participant.avatar
-                    ? participant.avatar
-                    : import.meta.env.VITE_DEFAULT_AVATAR_URL
-                }
-                alt={`${participant.name || "Usuário"} avatar`}
-                onError={(e) => {
-                  console.warn("Erro ao carregar imagem do participante:", {
-                    name: participant.name,
-                    url: e.currentTarget.src,
-                  });
-                  e.currentTarget.style.display = "none"; 
-                }}
-              />
-              <AvatarFallback>
-                {participant.name?.charAt(0) ?? "?"}
-              </AvatarFallback>
-            </Avatar>
-          </div>
-          <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[180px] overflow-hidden">
-            <span className="text-[1rem] font-semibold h-5 leading-none truncate">
-              {participant.name}
-            </span>
-            {participant.userId === activity.creator.id && (
-              <span className="text-[12px] h-4 leading-none">
-                Organizador
-              </span>
-            )}
-          </div>
-        </div>
+                    return (
+                      <div
+                        key={participant.id}
+                        className="flex items-center justify-between h-13"
+                        data-userid={participant.userId}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="w-11 h-11 rounded-full bg-emerald-500 p-1">
+                            <Avatar className="w-full h-full">
+                              <AvatarImage
+                                src={
+                                  participant.avatar
+                                    ? participant.avatar
+                                    : import.meta.env.VITE_DEFAULT_AVATAR_URL
+                                }
+                                alt={`${participant.name || "Usuário"} avatar`}
+                                onError={(e) => {
+                                  console.warn(
+                                    "Erro ao carregar imagem do participante:",
+                                    {
+                                      name: participant.name,
+                                      url: e.currentTarget.src,
+                                    }
+                                  );
+                                  e.currentTarget.style.display = "none";
+                                }}
+                              />
+                              <AvatarFallback>
+                                {participant.name?.charAt(0) ?? "?"}
+                              </AvatarFallback>
+                            </Avatar>
+                          </div>
+                          <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[180px] overflow-hidden">
+                            <span className="text-[1rem] font-semibold h-5 leading-none truncate">
+                              {participant.name}
+                            </span>
+                            {participant.userId === activity.creator.id && (
+                              <span className="text-[12px] h-4 leading-none">
+                                Organizador
+                              </span>
+                            )}
+                          </div>
+                        </div>
 
-        {participant.userId !== activity.creator.id &&
-          activity.private &&
-          participant.subscriptionStatus === "WAITING" &&
-          now < checkinStart && (
-            <div className="flex gap-2.5">
-              <button
-                onClick={() => handleApproval(participant.id, true)}
-                className="w-7 h-7 bg-primary rounded-full flex items-center justify-center"
-              >
-                <Check className="w-4 h-4 text-white" />
-              </button>
-              <button
-                onClick={() => handleApproval(participant.id, false)}
-                className="w-7 h-7 bg-[var(--warning)] rounded-full flex items-center justify-center"
-              >
-                <X className="w-4 h-4 text-white" />
-              </button>
-            </div>
-          )}
-      </div>
-    );
-  })}
-</div>
+                        {participant.userId !== activity.creator.id &&
+                          activity.private &&
+                          participant.subscriptionStatus === "WAITING" &&
+                          now < checkinStart && (
+                            <div className="flex gap-2.5">
+                              <button
+                                onClick={() =>
+                                  handleApproval(participant.id, true)
+                                }
+                                className="w-7 h-7 bg-primary rounded-full flex items-center justify-center"
+                              >
+                                <Check className="w-4 h-4 text-white" />
+                              </button>
+                              <button
+                                onClick={() =>
+                                  handleApproval(participant.id, false)
+                                }
+                                className="w-7 h-7 bg-[var(--warning)] rounded-full flex items-center justify-center"
+                              >
+                                <X className="w-4 h-4 text-white" />
+                              </button>
+                            </div>
+                          )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
               {isCheckinTime && (
                 <div className="w-80 h-30 bg-[#f9f9f9] flex flex-col justify-center px-6 py-3 rounded-md gap-2">
