@@ -552,20 +552,7 @@ export const getActivityParticipants = async (req: AuthenticatedRequest, res: Re
       return;
     }
 
-    const participantsWithAvatars = await Promise.all(
-      participants.map(async (participant) => {
-        const signedAvatarUrl = participant.avatar
-          ? await getSignedAvatarUrl(participant.avatar)
-          : await getDefaultAvatarUrl();
-
-        return {
-          ...participant,
-          avatar: signedAvatarUrl,
-        };
-      })
-    );
-
-    res.status(200).json(participantsWithAvatars);
+    res.status(200).json(participants);
   } catch (error) {
     console.error('Erro ao buscar participantes da atividade:', error);
     res.status(500).json({ error: 'Erro inesperado.' });
