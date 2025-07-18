@@ -72,13 +72,14 @@ const updatePreferences = async (userId: string, preferences: string[]) => {
     return;
   }
 
-  const createPreferences = preferences.map((pref) => ({
+  const createPreferences = preferences.map((typeId) => ({
     userId,
-    typeId: pref,
+    typeId,
   }));
 
   return await prisma.preferences.createMany({
     data: createPreferences,
+    skipDuplicates: true,
   });
 };
 
