@@ -288,6 +288,7 @@ export default function ActivityDetails({
                 <h3 className="text-[1.75rem] h-8 font-bebas">PARTICIPANTES</h3>
                 <div className="flex flex-col gap-2 h-full overflow-auto pr-1">
                   {participants.map((participant) => {
+                    const avatarUrl = participant.avatar
                     console.log("Avatar do participante:", {
                       name: participant.name,
                       avatar: participant.avatar,
@@ -303,11 +304,7 @@ export default function ActivityDetails({
                           <div className="w-11 h-11 rounded-full bg-emerald-500 p-1">
                             <Avatar className="w-full h-full">
                               <AvatarImage
-                                src={
-                                  participant.avatar
-                                    ? participant.avatar
-                                    : import.meta.env.VITE_DEFAULT_AVATAR_URL
-                                }
+                                src={avatarUrl || import.meta.env.VITE_DEFAULT_AVATAR_URL}
                                 alt={`${participant.name || "Usuário"} avatar`}
                                 onError={(e) => {
                                   console.warn(
