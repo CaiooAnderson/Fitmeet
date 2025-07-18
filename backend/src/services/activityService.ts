@@ -6,10 +6,13 @@ import {
   getDefaultAvatarUrl,
   getSignedAvatarUrl,
   uploadImage,
-  bucketName
+  bucketName,
+  s3
 } from "./s3Service";
 import prisma from "../orm/database";
 import { generateToken } from "../middlewares/authMiddleware";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
 
 const XP_PER_CHECKIN = 50;
 
@@ -54,7 +57,27 @@ export const determineUserSubscriptionStatus = async (
 };
 
 const getActivityTypes = async () => {
-  return await ActivityRepository.getActivityTypes();
+  const types = await ActivityRepository.getActivityTypes();
+
+  const signedTypes = await Promise.all(
+    types.map(async (type) => {
+      const signedUrl = await getSignedUrl(
+        s3,
+        new GetObjectCommand({
+          Bucket: process.env.BACKBLAZE_BUCKET_NAME!,
+          Key: type.image,
+        }),
+        { expiresIn: 3600 }
+      );
+
+      return {
+        ...type,
+        image: signedUrl,
+      };
+    })
+  );
+
+  return signedTypes;
 };
 
 const listActivities = async (userId: string, filters: any) => {
