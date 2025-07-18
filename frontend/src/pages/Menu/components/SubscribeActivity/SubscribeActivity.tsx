@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Calendar, Users, Lock } from "lucide-react";
 import { format } from "date-fns";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import PreviewMap from "@/components/PreviewMap/PreviewMap";
 import ParticipantButton from "./ParticipantButton";
 
@@ -30,7 +30,9 @@ export default function SubscribeActivity({
   const [confirmedAt, setConfirmedAt] = useState<string | null>(null);
   const [confirmationCode, setConfirmationCode] = useState<string>("");
   const [participantCount, setParticipantCount] = useState(0);
-  const [activityCompletedAt, setActivityCompletedAt] = useState(activity.completedAt);
+  const [activityCompletedAt, setActivityCompletedAt] = useState(
+    activity.completedAt
+  );
 
   const fetchUser = async () => {
     const token = sessionStorage.getItem("token");
@@ -206,7 +208,20 @@ export default function SubscribeActivity({
                               : import.meta.env.VITE_DEFAULT_AVATAR_URL
                           }
                           alt={`${participant.name || "Usuário"} avatar`}
+                          onError={(e) => {
+                            console.warn(
+                              "Erro ao carregar imagem do participante:",
+                              {
+                                name: participant.name,
+                                url: e.currentTarget.src,
+                              }
+                            );
+                            e.currentTarget.style.display = "none";
+                          }}
                         />
+                        <AvatarFallback>
+                          {participant.name?.charAt(0) ?? "?"}
+                        </AvatarFallback>
                       </Avatar>
                     </div>
                     <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[220px] overflow-hidden">
