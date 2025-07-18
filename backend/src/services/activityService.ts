@@ -6,6 +6,7 @@ import {
   getDefaultAvatarUrl,
   getSignedAvatarUrl,
   uploadImage,
+  bucketName
 } from "./s3Service";
 import prisma from "../orm/database";
 import { generateToken } from "../middlewares/authMiddleware";
@@ -149,14 +150,23 @@ const getActivityParticipants = async (activityId: string) => {
       let avatarUrl: string;
 
       try {
-        if (p.user.avatar?.startsWith("http")) {
-          // Já é uma URL (ex: avatar default já com URL assinada)
-          avatarUrl = p.user.avatar;
-        } else if (p.user.avatar) {
-          // Nome do arquivo, gera URL assinada
-          avatarUrl = await getSignedAvatarUrl(`avatars/${p.user.avatar}`);
+        if (p.user.avatar) {
+          let key: string;
+          if (p.user.avatar.startsWith("http")) {
+            const url = new URL(p.user.avatar);
+            const bucketPath = `/${bucketName}/`;
+            const bucketIndex = url.pathname.indexOf(bucketPath);
+            if (bucketIndex >= 0) {
+              key = url.pathname.substring(bucketIndex + bucketPath.length);
+            } else {
+              key = p.user.avatar;
+            }
+          } else {
+            key = `avatars/${p.user.avatar}`;
+          }
+
+          avatarUrl = await getSignedAvatarUrl(key);
         } else {
-          // Nenhum avatar definido, usa o padrão
           avatarUrl = await getDefaultAvatarUrl();
         }
       } catch (err) {
