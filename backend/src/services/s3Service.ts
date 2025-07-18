@@ -52,7 +52,7 @@ export async function uploadImage(file: SimpleFile, folder: string) {
 
   await s3.send(new PutObjectCommand(uploadParams));
 
-  return `${process.env.S3_ENDPOINT}/${bucketName}/${fileKey}`;
+  return fileKey;
 }
 
 export async function uploadImageFromUrl(url: string, key: string) {
