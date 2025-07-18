@@ -131,6 +131,11 @@ export async function getSignedAvatarUrl(key: string, expiresInSeconds = 3600) {
   return await getSignedUrl(s3, command, { expiresIn: expiresInSeconds });
 }
 
-export async function getDefaultAvatarUrl() {
-  return `${process.env.S3_ENDPOINT}/${bucketName}/avatars/default-avatar.png`;
+export async function getDefaultAvatarUrl(expiresInSeconds = 3600) {
+  const command = new GetObjectCommand({
+    Bucket: bucketName,
+    Key: "avatars/default-avatar.png",
+  });
+
+  return await getSignedUrl(s3, command, { expiresIn: expiresInSeconds });
 }
