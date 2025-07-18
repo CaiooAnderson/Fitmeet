@@ -109,6 +109,8 @@ export default function EditProfile() {
         return;
       }
 
+      console.log("Enviando preferências:", selectedPreferences);
+
       const resPrefs = await fetch(
         `${import.meta.env.VITE_API_URL}/user/preferences/define`,
         {
@@ -121,7 +123,11 @@ export default function EditProfile() {
         }
       );
 
-      if (!resPrefs.ok) throw new Error("Erro ao salvar preferências");
+      if (!resPrefs.ok) {
+      const errorData = await resPrefs.json();
+      console.error("Erro do servidor:", errorData);
+      throw new Error("Erro ao salvar preferências");
+    }
 
       toast.success("Perfil atualizado com sucesso!");
       navigate("/profile");
