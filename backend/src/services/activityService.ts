@@ -137,9 +137,8 @@ const getAllUserParticipantActivities = async (userId: string) => {
 };
 
 const getActivityParticipants = async (activityId: string) => {
-  const participants = await ActivityRepository.getActivityParticipants(
-    activityId
-  );
+  const participants = await ActivityRepository.getActivityParticipants(activityId);
+
   console.log("[DEBUG avatar bruto do banco]");
   participants.forEach((p) => {
     console.log(`Usuário: ${p.user.name} | Avatar: ${p.user.avatar}`);
@@ -151,21 +150,26 @@ const getActivityParticipants = async (activityId: string) => {
 
       try {
         if (p.user.avatar) {
-          let key: string;
           if (p.user.avatar.startsWith("http")) {
             const url = new URL(p.user.avatar);
-            const bucketPath = `/${bucketName}/`;
-            const bucketIndex = url.pathname.indexOf(bucketPath);
-            if (bucketIndex >= 0) {
-              key = url.pathname.substring(bucketIndex + bucketPath.length);
+            if (
+              url.searchParams.has("X-Amz-Algorithm") ||
+              url.searchParams.has("X-Amz-Signature")
+            ) {
+              avatarUrl = p.user.avatar;
             } else {
-              key = p.user.avatar;
+              const bucketPath = `/${bucketName}/`;
+              const bucketIndex = url.pathname.indexOf(bucketPath);
+              if (bucketIndex >= 0) {
+                const key = url.pathname.substring(bucketIndex + bucketPath.length);
+                avatarUrl = await getSignedAvatarUrl(key);
+              } else {
+                avatarUrl = p.user.avatar;
+              }
             }
           } else {
-            key = `avatars/${p.user.avatar}`;
+            avatarUrl = await getSignedAvatarUrl(`avatars/${p.user.avatar}`);
           }
-
-          avatarUrl = await getSignedAvatarUrl(key);
         } else {
           avatarUrl = await getDefaultAvatarUrl();
         }
