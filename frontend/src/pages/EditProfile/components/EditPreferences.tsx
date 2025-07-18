@@ -51,7 +51,7 @@ export default function EditPreferences({
                         }`}
                       >
                         <img
-                          src={type.image}
+                          src={type.image?.replace("localstack", "localhost")}
                           alt={type.name}
                           className="w-full h-full rounded-full object-cover"
                         />
