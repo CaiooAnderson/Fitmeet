@@ -105,14 +105,19 @@ const getActivityParticipants = async (activityId: string) => {
     participants.map(async (p) => {
       let avatarUrl: string;
 
-      if (p.user.avatar) {
-        try {
+      try {
+        if (p.user.avatar?.startsWith("http")) {
+          // Já é uma URL (ex: avatar default já com URL assinada)
+          avatarUrl = p.user.avatar;
+        } else if (p.user.avatar) {
+          // Nome do arquivo, gera URL assinada
           avatarUrl = await getSignedAvatarUrl(`avatars/${p.user.avatar}`);
-        } catch (err) {
-          console.error('Erro ao gerar URL do avatar:', err);
+        } else {
+          // Nenhum avatar definido, usa o padrão
           avatarUrl = await getDefaultAvatarUrl();
         }
-      } else {
+      } catch (err) {
+        console.error('Erro ao gerar URL do avatar:', err);
         avatarUrl = await getDefaultAvatarUrl();
       }
 
