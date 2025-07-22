@@ -47,6 +47,7 @@ export default function PreferencesDialog({
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed)) {
           setSelected(parsed);
+          console.log("PreferencesDialog - Preferências carregadas do sessionStorage:", parsed);
         }
       } catch (err) {
         console.error("Erro ao recuperar preferências salvas:", err);
@@ -67,6 +68,7 @@ export default function PreferencesDialog({
       });
       const data = await res.json();
       setActivityTypes(data);
+      console.log("PreferencesDialog - Tipos de Atividade carregados:", data);
     } catch {
       toast.error("Erro ao carregar atividades.");
     }
@@ -103,9 +105,11 @@ export default function PreferencesDialog({
   };
 
   const toggle = (id: string) => {
-    setSelected((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+    setSelected((prev) => {
+      const newSelected = prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id];
+      console.log("PreferencesDialog - Selecionados após toggle:", newSelected);
+      return newSelected;
+    });
   };
 
   return (
