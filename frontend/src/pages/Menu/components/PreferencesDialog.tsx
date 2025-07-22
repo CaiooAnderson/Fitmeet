@@ -61,17 +61,20 @@ export default function PreferencesDialog({
 
   const handleConfirm = async () => {
     try {
+      const payload = selected.filter((id): id is string => typeof id === "string");
+      console.log("Preferências enviadas pelo PreferencesDialog:", payload);
+
       await fetch(`${import.meta.env.VITE_API_URL}/user/preferences/define`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(selected),
+        body: JSON.stringify(payload),
       });
       sessionStorage.setItem(
         `preferences-values-${token}`,
-        JSON.stringify(selected)
+        JSON.stringify(payload)
       );
       toast.success("Preferências salvas!", { position: "top-center" });
       onPreferencesSaved();
