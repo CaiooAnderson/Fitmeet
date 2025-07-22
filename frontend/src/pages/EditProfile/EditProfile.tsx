@@ -52,6 +52,8 @@ export default function EditProfile() {
       const prefsData = await prefsRes.json();
       const typesData = await typesRes.json();
 
+      console.log("Preferências do usuário:", prefsData);
+
       setUser(userData);
       setPreviewUrl(userData.avatar);
       setSelectedPreferences(prefsData.map((item: any) => item.typeId));

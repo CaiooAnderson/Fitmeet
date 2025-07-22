@@ -40,6 +40,19 @@ export default function PreferencesDialog({
       !alreadyShown
     ) {
       fetchActivityTypes();
+
+      const stored = sessionStorage.getItem(`preferences-values-${token}`);
+      if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          setSelected(parsed);
+        }
+      } catch (err) {
+        console.error("Erro ao recuperar preferências salvas:", err);
+      }
+    }
+
       setIsOpen(true);
       hasFetched.current = true;
       prevToken.current = token;
