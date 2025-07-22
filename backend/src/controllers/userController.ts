@@ -119,6 +119,14 @@ export const defineUserPreferences = async (
 
     const preferences = req.body;
 
+    console.log("Preferências recebidas no backend:", preferences);
+    console.log("Tipo do preferences:", typeof preferences);
+    console.log("É array?", Array.isArray(preferences));
+    console.log(
+      "IDs individuais:",
+      preferences.map((p: any, i: number) => `${i}: ${p}`)
+    );
+
     await UserService.defineUserPreferences(req.user.id, preferences);
 
     res.status(200).json({ message: "Preferências atualizadas." });
