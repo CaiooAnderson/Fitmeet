@@ -63,7 +63,11 @@ export default function EditProfile() {
 
       setUser(userData);
       setPreviewUrl(userData.avatar);
-      setSelectedPreferences(prefsData.map((item: any) => item.typeId));
+      setSelectedPreferences(
+      prefsData
+        .map((item: any) => item?.id)
+        .filter((id: string | undefined): id is string => typeof id === 'string')
+      );
       setActivityTypes(typesData);
 
       console.log("Tipos de atividade carregados:", typesData);
