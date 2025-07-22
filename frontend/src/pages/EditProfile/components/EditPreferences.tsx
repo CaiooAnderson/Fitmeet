@@ -14,9 +14,6 @@ export default function EditPreferences({
   setSelectedPreferences,
   isReady,
 }: EditPreferencesProps) {
-  console.log("EditPreferences render: selectedPreferences =", selectedPreferences);
-  console.log("EditPreferences render: activityTypes =", activityTypes.map(t => t.id));
-  
   return (
     <div className="w-full">
       <label className="mb-1.5 block text-[var(--text)] font-semibold text-[1rem] h-5">

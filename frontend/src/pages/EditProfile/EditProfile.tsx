@@ -52,25 +52,15 @@ export default function EditProfile() {
       const prefsData = await prefsRes.json();
       const typesData = await typesRes.json();
 
-      console.log("Preferências do usuário (raw):", prefsData);
-
-      const selectedIds = prefsData.map((item: any) => {
-        console.log("Extraindo typeId:", item.typeId);
-        return item.typeId;
-      });
-
-      console.log("IDs das preferências extraídas do backend:", selectedIds);
+      const selectedIds = prefsData
+        .map((item: any) => item?.id)
+        .filter((id: string | undefined): id is string => typeof id === 'string');
 
       setUser(userData);
       setPreviewUrl(userData.avatar);
-      setSelectedPreferences(
-      prefsData
-        .map((item: any) => item?.id)
-        .filter((id: string | undefined): id is string => typeof id === 'string')
-      );
+      setSelectedPreferences(selectedIds);
       setActivityTypes(typesData);
 
-      console.log("Tipos de atividade carregados:", typesData);
       setIsReady(true);
     };
 
@@ -127,8 +117,6 @@ export default function EditProfile() {
       const cleanPreferences = selectedPreferences.filter(
       (id): id is string => typeof id === "string" && id.trim() !== ""
       );
-
-      console.log("Enviando preferências limpas:", cleanPreferences);
 
       const resPrefs = await fetch(
         `${import.meta.env.VITE_API_URL}/user/preferences/define`,
