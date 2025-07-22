@@ -111,7 +111,11 @@ export default function EditProfile() {
         return;
       }
 
-      console.log("Enviando preferências:", selectedPreferences);
+      const cleanPreferences = selectedPreferences.filter(
+      (id): id is string => typeof id === "string" && id.trim() !== ""
+      );
+
+      console.log("Enviando preferências:", cleanPreferences);
 
       const resPrefs = await fetch(
         `${import.meta.env.VITE_API_URL}/user/preferences/define`,
@@ -121,7 +125,7 @@ export default function EditProfile() {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(selectedPreferences),
+          body: JSON.stringify(cleanPreferences),
         }
       );
 
