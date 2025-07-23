@@ -139,11 +139,6 @@ const getAllUserParticipantActivities = async (userId: string) => {
 const getActivityParticipants = async (activityId: string) => {
   const participants = await ActivityRepository.getActivityParticipants(activityId);
 
-  console.log("[DEBUG avatar bruto do banco]");
-  participants.forEach((p) => {
-    console.log(`Usuário: ${p.user.name} | Avatar: ${p.user.avatar}`);
-  });
-
   return await Promise.all(
     participants.map(async (p) => {
       let avatarUrl: string;
