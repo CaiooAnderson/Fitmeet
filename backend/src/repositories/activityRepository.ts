@@ -149,14 +149,23 @@ const getUserCreatedActivities = async (
 ) => {
   const baseWhere = { creatorId: userId, deletedAt: null };
 
+  const include = {
+    activityAddress: true,
+    creator: {
+      select: {
+        id: true,
+        name: true,
+        avatar: true,
+      },
+    },
+  };
+
   const notCompleted = await prisma.activities.findMany({
     where: {
       ...baseWhere,
       completedAt: null,
     },
-    include: {
-      activityAddress: true,
-    },
+    include,
     orderBy: { createdAt: 'desc' },
   });
 
@@ -165,9 +174,7 @@ const getUserCreatedActivities = async (
       ...baseWhere,
       completedAt: { not: null },
     },
-    include: {
-      activityAddress: true,
-    },
+    include,
     orderBy: { createdAt: 'desc' },
   });
 
