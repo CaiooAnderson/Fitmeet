@@ -90,6 +90,7 @@ function Menu() {
   };
 
   const handleActivityClick = (activity: any, isOwner: boolean) => {
+    console.log("Atividade selecionada:", activity);
     setSelectedActivity(activity);
     if (isOwner) {
       setIsDetailsDialogOpen(true);
