@@ -275,8 +275,8 @@ export default function ActivityDetails({
                 <div className="h-52 w-full bg-gray-200 rounded-[0.625rem] flex items-center justify-center">
                   <PreviewMap
                     coordinates={{
-                      lat: activity.activityAddress.latitude,
-                      lng: activity.activityAddress.longitude,
+                      lat: activity.address.latitude,
+                      lng: activity.address.longitude,
                     }}
                   />
                 </div>
