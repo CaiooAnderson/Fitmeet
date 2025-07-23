@@ -303,6 +303,15 @@ export const getUserCreatedActivities = async (req: AuthenticatedRequest, res: R
         return {
           ...activity,
           image: signedImageUrl,
+          address:
+            activity.activityAddress && 
+            activity.activityAddress.latitude != null && 
+            activity.activityAddress.longitude != null
+              ? {
+                  latitude: activity.activityAddress.latitude,
+                  longitude: activity.activityAddress.longitude,
+                }
+              : null,
         };
       })
     );
