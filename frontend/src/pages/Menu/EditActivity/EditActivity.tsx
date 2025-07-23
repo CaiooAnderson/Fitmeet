@@ -42,7 +42,6 @@ export default function EditActivity({
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
-    console.log("EditActivity recebeu activity:", activity);
     if (!token || !activity || !isOpen) return;
 
     const fetchTypesAndFill = async () => {

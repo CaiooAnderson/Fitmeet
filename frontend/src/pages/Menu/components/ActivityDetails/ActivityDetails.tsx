@@ -38,7 +38,6 @@ export default function ActivityDetails({
   const [now, setNow] = useState(new Date());
   const [participantCount, setParticipantCount] = useState(0);
   const [localActivity, setLocalActivity] = useState(activity);
-  console.log("🔍 Activity recebida no ActivityDetails:", activity);
 
   const fetchParticipants = async () => {
     const token = sessionStorage.getItem("token");
@@ -198,7 +197,6 @@ export default function ActivityDetails({
   }, [activity?.id]);
 
   useEffect(() => {
-    console.log("📦 Atualizando localActivity com:", activity);
     setLocalActivity(activity);
   }, [activity]);
 
@@ -383,7 +381,7 @@ export default function ActivityDetails({
       <EditActivity
         isOpen={isEditOpen}
         onClose={() => setIsEditOpen(false)}
-        activity={localActivity}
+        activity={activity}
       />
     </>
   );
