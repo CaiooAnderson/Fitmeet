@@ -283,6 +283,25 @@ export const getUserCreatedActivities = async (req: AuthenticatedRequest, res: R
 
     const totalPages = Math.ceil(totalActivities / pageSize);
 
+    const activitiesWithSignedImage = await Promise.all(
+      activities.map(async (activity) => {
+        let signedImageUrl = activity.image;
+
+        if (activity.image?.includes(bucketName)) {
+          const key = activity.image.split(`/${bucketName}/`)[1];
+          if (key) {
+            const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
+            signedImageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+          }
+        }
+
+        return {
+          ...activity,
+          image: signedImageUrl,
+        };
+      })
+    );
+
     const response = {
       page,
       pageSize,
@@ -290,7 +309,7 @@ export const getUserCreatedActivities = async (req: AuthenticatedRequest, res: R
       totalPages,
       previous: page > 0 ? page - 1 : null,
       next: page < totalPages - 1 ? page + 1 : null,
-      activities,
+      activities: activitiesWithSignedImage,
     };
 
     res.status(200).json(response);
@@ -382,7 +401,9 @@ export const getUserParticipantActivities = async (req: AuthenticatedRequest, re
       previous: page > 0 ? page - 1 : null,
       next: page < totalPages - 1 ? page + 1 : null,
       activities: await Promise.all(activities.map(async (participant) => {
-        const creatorAvatar = participant.activity.creator.avatar;
+        const activity = participant.activity;
+
+        const creatorAvatar = activity.creator.avatar;
         let signedAvatarUrl = null;
 
         if (creatorAvatar?.includes(bucketName)) {
@@ -393,27 +414,36 @@ export const getUserParticipantActivities = async (req: AuthenticatedRequest, re
           }
         }
 
+        let signedActivityImageUrl = null;
+        if (activity.image?.includes(bucketName)) {
+          const key = activity.image.split(`/${bucketName}/`)[1];
+          if (key) {
+            const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
+            signedActivityImageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+          }
+        }
+
         return {
-          id: participant.activity.id,
-          title: participant.activity.title,
-          description: participant.activity.description,
-          type: participant.activity.type.name,
-          image: participant.activity.image,
-          confirmationCode: participant.activity.confirmationCode,
-          participantCount: participant.activity.participants.length,
-          address: participant.activity.activityAddress
+          id: activity.id,
+          title: activity.title,
+          description: activity.description,
+          type: activity.type.name,
+          image: signedActivityImageUrl ?? null,
+          confirmationCode: activity.confirmationCode,
+          participantCount: activity.participants.length,
+          address: activity.activityAddress
             ? {
-                latitude: participant.activity.activityAddress.latitude,
-                longitude: participant.activity.activityAddress.longitude,
+                latitude: activity.activityAddress.latitude,
+                longitude: activity.activityAddress.longitude,
               }
             : null,
-          scheduledDate: participant.activity.scheduledDate,
-          createdAt: participant.activity.createdAt,
-          completedAt: participant.activity.completedAt,
-          private: participant.activity.private,
+          scheduledDate: activity.scheduledDate,
+          createdAt: activity.createdAt,
+          completedAt: activity.completedAt,
+          private: activity.private,
           creator: {
-            id: participant.activity.creatorId,
-            name: participant.activity.creator.name,
+            id: activity.creatorId,
+            name: activity.creator.name,
             avatar: signedAvatarUrl ?? null,
           },
         };
