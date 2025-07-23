@@ -131,6 +131,15 @@ export async function getSignedAvatarUrl(key: string, expiresInSeconds = 3600) {
   return await getSignedUrl(s3, command, { expiresIn: expiresInSeconds });
 }
 
+export async function getSignedActivityImageUrl(key: string, expiresInSeconds = 3600) {
+  const command = new GetObjectCommand({
+    Bucket: bucketName,
+    Key: key,
+  });
+
+  return await getSignedUrl(s3, command, { expiresIn: expiresInSeconds });
+}
+
 export async function getDefaultAvatarUrl(expiresInSeconds = 3600) {
   const command = new GetObjectCommand({
     Bucket: bucketName,

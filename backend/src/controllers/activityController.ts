@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import * as ActivityService from '../services/activityService';
 import { UserSubscriptionStatus } from '../services/activityService';
 import * as UserService from '../services/userService';
-import { uploadImage } from '../services/s3Service';
+import { getSignedActivityImageUrl, uploadImage } from '../services/s3Service';
 import * as UserRepository from '../repositories/userRepository';
 import { PrismaClient } from '@prisma/client';
 import { GetObjectCommand } from "@aws-sdk/client-s3";
@@ -123,12 +123,8 @@ export const listActivities = async (req: AuthenticatedRequest, res: Response) =
         const isCreator = userId === activity.creatorId;
 
         let signedImageUrl = null;
-          if (activity.image?.includes(bucketName)) {
-            const key = activity.image.split(`/${bucketName}/`)[1];
-            if (key) {
-              const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
-              signedImageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
-          }
+        if (activity.image) {
+          signedImageUrl = await getSignedActivityImageUrl(activity.image);
         }
         
         return {
@@ -209,12 +205,8 @@ export const listAllActivities = async (req: AuthenticatedRequest, res: Response
         const isCreator = userId === activity.creatorId;
 
         let signedImageUrl = null;
-        if (activity.image?.includes(bucketName)) {
-          const key = activity.image.split(`/${bucketName}/`)[1];
-          if (key) {
-            const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
-            signedImageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
-          }
+        if (activity.image) {
+          signedImageUrl = await getSignedActivityImageUrl(activity.image);
         }
 
         const baseActivity: Record<string, any> = {
@@ -256,7 +248,6 @@ export const listAllActivities = async (req: AuthenticatedRequest, res: Response
     res.status(500).json({ error: 'Erro inesperado.' });
   }
 };
-
 
 export const getUserCreatedActivities = async (req: AuthenticatedRequest, res: Response) => {
   try {
