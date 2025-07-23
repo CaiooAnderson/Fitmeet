@@ -154,6 +154,9 @@ const getUserCreatedActivities = async (
       ...baseWhere,
       completedAt: null,
     },
+    include: {
+      activityAddress: true, // <- necessário
+    },
     orderBy: { createdAt: 'desc' },
   });
 
@@ -162,14 +165,13 @@ const getUserCreatedActivities = async (
       ...baseWhere,
       completedAt: { not: null },
     },
+    include: {
+      activityAddress: true, // <- necessário
+    },
     orderBy: { createdAt: 'desc' },
   });
 
-  const allOrdered = [
-    ...notCompleted,
-    ...completed,
-  ];
-
+  const allOrdered = [...notCompleted, ...completed];
   const paginated = allOrdered.slice(pagination.skip, pagination.skip + pagination.take);
 
   return paginated;
