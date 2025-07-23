@@ -23,44 +23,35 @@ const listActivities = async (query: any, skip: number, take: number) => {
         createdAt: 'desc',
       };
 
-  const activities = await prisma.activities.findMany({
-    where,
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      image: true,
-      scheduledDate: true,
-      createdAt: true,
-      completedAt: true,
-      private: true,
-      creatorId: true,
-      confirmationCode: true,
-      type: {
+      return await prisma.activities.findMany({
+        where,
         select: {
-          name: true,
+          id: true,
+          title: true,
+          description: true,
+          image: true,
+          scheduledDate: true,
+          createdAt: true,
+          completedAt: true,
+          private: true,
+          creatorId: true,
+          type: {
+            select: {
+              name: true
+            }
+          },
+          activityAddress: {
+            select: {
+              latitude: true,
+              longitude: true
+            }
+          },
+          confirmationCode: true
         },
-      },
-      activityAddress: {
-        select: {
-          latitude: true,
-          longitude: true,
-        },
-      },
-    },
-    skip,
-    take,
-    orderBy: orderClause,
-  });
-
-  // Ajusta os dados para usar `address` e simplifica `type`
-  return activities.map(activity => ({
-    ...activity,
-    address: activity.activityAddress ?? null,
-    type: activity.type?.name ?? null,
-    activityAddress: undefined, // remove para evitar duplicidade
-    typeId: undefined, // opcional, caso venha no objeto e você queira esconder
-  }));
+        skip,
+        take,
+        orderBy: orderClause,
+      });
 };
 
 const listActivitiesByTypes = async (typeIds: string[], skip: number, take: number) => {
@@ -158,81 +149,28 @@ const getUserCreatedActivities = async (
 ) => {
   const baseWhere = { creatorId: userId, deletedAt: null };
 
-  // Buscar não concluídas com endereço
   const notCompleted = await prisma.activities.findMany({
     where: {
       ...baseWhere,
       completedAt: null,
     },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      image: true,
-      scheduledDate: true,
-      createdAt: true,
-      completedAt: true,
-      private: true,
-      creatorId: true,
-      confirmationCode: true,
-      type: {
-        select: {
-          name: true,
-        },
-      },
-      activityAddress: {
-        select: {
-          latitude: true,
-          longitude: true,
-        },
-      },
-    },
     orderBy: { createdAt: 'desc' },
   });
 
-  // Buscar concluídas com endereço
   const completed = await prisma.activities.findMany({
     where: {
       ...baseWhere,
       completedAt: { not: null },
     },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      image: true,
-      scheduledDate: true,
-      createdAt: true,
-      completedAt: true,
-      private: true,
-      creatorId: true,
-      confirmationCode: true,
-      type: {
-        select: {
-          name: true,
-        },
-      },
-      activityAddress: {
-        select: {
-          latitude: true,
-          longitude: true,
-        },
-      },
-    },
     orderBy: { createdAt: 'desc' },
   });
 
-  const allOrdered = [...notCompleted, ...completed];
+  const allOrdered = [
+    ...notCompleted,
+    ...completed,
+  ];
 
-  // Paginação e ajuste da propriedade address e tipo
-  const paginated = allOrdered
-    .slice(pagination.skip, pagination.skip + pagination.take)
-    .map(activity => ({
-      ...activity,
-      address: activity.activityAddress ?? null,
-      type: activity.type?.name ?? null,
-      activityAddress: undefined,
-    }));
+  const paginated = allOrdered.slice(pagination.skip, pagination.skip + pagination.take);
 
   return paginated;
 };
