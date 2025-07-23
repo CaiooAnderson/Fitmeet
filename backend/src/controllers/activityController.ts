@@ -285,13 +285,16 @@ export const getUserCreatedActivities = async (req: AuthenticatedRequest, res: R
 
     const activitiesWithSignedImage = await Promise.all(
       activities.map(async (activity) => {
-        let signedImageUrl = activity.image;
+        let signedImageUrl = null;
 
-        if (activity.image?.includes(bucketName)) {
-          const key = activity.image.split(`/${bucketName}/`)[1];
-          if (key) {
-            const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
+        if (activity.image) {
+          const key = activity.image;
+          const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
+
+          try {
             signedImageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+          } catch (err) {
+            console.error(`Erro ao gerar URL assinada para ${key}:`, err);
           }
         }
 
