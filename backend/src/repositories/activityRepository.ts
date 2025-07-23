@@ -188,9 +188,6 @@ const getUserParticipantActivities = async (userId: string, pagination: { skip: 
       userId,
       activity: {
         deletedAt: null,
-        activityAddress: {
-          NOT: null,
-        }
       },
     },
     include: {
