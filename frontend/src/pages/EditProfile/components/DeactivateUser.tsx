@@ -43,7 +43,7 @@ export default function DeactivateUser() {
       <AlertDialogContent className="w-[35.75rem] p-12 border-0">
         <div className="flex flex-col gap-3">
           <AlertDialogTitle className="text-[2rem] h-9 font-bebas font-normal text-[var(--title)]">
-            Tem certeza que deseja desativar sua conta?
+            Deseja desativar sua conta?
           </AlertDialogTitle>
           <AlertDialogDescription className="text-base text-[var(--text)]">
             Ao desativar sua conta, todos os seus dados e histórico de atividades serão permanentemente removidos.{' '}
