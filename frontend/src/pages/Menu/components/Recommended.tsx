@@ -103,7 +103,7 @@ const Recommended = ({
                   >
                     <div className="relative w-74 h-40 mb-4">
                       <img
-                        src={activity.imageUrl}
+                        src={activity.image?.replace("localstack", "localhost")}
                         className="w-full h-full rounded-lg object-cover"
                       />
                       {activity.private && (
