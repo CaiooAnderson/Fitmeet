@@ -434,12 +434,10 @@ export const getUserParticipantActivities = async (req: AuthenticatedRequest, re
           image: signedActivityImageUrl ?? null,
           confirmationCode: activity.confirmationCode,
           participantCount: activity.participants.length,
-          address: activity.activityAddress
-            ? {
-                latitude: activity.activityAddress.latitude,
-                longitude: activity.activityAddress.longitude,
-              }
-            : null,
+          address: {
+            latitude: activity.activityAddress.latitude,
+            longitude: activity.activityAddress.longitude,
+          },
           scheduledDate: activity.scheduledDate,
           createdAt: activity.createdAt,
           completedAt: activity.completedAt,
