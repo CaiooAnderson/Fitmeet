@@ -135,10 +135,12 @@ export const listActivities = async (req: AuthenticatedRequest, res: Response) =
           image: signedImageUrl,
           ...(isCreator && { confirmationCode: activity.confirmationCode }),
           participantCount,
-          address: activity.activityAddress ? {
-            latitude: activity.activityAddress.latitude,
-            longitude: activity.activityAddress.longitude,
-          } : null,
+          address: activity.activityAddress && activity.activityAddress.latitude != null && activity.activityAddress.longitude != null
+          ? {
+              latitude: activity.activityAddress.latitude,
+              longitude: activity.activityAddress.longitude
+            }
+          : null,
           scheduledDate: activity.scheduledDate,
           createdAt: activity.createdAt,
           completedAt: activity.completedAt,
@@ -301,6 +303,15 @@ export const getUserCreatedActivities = async (req: AuthenticatedRequest, res: R
         return {
           ...activity,
           image: signedImageUrl,
+          address:
+            activity.activityAddress && 
+            activity.activityAddress.latitude != null && 
+            activity.activityAddress.longitude != null
+              ? {
+                  latitude: activity.activityAddress.latitude,
+                  longitude: activity.activityAddress.longitude,
+                }
+              : null,
         };
       })
     );
@@ -434,12 +445,12 @@ export const getUserParticipantActivities = async (req: AuthenticatedRequest, re
           image: signedActivityImageUrl ?? null,
           confirmationCode: activity.confirmationCode,
           participantCount: activity.participants.length,
-          address: activity.activityAddress
-            ? {
-                latitude: activity.activityAddress.latitude,
-                longitude: activity.activityAddress.longitude,
-              }
-            : null,
+          address: activity.activityAddress && activity.activityAddress.latitude != null && activity.activityAddress.longitude != null
+          ? {
+              latitude: activity.activityAddress.latitude,
+              longitude: activity.activityAddress.longitude
+            }
+          : null,
           scheduledDate: activity.scheduledDate,
           createdAt: activity.createdAt,
           completedAt: activity.completedAt,

@@ -155,7 +155,7 @@ const getUserCreatedActivities = async (
       completedAt: null,
     },
     include: {
-      activityAddress: true, // <- necessário
+      activityAddress: true,
     },
     orderBy: { createdAt: 'desc' },
   });
@@ -166,7 +166,7 @@ const getUserCreatedActivities = async (
       completedAt: { not: null },
     },
     include: {
-      activityAddress: true, // <- necessário
+      activityAddress: true,
     },
     orderBy: { createdAt: 'desc' },
   });
