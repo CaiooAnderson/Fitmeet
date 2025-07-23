@@ -154,6 +154,9 @@ const getUserCreatedActivities = async (
       ...baseWhere,
       completedAt: null,
     },
+    include: {
+      activityAddress: true,
+    },
     orderBy: { createdAt: 'desc' },
   });
 
