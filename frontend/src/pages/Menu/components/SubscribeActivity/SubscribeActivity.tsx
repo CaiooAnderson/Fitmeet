@@ -183,8 +183,8 @@ export default function SubscribeActivity({
               <div className="h-52 w-full bg-gray-200 rounded-lg flex items-center justify-center">
                 <PreviewMap
                   coordinates={{
-                    lat: activity.address.latitude,
-                    lng: activity.address.longitude,
+                    lat: activity.activityAddress.latitude,
+                    lng: activity.activityAddress.longitude,
                   }}
                 />
               </div>

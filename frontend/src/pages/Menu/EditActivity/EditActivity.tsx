@@ -68,10 +68,10 @@ export default function EditActivity({
         setScheduledDate(new Date(activity.scheduledDate));
         setApprovalRequired(activity.private);
 
-        if (activity.address) {
+        if (activity.activityAddress) {
           setCoordinates({
-            lat: activity.address.latitude,
-            lng: activity.address.longitude,
+            lat: activity.activityAddress.latitude,
+            lng: activity.activityAddress.longitude,
           });
         } else {
           setCoordinates(null);
