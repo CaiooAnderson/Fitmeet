@@ -39,11 +39,6 @@ export default function ActivityDetails({
   const [participantCount, setParticipantCount] = useState(0);
   const [localActivity, setLocalActivity] = useState(activity);
 
-  const userString = sessionStorage.getItem("user");
-  const user = userString ? JSON.parse(userString) : null;
-  const userId = user?.id;
-  const isOrganizer = userId === activity?.creator?.id;
-
   const fetchParticipants = async () => {
     const token = sessionStorage.getItem("token");
     if (!activity?.id || !token) return;
@@ -64,17 +59,31 @@ export default function ActivityDetails({
 
       const filtered = data.filter((p: any) => {
         if (p.subscriptionStatus === "REJECTED") return false;
+
         if (p.subscriptionStatus === "WAITING" && now >= checkinStart)
           return false;
+
         return true;
       });
 
-      // 🔥 Removido organizador da lista
-      const onlyParticipants = filtered.filter(
+      const creator = {
+        id: "creator-static-id",
+        userId: activity.creator?.id,
+        name: activity.creator?.name,
+        avatar: activity.creator?.avatar,
+        subscriptionStatus: "APPROVED",
+      };
+
+      const alreadyInList = filtered.some(
+        (p: any) => p.userId === creator.userId
+      );
+      const fullList = alreadyInList ? filtered : [creator, ...filtered];
+
+      setParticipants(fullList);
+
+      const onlyParticipants = fullList.filter(
         (p: any) => p.userId !== activity.creator?.id
       );
-
-      setParticipants(onlyParticipants);
       setParticipantCount(onlyParticipants.length);
     } catch {
       setParticipants([]);
@@ -164,17 +173,27 @@ export default function ActivityDetails({
   }, [activity]);
 
   useEffect(() => {
-    const participantsInterval = setInterval(() => {
+    const interval = setInterval(() => {
       fetchParticipants();
     }, 2500);
-    const clockInterval = setInterval(() => {
+
+    return () => clearInterval(interval);
+  }, [activity?.id]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
       setNow(new Date());
     }, 5000);
 
-    return () => {
-      clearInterval(participantsInterval);
-      clearInterval(clockInterval);
-    };
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchParticipants();
+    }, 2500);
+
+    return () => clearInterval(interval);
   }, [activity?.id]);
 
   useEffect(() => {
@@ -184,7 +203,7 @@ export default function ActivityDetails({
   const scheduledDate = new Date(activity.scheduledDate);
   const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
   const isCheckinTime = now >= checkinStart && now < scheduledDate;
-  const isEventStarted = new Date() >= scheduledDate;
+  const isEventStarted = new Date() >= new Date(activity.scheduledDate);
 
   return (
     <>
@@ -268,45 +287,79 @@ export default function ActivityDetails({
               >
                 <h3 className="text-[1.75rem] h-8 font-bebas">PARTICIPANTES</h3>
                 <div className="flex flex-col gap-2 h-full overflow-auto pr-1">
-                  {participants.map((participant) => (
-                    <div
-                      key={participant.id}
-                      className="flex items-center justify-between"
-                    >
-                      <div className="flex gap-2 items-center">
-                        <Avatar>
-                          <AvatarImage src={participant.avatar} />
-                          <AvatarFallback>
-                            {participant.name?.[0]?.toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                        <span>{participant.name}</span>
-                      </div>
+                  {participants.map((participant) => {
+                    const avatarUrl = participant.avatar
+                    console.log("Avatar do participante:", {
+                      name: participant.name,
+                      avatar: participant.avatar,
+                    });
 
-                      {/* 🔐 Botões de aprovação visíveis só para organizador */}
-                      {isOrganizer &&
-                        activity.private &&
-                        participant.subscriptionStatus === "WAITING" &&
-                        now < checkinStart && (
-                          <div className="flex gap-2">
-                            <button
-                              onClick={() =>
-                                handleApproval(participant.id, true)
-                              }
-                            >
-                              <Check className="w-4 h-4 text-green-500" />
-                            </button>
-                            <button
-                              onClick={() =>
-                                handleApproval(participant.id, false)
-                              }
-                            >
-                              <X className="w-4 h-4 text-red-500" />
-                            </button>
+                    return (
+                      <div
+                        key={participant.id}
+                        className="flex items-center justify-between h-13"
+                        data-userid={participant.userId}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="w-11 h-11 rounded-full bg-emerald-500 p-1">
+                            <Avatar className="w-full h-full">
+                              <AvatarImage
+                                src={avatarUrl || import.meta.env.VITE_DEFAULT_AVATAR_URL}
+                                alt={`${participant.name || "Usuário"} avatar`}
+                                onError={(e) => {
+                                  console.warn(
+                                    "Erro ao carregar imagem do participante:",
+                                    {
+                                      name: participant.name,
+                                      url: e.currentTarget.src,
+                                    }
+                                  );
+                                  e.currentTarget.style.display = "none";
+                                }}
+                              />
+                              <AvatarFallback>
+                                {participant.name?.charAt(0) ?? "?"}
+                              </AvatarFallback>
+                            </Avatar>
                           </div>
-                        )}
-                    </div>
-                  ))}
+                          <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[180px] overflow-hidden">
+                            <span className="text-[1rem] font-semibold h-5 leading-none truncate">
+                              {participant.name}
+                            </span>
+                            {participant.userId === activity.creator.id && (
+                              <span className="text-[12px] h-4 leading-none">
+                                Organizador
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {participant.userId !== activity.creator.id &&
+                          activity.private &&
+                          participant.subscriptionStatus === "WAITING" &&
+                          now < checkinStart && (
+                            <div className="flex gap-2.5">
+                              <button
+                                onClick={() =>
+                                  handleApproval(participant.id, true)
+                                }
+                                className="w-7 h-7 bg-primary rounded-full flex items-center justify-center"
+                              >
+                                <Check className="w-4 h-4 text-white" />
+                              </button>
+                              <button
+                                onClick={() =>
+                                  handleApproval(participant.id, false)
+                                }
+                                className="w-7 h-7 bg-[var(--warning)] rounded-full flex items-center justify-center"
+                              >
+                                <X className="w-4 h-4 text-white" />
+                              </button>
+                            </div>
+                          )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
               {isCheckinTime && (
