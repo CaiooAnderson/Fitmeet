@@ -14,9 +14,10 @@ import { generateToken } from "../middlewares/authMiddleware";
 const XP_PER_CHECKIN = 50;
 
 export enum UserSubscriptionStatus {
-  Inscrito = "Inscrito",
-  Pendente = "Pendente",
-  NãoInscrito = "Não inscrito",
+  APPROVED = "APPROVED",
+  WAITING = "WAITING",
+  REJECTED = "REJECTED",
+  NOT_SUBSCRIBED = "NOT_SUBSCRIBED",
 }
 
 export const determineUserSubscriptionStatus = async (
@@ -25,14 +26,11 @@ export const determineUserSubscriptionStatus = async (
 ): Promise<UserSubscriptionStatus> => {
   const activity = await prisma.activities.findUnique({
     where: { id: activityId },
-    select: {
-      creatorId: true,
-    },
+    select: { creatorId: true },
   });
 
-  if (!activity) return UserSubscriptionStatus.NãoInscrito;
-
-  if (activity.creatorId === userId) return UserSubscriptionStatus.NãoInscrito;
+  if (!activity) return UserSubscriptionStatus.NOT_SUBSCRIBED;
+  if (activity.creatorId === userId) return UserSubscriptionStatus.NOT_SUBSCRIBED;
 
   const participant = await prisma.activityParticipants.findUnique({
     where: {
@@ -41,16 +39,13 @@ export const determineUserSubscriptionStatus = async (
         userId,
       },
     },
-    select: {
-      approved: true,
-    },
+    select: { approved: true },
   });
 
-  if (!participant) return UserSubscriptionStatus.NãoInscrito;
-
-  if (participant.approved === true) return UserSubscriptionStatus.Inscrito;
-  if (participant.approved === false) return UserSubscriptionStatus.NãoInscrito;
-  return UserSubscriptionStatus.Pendente;
+  if (!participant) return UserSubscriptionStatus.NOT_SUBSCRIBED;
+  if (participant.approved === true) return UserSubscriptionStatus.APPROVED;
+  if (participant.approved === false) return UserSubscriptionStatus.REJECTED;
+  return UserSubscriptionStatus.WAITING;
 };
 
 const getActivityTypes = async () => {
@@ -178,7 +173,8 @@ const getActivityParticipants = async (activityId: string) => {
         userId: p.user.id,
         name: p.user.name,
         avatar: avatarUrl,
-        subscriptionStatus: p.approved ? "Inscrito" : "Pendente",
+        subscriptionStatus: p.approved === true ? "APPROVED" :
+                            p.approved === false ? "REJECTED" : "WAITING",
         confirmedAt: p.confirmedAt,
       };
     })

@@ -732,9 +732,12 @@ export const subscribeActivity = async (req: AuthenticatedRequest, res: Response
 
     const subscription = await ActivityService.subscribeActivity(req.user.id, req.params.id);
 
-    const subscriptionStatus = subscription.approved
-      ? UserSubscriptionStatus.Inscrito
-      : UserSubscriptionStatus.Pendente;
+    const subscriptionStatus =
+      subscription.approved === true
+        ? UserSubscriptionStatus.APPROVED
+        : subscription.approved === false
+        ? UserSubscriptionStatus.REJECTED
+        : UserSubscriptionStatus.WAITING;
 
     res.status(200).json({
       subscriptionId: `${subscription.activityId}-${subscription.userId}`,
