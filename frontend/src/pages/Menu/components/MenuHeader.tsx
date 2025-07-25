@@ -25,7 +25,6 @@ const MenuHeader = ({
   onLogout,
   onCreateActivity,
 }: MenuHeaderProps) => {
-  console.log('Avatar URL:', avatar);
   const navigate = useNavigate();
   return (
     <div className="flex flex-col sm:flex-row gap-5 sm:gap-0 justify-between items-center w-full h-14">
