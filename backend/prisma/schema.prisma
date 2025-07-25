@@ -78,7 +78,7 @@ model ActivityAddresses {
 model ActivityParticipants {
   activityId  String     @db.Uuid
   userId      String     @db.Uuid
-  approved    Boolean    @default(false)
+  approved    Boolean?    @default(false)
   confirmedAt DateTime?
   user        Users      @relation(fields: [userId], references: [id], onDelete: Cascade)
   activity    Activities @relation(fields: [activityId], references: [id], onDelete: Cascade)

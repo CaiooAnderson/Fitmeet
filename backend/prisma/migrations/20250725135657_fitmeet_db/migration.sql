@@ -72,7 +72,7 @@ CREATE TABLE "ActivityAddresses" (
 CREATE TABLE "ActivityParticipants" (
     "activityId" UUID NOT NULL,
     "userId" UUID NOT NULL,
-    "approved" BOOLEAN NOT NULL DEFAULT false,
+    "approved" BOOLEAN DEFAULT false,
     "confirmedAt" TIMESTAMP(3),
 
     CONSTRAINT "ActivityParticipants_pkey" PRIMARY KEY ("activityId","userId")
