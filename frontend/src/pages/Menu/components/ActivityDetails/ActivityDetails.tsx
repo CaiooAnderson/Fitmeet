@@ -289,10 +289,6 @@ export default function ActivityDetails({
                 <div className="flex flex-col gap-2 h-full overflow-auto pr-1">
                   {participants.map((participant) => {
                     const avatarUrl = participant.avatar;
-                    console.log("Avatar do participante:", {
-                      name: participant.name,
-                      avatar: participant.avatar,
-                    });
 
                     return (
                       <div
