@@ -28,12 +28,12 @@ const register = async (data: {
 
   const hashedPassword = await bcryptjs.hash(data.password, 10);
 
-  const avatarKey = data.avatar || "avatars/default-avatar.png";
+  const avatarUrl = data.avatar || await getDefaultAvatarUrl();
 
   return await UserRepository.create({ 
     ...data, 
     password: hashedPassword,
-    avatar: avatarKey,
+    avatar: avatarUrl,
     deletedAt: null
   });
 }

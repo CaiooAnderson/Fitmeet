@@ -38,8 +38,11 @@ export const getUser = async (req: AuthenticatedRequest, res: Response) => {
       ...userWithoutSensitiveInfo
     } = user;
 
-    const avatarPath = user.avatar ?? "avatars/default-avatar.png";
-    const avatarUrl = await getSignedAvatarUrl(avatarPath);
+    const avatarKey = user.avatar && user.avatar.startsWith('avatars/')
+    ? user.avatar
+    : "avatars/default-avatar.png";
+
+    const avatarUrl = await getSignedAvatarUrl(avatarKey);
 
     const achievements = userAchievements
       ? userAchievements.map((ua) => ua.achievement)
