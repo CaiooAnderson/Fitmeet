@@ -288,7 +288,7 @@ export default function ActivityDetails({
                 <h3 className="text-[1.75rem] h-8 font-bebas">PARTICIPANTES</h3>
                 <div className="flex flex-col gap-2 h-full overflow-auto pr-1">
                   {participants.map((participant) => {
-                    const avatarUrl = participant.avatar
+                    const avatarUrl = participant.avatar;
                     console.log("Avatar do participante:", {
                       name: participant.name,
                       avatar: participant.avatar,
@@ -304,7 +304,10 @@ export default function ActivityDetails({
                           <div className="w-11 h-11 rounded-full bg-emerald-500 p-1">
                             <Avatar className="w-full h-full">
                               <AvatarImage
-                                src={avatarUrl || import.meta.env.VITE_DEFAULT_AVATAR_URL}
+                                src={
+                                  avatarUrl ||
+                                  import.meta.env.VITE_DEFAULT_AVATAR_URL
+                                }
                                 alt={`${participant.name || "Usuário"} avatar`}
                                 onError={(e) => {
                                   console.warn(
@@ -337,23 +340,25 @@ export default function ActivityDetails({
                         {participant.userId !== activity.creator.id &&
                           activity.private &&
                           participant.subscriptionStatus === "WAITING" &&
-                          now < checkinStart && (
+                          new Date() <
+                            new Date(
+                              new Date(activity.scheduledDate).getTime() -
+                                30 * 60 * 1000
+                            ) && (
                             <div className="flex gap-2.5">
                               <button
                                 onClick={() =>
                                   handleApproval(participant.id, true)
                                 }
-                                className="w-7 h-7 bg-primary rounded-full flex items-center justify-center"
+                                className="hover:text-green-500"
                               >
-                                <Check className="w-4 h-4 text-white" />
+                                <Check />
                               </button>
                               <button
-                                onClick={() =>
-                                  handleApproval(participant.id, false)
-                                }
-                                className="w-7 h-7 bg-[var(--warning)] rounded-full flex items-center justify-center"
+                                onClick={() => handleApproval(participant.id, false)}
+                                className="hover:text-red-500"
                               >
-                                <X className="w-4 h-4 text-white" />
+                                <X />
                               </button>
                             </div>
                           )}

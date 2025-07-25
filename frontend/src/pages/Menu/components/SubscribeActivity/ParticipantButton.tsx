@@ -61,26 +61,27 @@ export default function ParticipantButton({
   }, [activity]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const scheduledDate = new Date(activity.scheduledDate);
-      const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
-      const isLessThan30Min =
-        new Date() >= checkinStart && new Date() < scheduledDate;
-  
-      if (
-        isLessThan30Min &&
-        userSubscriptionStatus === "WAITING" &&
-        !alreadyWarned.current
-      ) {
-        toast.error("Inscrição não aprovada a tempo. Tente novamente em outra atividade.");
-        alreadyWarned.current = true;
-        onStatusChange?.(undefined);
-        onClose?.();
-      }
-    }, 500);
-  
-    return () => clearInterval(interval);
-  }, [activity.scheduledDate, userSubscriptionStatus]);
+  const interval = setInterval(() => {
+    const scheduledDate = new Date(activity.scheduledDate);
+    const now = new Date();
+    const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
+    const isLessThan30Min = now >= checkinStart && now < scheduledDate;
+
+    if (
+      activity.private &&
+      isLessThan30Min &&
+      userSubscriptionStatus === "WAITING" &&
+      !alreadyWarned.current
+    ) {
+      toast.error("Inscrição não aprovada a tempo. Tente novamente em outra atividade.");
+      alreadyWarned.current = true;
+      onStatusChange?.(undefined);
+      onClose?.();
+    }
+  }, 500);
+
+  return () => clearInterval(interval);
+}, [activity.scheduledDate, userSubscriptionStatus, activity.private, onClose]);
 
   const button = getButtonState({
     isCreator: userId === activity.creator.id,
