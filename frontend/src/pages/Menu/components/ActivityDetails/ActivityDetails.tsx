@@ -33,6 +33,7 @@ export default function ActivityDetails({
   onClose,
   activity,
 }: ActivityDetailsProps) {
+  console.log("Activity recebida no modal de detalhes:", activity);
   const [participants, setParticipants] = useState<any[]>([]);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [now, setNow] = useState(new Date());
