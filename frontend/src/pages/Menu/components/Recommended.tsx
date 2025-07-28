@@ -29,7 +29,8 @@ const Recommended = ({
   const [isSubscribeDialogOpen, setIsSubscribeDialogOpen] = useState(false);
 
   const validActivities = activities.length > 0 ? activities : randomActivities;
-
+  console.log("Preferences:", preferences);
+  console.log("Activity types:", validActivities.map(a => a.type));
   const filteredActivities = (
     preferences.length > 0
       ? validActivities.filter((activity) => preferences.includes(activity.type))
