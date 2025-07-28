@@ -33,7 +33,6 @@ export default function ActivityDetails({
   onClose,
   activity,
 }: ActivityDetailsProps) {
-  console.log("Activity recebida no modal de detalhes:", activity);
   const [participants, setParticipants] = useState<any[]>([]);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [now, setNow] = useState(new Date());
@@ -380,11 +379,14 @@ export default function ActivityDetails({
         </AlertDialogContent>
       </AlertDialog>
 
-      <EditActivity
-        isOpen={isEditOpen}
-        onClose={() => setIsEditOpen(false)}
-        activity={activity}
-      />
+      {isEditOpen && activity && (
+        <EditActivity
+          key={activity.id}
+          isOpen={isEditOpen}
+          onClose={() => setIsEditOpen(false)}
+          activity={activity}
+        />
+      )}
     </>
   );
 }
