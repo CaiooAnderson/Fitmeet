@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import MenuHeader from "@/pages/Menu/components/MenuHeader";
@@ -17,7 +17,6 @@ function Menu() {
     level?: number;
   }>({});
   const [activities, setActivities] = useState<any[]>([]);
-  const [randomActivities, setRandomActivities] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -35,115 +34,121 @@ function Menu() {
     validateToken(currentToken);
   }, [navigate]);
 
-  useEffect(() => {
-    if (!token || activities.length === 0) return;
-
-    const random = [...activities].sort(() => 0.5 - Math.random()).slice(0, 8);
-    setRandomActivities(random);
-  }, [token, activities]);
-
   const validateToken = async (token: string) => {
-  try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    if (!response.ok) throw new Error("Token inválido");
+      if (!response.ok) throw new Error("Token inválido");
 
-    const data = await response.json();
-    setUser({ name: data.name, avatar: data.avatar, level: data.level });
+      const data = await response.json();
+      setUser({
+        id: data.id,
+        name: data.name,
+        avatar: data.avatar,
+        level: data.level,
+      });
 
-    await fetchActivities(token);
-    await fetchPreferences(token);
-  } catch {
-    toast.error("Token inválido.");
-    sessionStorage.removeItem("token");
-    navigate("/");
-  }
-};
+      await fetchActivities(token);
+      await fetchPreferences(token);
+    } catch {
+      toast.error("Token inválido.");
+      sessionStorage.removeItem("token");
+      navigate("/");
+    }
+  };
 
   const fetchPreferences = async (token: string) => {
-  try {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/user/preferences`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/preferences`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const data = await res.json();
-    const preferenceIds = data.map((item: any) => item.typeId);
-    setPreferences(preferenceIds);
+      const data = await res.json();
+      const preferenceIds = data.map((item: any) => item.typeId);
+      setPreferences(preferenceIds);
 
-    setShowPreferencesDialog(preferenceIds.length === 0);
-  } catch {
-    toast.error("Erro ao carregar preferências do usuário.");
-  }
-};
+      setShowPreferencesDialog(preferenceIds.length === 0);
+    } catch {
+      toast.error("Erro ao carregar preferências do usuário.");
+    }
+  };
 
   const fetchActivities = async (token: string) => {
-  try {
-    const page = 0;
-    const pageSize = 50;
+    try {
+      const page = 0;
+      const pageSize = 50;
 
-    const [activitiesRes, typesRes] = await Promise.all([
-      fetch(`${import.meta.env.VITE_API_URL}/activities?page=${page}&pageSize=${pageSize}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      }),
-      fetch(`${import.meta.env.VITE_API_URL}/activities/types`, {
-        headers: { Authorization: `Bearer ${token}` },
-      }),
-    ]);
-
-    const [activitiesData, typesData] = await Promise.all([
-      activitiesRes.json(),
-      typesRes.json(),
-    ]);
-
-    const filtered = activitiesData.activities.filter(
-      (activity: any) => !activity.completedAt && !activity.deletedAt
-    );
-
-    const enriched = filtered.map((activity: any) => {
-      const match = typesData.find(
-        (t: { id: string; name: string }) => t.name === activity.type
-      );
-      return {
-        ...activity,
-        type: match?.id ?? activity.type,
-      };
-    });
-
-    setActivities(enriched);
-
-    const groupedByType = await Promise.all(
-      typesData.map(async (type: any) => {
-        const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/activities?page=0&pageSize=6&typeId=${type.id}`,
+      const [activitiesRes, typesRes] = await Promise.all([
+        fetch(
+          `${import.meta.env.VITE_API_URL}/activities?page=${page}&pageSize=${pageSize}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
+        ),
+        fetch(`${import.meta.env.VITE_API_URL}/activities/types`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+      ]);
+
+      const [activitiesData, typesData] = await Promise.all([
+        activitiesRes.json(),
+        typesRes.json(),
+      ]);
+
+      const filtered = activitiesData.activities.filter(
+        (activity: any) => !activity.completedAt && !activity.deletedAt
+      );
+
+      const enriched = filtered.map((activity: any) => {
+        const match = typesData.find(
+          (t: { id: string; name: string }) => t.name === activity.type
         );
-
-        const data = await res.json();
-
         return {
-          id: type.id,
-          name: type.name,
-          activities: data.activities.filter(
-            (a: any) => !a.completedAt && !a.deletedAt
-          ),
+          ...activity,
+          type: match?.id ?? activity.type,
         };
-      })
-    );
+      });
 
-    setActivitiesGrouped(groupedByType);
-    setError(null);
-  } catch {
-    setError("Erro ao carregar atividades.");
-  }
-};
+      setActivities(enriched);
+
+      const groupedByType = await Promise.all(
+        typesData.map(async (type: any) => {
+          const res = await fetch(
+            `${import.meta.env.VITE_API_URL}/activities?page=0&pageSize=6&typeId=${type.id}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          const data = await res.json();
+
+          return {
+            id: type.id,
+            name: type.name,
+            activities: data.activities.filter(
+              (a: any) => !a.completedAt && !a.deletedAt
+            ),
+          };
+        })
+      );
+
+      setActivitiesGrouped(groupedByType);
+      setError(null);
+    } catch {
+      setError("Erro ao carregar atividades.");
+    }
+  };
+
+  const randomActivities = useMemo(() => {
+    if (activities.length === 0) return [];
+    return [...activities].sort(() => 0.5 - Math.random()).slice(0, 8);
+  }, [activities]);
 
   const handleTypeClick = (typeId: string) => {
     navigate(`/activities/${typeId}`);
@@ -182,20 +187,14 @@ function Menu() {
           error={error}
           handleTypeClick={handleTypeClick}
           preferences={preferences}
-          currentUserId={user.id}
+          currentUserId={user.id ?? null}
         />
         <ActivityTypes token={token} handleTypeClick={handleTypeClick} />
-        <ActivitiesByTypes
-          data={activitiesGrouped}
-          onViewMore={handleTypeClick}
-        />
+        <ActivitiesByTypes data={activitiesGrouped} onViewMore={handleTypeClick} />
       </div>
 
       {token && showPreferencesDialog && (
-        <PreferencesDialog
-          token={token}
-          onPreferencesSaved={handlePreferencesSaved}
-        />
+        <PreferencesDialog token={token} onPreferencesSaved={handlePreferencesSaved} />
       )}
 
       <NewActivity isOpen={isDialogOpen} onClose={handleCloseDialog} />
