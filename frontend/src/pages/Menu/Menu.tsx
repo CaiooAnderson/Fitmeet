@@ -11,6 +11,7 @@ import ActivitiesByTypes from "@/pages/Menu/components/ActivitiesByTypes";
 function Menu() {
   const navigate = useNavigate();
   const [user, setUser] = useState<{
+    id?: string;
     name?: string;
     avatar?: string;
     level?: number;
@@ -181,6 +182,7 @@ function Menu() {
           error={error}
           handleTypeClick={handleTypeClick}
           preferences={preferences}
+          currentUserId={user.id}
         />
         <ActivityTypes token={token} handleTypeClick={handleTypeClick} />
         <ActivitiesByTypes

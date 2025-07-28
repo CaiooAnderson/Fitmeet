@@ -1,7 +1,6 @@
-import { useEffect, useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Calendar, Users, Lock } from "lucide-react";
 import { format } from "date-fns";
-import { toast } from "sonner";
 import SubscribeActivity from "./SubscribeActivity/SubscribeActivity";
 import ActivityDetails from "./ActivityDetails/ActivityDetails";
 
@@ -13,6 +12,7 @@ interface RecommendedProps {
   preferences: string[];
   title?: string;
   includeCreator?: boolean;
+  currentUserId?: string | null; // novo prop opcional
 }
 
 const Recommended = ({
@@ -22,42 +22,18 @@ const Recommended = ({
   preferences,
   title,
   includeCreator = false,
+  currentUserId = null, // recebe de fora
 }: RecommendedProps) => {
   const [selectedActivity, setSelectedActivity] = useState<any | null>(null);
   const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
   const [isSubscribeDialogOpen, setIsSubscribeDialogOpen] = useState(false);
-  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
-  const [isLoadingUserId, setIsLoadingUserId] = useState(true);
 
-  useEffect(() => {
-    const fetchUserId = async () => {
-      const token = sessionStorage.getItem("token");
-      if (!token) {
-        setIsLoadingUserId(false);
-        return;
-      }
-
-      try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const user = await res.json();
-        setCurrentUserId(user.id);
-      } catch {
-        toast.error("Erro ao buscar usuário.");
-      } finally {
-        setIsLoadingUserId(false);
-      }
-    };
-
-    fetchUserId();
-  }, []);
+  const validActivities = activities.length > 0 ? activities : randomActivities;
 
   const filteredActivities = useMemo(() => {
-    if (isLoadingUserId) return [];
-    const baseActivities = activities.length > 0 ? activities : randomActivities;
+    if (currentUserId === null) return [];
 
-    let filtered = baseActivities;
+    let filtered = validActivities;
 
     if (preferences.length > 0) {
       filtered = filtered.filter((activity) =>
@@ -70,7 +46,7 @@ const Recommended = ({
     );
 
     return filtered;
-  }, [activities, randomActivities, preferences, currentUserId, includeCreator, isLoadingUserId]);
+  }, [validActivities, preferences, currentUserId, includeCreator]);
 
   const listToShow = filteredActivities.slice(0, 8);
   const firstLine = listToShow.slice(0, 4);
@@ -84,14 +60,6 @@ const Recommended = ({
       setIsSubscribeDialogOpen(true);
     }
   };
-
-  if (isLoadingUserId) {
-    return (
-      <div className="h-57 flex items-center justify-center text-gray-500 text-sm">
-        Carregando atividades recomendadas...
-      </div>
-    );
-  }
 
   return (
     <div className="w-full h-[33.5rem] flex flex-col">
