@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Calendar, Users, Lock } from "lucide-react";
 import { format } from "date-fns";
+import { toast } from "sonner";
 import SubscribeActivity from "./SubscribeActivity/SubscribeActivity";
 import ActivityDetails from "./ActivityDetails/ActivityDetails";
 
@@ -10,7 +11,6 @@ interface RecommendedProps {
   error: string | null;
   handleTypeClick: (typeId: string) => void;
   preferences: string[];
-  currentUserId: string | null; // RECEBE AQUI
   title?: string;
   includeCreator?: boolean;
 }
@@ -20,20 +20,40 @@ const Recommended = ({
   randomActivities,
   error,
   preferences,
-  currentUserId,
   title,
   includeCreator,
 }: RecommendedProps) => {
   const [selectedActivity, setSelectedActivity] = useState<any | null>(null);
   const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
   const [isSubscribeDialogOpen, setIsSubscribeDialogOpen] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const token = sessionStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const user = await res.json();
+        setCurrentUserId(user.id);
+      } catch {
+        toast.error("Erro ao buscar usuário.");
+      }
+    };
+
+    fetchUserId();
+  }, []);
 
   const validActivities = activities.length > 0 ? activities : randomActivities;
-  console.log("Preferences:", preferences);
-  console.log("Activity types:", validActivities.map(a => a.type));
+
   const filteredActivities = (
     preferences.length > 0
-      ? validActivities.filter((activity) => preferences.includes(activity.type))
+      ? validActivities.filter((activity) =>
+          preferences.includes(activity.type)
+        )
       : validActivities
   ).filter((activity) =>
     includeCreator ? true : activity.creator?.id !== currentUserId
@@ -55,11 +75,15 @@ const Recommended = ({
   return (
     <div className="w-full h-[33.5rem] flex flex-col">
       <div className="flex justify-between items-center h-8 mb-4">
-        <h2 className="text-[1.75rem] font-bebas">{title ?? "RECOMENDADO PARA VOCÊ"}</h2>
+        <h2 className="text-[1.75rem] font-bebas">
+          {title ?? "RECOMENDADO PARA VOCÊ"}
+        </h2>
       </div>
 
       {error && (
-        <div className="h-57 flex items-center justify-center text-red-500">{error}</div>
+        <div className="h-57 flex items-center justify-center text-red-500">
+          {error}
+        </div>
       )}
 
       {!error && (
@@ -88,10 +112,15 @@ const Recommended = ({
                         </div>
                       )}
                     </div>
-                    <p className="text-sm font-semibold text-left">{activity.title}</p>
+                    <p className="text-sm font-semibold text-left">
+                      {activity.title}
+                    </p>
                     <div className="flex items-center gap-3 text-xs text-[#404040] mt-3 h-5">
                       <Calendar className="w-4 h-4 text-[#009966]" />
-                      {format(new Date(activity.scheduledDate), "dd/MM/yyyy HH:mm")}
+                      {format(
+                        new Date(activity.scheduledDate),
+                        "dd/MM/yyyy HH:mm"
+                      )}
                       <span className="mx-1">|</span>
                       <Users className="w-4 h-4 text-[#009966]" />
                       {activity.participantCount ?? 0}
@@ -110,7 +139,10 @@ const Recommended = ({
                     >
                       <div className="relative w-74 h-40 mb-4">
                         <img
-                          src={activity.image?.replace("localstack", "localhost")}
+                          src={activity.image?.replace(
+                            "localstack",
+                            "localhost"
+                          )}
                           className="w-full h-full rounded-xl object-cover"
                         />
                         {activity.private && (
@@ -119,10 +151,15 @@ const Recommended = ({
                           </div>
                         )}
                       </div>
-                      <p className="text-sm font-semibold text-left">{activity.title}</p>
+                      <p className="text-sm font-semibold text-left">
+                        {activity.title}
+                      </p>
                       <div className="flex items-center gap-3 text-xs text-gray-500 mt-3 h-5">
                         <Calendar className="w-4 h-4 text-[#009966]" />
-                        {format(new Date(activity.scheduledDate), "dd/MM/yyyy HH:mm")}
+                        {format(
+                          new Date(activity.scheduledDate),
+                          "dd/MM/yyyy HH:mm"
+                        )}
                         <span className="mx-1">|</span>
                         <Users className="w-4 h-4 text-[#009966]" />
                         {activity.participantCount ?? 0}
