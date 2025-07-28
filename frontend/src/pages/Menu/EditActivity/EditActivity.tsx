@@ -55,13 +55,15 @@ export default function EditActivity({
           }
         );
 
+        if (!res.ok) throw new Error("Erro ao buscar tipos");
+
         const typesData = await res.json();
         setActivityTypes(typesData);
 
         const matchedType = typesData.find(
           (type: any) =>
-            type.id === activity.type ||
-            type.name.toLowerCase() === activity.type.toLowerCase()
+            type.id === activity.typeId ||
+            (activity.type && type.name.toLowerCase() === activity.type.toLowerCase())
         );
 
         setActivityTypeId(matchedType?.id ?? "");
@@ -80,6 +82,7 @@ export default function EditActivity({
           setCoordinates(null);
         }
       } catch (error) {
+        console.error(error);
         toast.error("Erro ao carregar tipos de atividade.");
       }
     };
