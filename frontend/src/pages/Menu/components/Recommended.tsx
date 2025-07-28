@@ -49,15 +49,17 @@ const Recommended = ({
 
   const validActivities = activities.length > 0 ? activities : randomActivities;
 
-  const filteredActivities = (
-    preferences.length > 0
-      ? validActivities.filter((activity) =>
-          preferences.includes(activity.type)
-        )
-      : validActivities
-  ).filter((activity) =>
-    includeCreator ? true : activity.creator?.id !== currentUserId
-  );
+  const filteredActivities =
+  currentUserId === null
+    ? []
+    : (preferences.length > 0
+        ? validActivities.filter((activity) =>
+            preferences.includes(activity.type)
+          )
+        : validActivities
+      ).filter((activity) =>
+        includeCreator ? true : activity.creator?.id !== currentUserId
+      );
 
   const listToShow = filteredActivities.slice(0, 8);
   const firstLine = listToShow.slice(0, 4);
@@ -88,7 +90,11 @@ const Recommended = ({
 
       {!error && (
         <>
-          {listToShow.length === 0 ? (
+          {currentUserId === null ? (
+            <div className="h-57 flex items-center justify-center text-gray-500 text-sm">
+              Carregando atividades...
+            </div>
+          ) : listToShow.length === 0 ? (
             <div className="h-57 flex items-center justify-center text-gray-500 text-sm">
               Nenhuma atividade de sua preferência disponível no momento.
             </div>
