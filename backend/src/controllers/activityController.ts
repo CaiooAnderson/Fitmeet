@@ -400,7 +400,6 @@ export const getUserParticipantActivities = async (req: AuthenticatedRequest, re
         userId: req.user.id,
         activity: {
           deletedAt: null,
-          completedAt: null,
         },
       },
     });
@@ -429,13 +428,16 @@ export const getUserParticipantActivities = async (req: AuthenticatedRequest, re
         }
 
         let signedActivityImageUrl = null;
-        if (activity.image?.includes(bucketName)) {
-          const key = activity.image.split(`/${bucketName}/`)[1];
-          if (key) {
-            const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
-            signedActivityImageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
-          }
+        if (activity.image) {
+        const key = activity.image;
+        const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
+
+        try {
+          signedActivityImageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+        } catch (err) {
+          console.error(`Erro ao gerar URL assinada para imagem da atividade ${key}:`, err);
         }
+      }
 
         return {
           id: activity.id,

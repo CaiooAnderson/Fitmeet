@@ -212,12 +212,12 @@ const getUserParticipantActivities = async (userId: string, pagination: { skip: 
     orderBy: [
       {
         activity: {
-          createdAt: 'desc'
+          completedAt: 'asc'
         },
       },
       {
         activity: {
-          completedAt: 'asc'
+          createdAt: 'desc',
         }
       }
     ],
