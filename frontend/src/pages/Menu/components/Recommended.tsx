@@ -49,10 +49,20 @@ const Recommended = ({
 
   const validActivities = activities.length > 0 ? activities : randomActivities;
 
+  console.log("📌 Lista de atividades recebidas (activities):", activities);
+  console.log("📌 Lista de atividades alternativas (randomActivities):", randomActivities);
+  console.log("📌 Preferências do usuário (preferences):", preferences);
+
+  if (activities.length > 0) {
+    console.log("🔍 Estrutura de 'type' na primeira atividade:", activities[0].type);
+  }
+
   const filteredActivities = (
     preferences.length > 0
       ? validActivities.filter((activity) =>
-          preferences.includes(activity.type)
+          preferences.includes(
+            activity.type?.id || activity.activityTypeId || activity.type
+          )
         )
       : validActivities
   ).filter((activity) =>
