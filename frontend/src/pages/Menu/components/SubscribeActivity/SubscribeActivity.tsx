@@ -69,8 +69,6 @@ export default function SubscribeActivity({
       (p: any) => p.subscriptionStatus === "APPROVED"
     );
 
-    console.log("Creator data:", activity.creator);
-
     const creator = {
       userId: activity.creator?.id,
       name: activity.creator?.name,

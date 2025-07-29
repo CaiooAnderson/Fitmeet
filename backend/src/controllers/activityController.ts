@@ -417,6 +417,7 @@ export const getUserParticipantActivities = async (req: AuthenticatedRequest, re
         const activity = participant.activity;
 
         const creatorAvatar = activity.creator.avatar;
+        console.log('Avatar criador:', creatorAvatar);
         let signedAvatarUrl = null;
 
         if (creatorAvatar?.includes(bucketName)) {
