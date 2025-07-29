@@ -115,6 +115,14 @@ export const listActivities = async (req: AuthenticatedRequest, res: Response) =
           },
         });
 
+        let signedAvatarUrl = null;
+
+        if (creator?.avatar) {
+            signedAvatarUrl = await getSignedAvatarUrl(creator.avatar);
+          } else {
+            signedAvatarUrl = await getDefaultAvatarUrl();
+          }
+
         const participantCount = await prisma.activityParticipants.count({
           where: { activityId: activity.id, approved: true },
         });
@@ -148,7 +156,7 @@ export const listActivities = async (req: AuthenticatedRequest, res: Response) =
           creator: {
             id: activity.creatorId,
             name: creator ? creator.name : 'Nome não disponível',
-            avatar: creator ? creator.avatar : 'default-avatar-url',
+            avatar: signedAvatarUrl,
           },
           userSubscriptionStatus
         };
