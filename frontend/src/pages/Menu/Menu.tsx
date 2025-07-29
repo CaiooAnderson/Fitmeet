@@ -72,7 +72,7 @@ function Menu() {
     });
 
     const data = await res.json();
-    const preferenceIds = data.map((item: any) => item.typeId);
+    const preferenceIds = data.map((item: any) => item.id);
     setPreferences(preferenceIds);
 
     setShowPreferencesDialog(preferenceIds.length === 0);
