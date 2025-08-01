@@ -41,7 +41,6 @@ export default function EditActivity({
   const [approvalRequired, setApprovalRequired] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log("Activity no useEffect:", activity);
     const token = sessionStorage.getItem("token");
     if (!token || !isOpen || !activity?.id) return;
 
