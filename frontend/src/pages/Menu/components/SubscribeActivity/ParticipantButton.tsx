@@ -176,6 +176,11 @@ export default function ParticipantButton({
     }
   };
 
+  console.log("Agora:", new Date());
+  console.log("Início da atividade:", new Date(activity.scheduledDate));
+  console.log("Action:", button.action);
+  console.log("ConfirmedAt:", confirmedAt);
+
   return (
     <div className="mt-4 flex flex-col gap-1.5">
       {activityCompletedAt ? (
