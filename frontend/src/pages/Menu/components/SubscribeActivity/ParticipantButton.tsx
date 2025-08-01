@@ -83,6 +83,13 @@ export default function ParticipantButton({
   return () => clearInterval(interval);
 }, [activity.scheduledDate, userSubscriptionStatus, activity.private, onClose]);
 
+  const isWithinLast30Minutes = (scheduledDate: string | Date): boolean => {
+    const now = new Date();
+    const start = new Date(scheduledDate);
+    const diffInMs = start.getTime() - now.getTime();
+    return diffInMs <= 30 * 60 * 1000 && diffInMs > 0;
+  };
+
   const button = getButtonState({
     isCreator: userId === activity.creator.id,
     isPrivate: activity.private,
@@ -178,7 +185,7 @@ export default function ParticipantButton({
         >
           Atividade encerrada
         </AlertDialogAction>
-      ) : button.action === "check-in" && !confirmedAt ? (
+      ) : button.action === "check-in" && !confirmedAt && isWithinLast30Minutes(activity.scheduledDate) ? (
         <>
           <h3 className="font-bebas text-[28px] h-8">Faça seu check-in</h3>
           <div className="flex gap-1.5 w-full rounded-[8px]">
