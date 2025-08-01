@@ -294,7 +294,6 @@ const createActivity = async (userId: string, data: any) => {
 };
 
 const subscribeActivity = async (userId: string, activityId: string, requiresApproval: boolean) => {
-  const confirmedAtValue = !requiresApproval ? new Date() : null;
   const approvedValue = requiresApproval ? null : true;
 
   const subscription = await prisma.activityParticipants.create({
@@ -302,7 +301,7 @@ const subscribeActivity = async (userId: string, activityId: string, requiresApp
       userId, 
       activityId, 
       approved: approvedValue,
-      confirmedAt: confirmedAtValue
+      confirmedAt: null
     },
     select: {
       userId: true,
