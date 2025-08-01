@@ -923,9 +923,19 @@ export const approveParticipant = async (req: AuthenticatedRequest, res: Respons
     if (!req.user) throw new Error('Autenticação necessária.');
 
     const participantId = req.body.participantId;
-    await ActivityService.approveParticipant(req.user.id, req.params.id, {
+    const activityId = req.params.id;
+    const approved = req.body.approved;
+
+    console.log('Controller - approveParticipant called with:', {
       participantId,
-      approved: req.body.approved,
+      activityId,
+      userId: req.user.id,
+      approved,
+    });
+
+    await ActivityService.approveParticipant(req.user.id, activityId, {
+      participantId,
+      approved,
     });
 
     res.status(200).json({ message: 'Solicitação de participação aprovada com sucesso.' });
@@ -936,26 +946,25 @@ export const approveParticipant = async (req: AuthenticatedRequest, res: Respons
 
       if (message === 'Autenticação necessária.') {
         res.status(401).json({ error: 'Autenticação necessária.' });
-        return
+        return;
       }
       if (message === 'Conta desativada') {
         res.status(403).json({ error: 'Esta conta foi desativada e não pode ser utilizada.' });
-        return
+        return;
       }
       if (message === 'Participante não encontrado') {
         res.status(404).json({ error: 'Participante não encontrado.' });
-        return
+        return;
       }
     }
 
     if (error?.code === 'P2023') {
       res.status(400).json({ error: 'Informe os campos obrigatórios corretamente.' });
-      return
+      return;
     }
 
     console.error('Erro ao aprovar participante:', error);
     res.status(500).json({ error: 'Erro inesperado.' });
-    return
   }
 };
 
