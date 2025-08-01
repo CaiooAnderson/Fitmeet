@@ -344,14 +344,14 @@ export default function ActivityDetails({
                             <div className="flex gap-2.5">
                               <button
                                 onClick={() =>
-                                  handleApproval(participant.id, true)
+                                  handleApproval(participant.userId, true)
                                 }
                                 className="hover:text-green-500"
                               >
                                 <Check />
                               </button>
                               <button
-                                onClick={() => handleApproval(participant.id, false)}
+                                onClick={() => handleApproval(participant.userId, false)}
                                 className="hover:text-red-500"
                               >
                                 <X />
