@@ -345,16 +345,23 @@ const concludeActivity = async (activityId: string) => {
 }
 
 const approveParticipant = async (activityId: string, participantId: string, approved: boolean) => {
-  const result = await prisma.activityParticipants.updateMany({
-    where: {
-      activityId,
-      userId: participantId,
-    },
-    data: { approved },
-  });
-
-  if (result.count === 0) {
-    throw new Error('Participante não encontrado');
+  try {
+    return await prisma.activityParticipants.update({
+      where: {
+        activityId_userId: {
+          activityId,
+          userId: participantId,
+        },
+      },
+      data: {
+        approved,
+      },
+    });
+  } catch (error: any) {
+    if (error.code === "P2025") {
+      throw new Error("Participante não encontrado");
+    }
+    throw error;
   }
 };
 
