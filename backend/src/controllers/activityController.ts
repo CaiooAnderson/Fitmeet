@@ -922,8 +922,6 @@ export const approveParticipant = async (req: AuthenticatedRequest, res: Respons
   try {
     if (!req.user) throw new Error('Autenticação necessária.');
 
-    console.log('Request body:', req.body);
-
     const participantId = req.body.participantId;
     await ActivityService.approveParticipant(req.user.id, req.params.id, {
       participantId,
