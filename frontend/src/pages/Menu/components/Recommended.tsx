@@ -114,7 +114,7 @@ const Recommended = ({
                         </div>
                       )}
                     </div>
-                    <p className="text-sm font-semibold text-left">
+                    <p className="text-sm font-semibold text-left overflow-hidden text-ellipsis max-w-full">
                       {activity.title}
                     </p>
                     <div className="flex items-center gap-3 text-xs text-[#404040] mt-3 h-5">
