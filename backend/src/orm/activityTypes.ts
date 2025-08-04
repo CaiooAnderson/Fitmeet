@@ -20,7 +20,7 @@ export async function seedActivityTypes() {
       image: 'https://img.freepik.com/vetores-gratis/lider-empresarial-de-pe-na-seta-e-segurando-a-ilustracao-em-vetor-plana-bandeira-desenhos-animados-pessoas-treinando-e-fazendo-plano-de-negocios-conceito-de-lideranca-vitoria-e-desafio_74855-9812.jpg' 
     },
     { 
-      name: 'Tecnologia e Inovação', 
+      name: 'Tecnologia', 
       description: 'Hackathons, meetups, eventos de tecnologia, programação e inovações tecnológicas.',
       image: 'https://cra-rj.adm.br/wp-content/uploads/2021/07/WhatsApp-Image-2021-07-20-at-17.32.29-1-1.jpeg'
     },
