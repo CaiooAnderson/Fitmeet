@@ -33,8 +33,8 @@ export default function DeactivateUser() {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <div className="w-full flex justify-center">
-          <div className="w-55 h-10 flex flex-row items-center justify-center gap-1.5 cursor-pointer px-2 whitespace-nowrap overflow-hidden text-ellipsis text-[var(--warning)] font-bold">
-            <Trash2 className="w-6 h-6" />
+          <div className="w-55 h-10 flex flex-row items-center justify-center gap-1.5 cursor-pointer px-2 whitespace-nowrap overflow-hidden text-ellipsis text-[var(--warning)] font-bold transition-all duration-300 hover:scale-105 hover:text-red-600 rounded-md group">
+            <Trash2 className="w-6 h-6 transition-transform duration-300 group-hover:rotate-12" />
             <span className="text-[1rem]">Desativar minha conta</span>
           </div>
         </div>
@@ -46,7 +46,8 @@ export default function DeactivateUser() {
             Tem certeza que deseja desativar sua conta?
           </AlertDialogTitle>
           <AlertDialogDescription className="text-base text-[var(--text)]">
-            Ao desativar sua conta, todos os seus dados e histórico de atividades serão permanentemente removidos.{' '}
+            Ao desativar sua conta, todos os seus dados e histórico de
+            atividades serão permanentemente removidos.{" "}
             <span className="font-bold text-[var(--text)]">
               Esta ação é irreversível e não poderá ser desfeita.
             </span>
@@ -55,7 +56,7 @@ export default function DeactivateUser() {
 
         <div className="flex justify-end gap-2 mt-4">
           <AlertDialogTrigger asChild>
-            <Button variant="outline" className="w-30 h-12 border-[#171717]">
+            <Button variant="outline" className="w-30 h-12 border-1 hover:bg-muted">
               Cancelar
             </Button>
           </AlertDialogTrigger>
