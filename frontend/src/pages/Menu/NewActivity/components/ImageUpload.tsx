@@ -32,20 +32,38 @@ export default function ImageUpload({
       >
         Imagem <span className="text-[var(--warning)] h-5">*</span>
       </Label>
+
       <label
         htmlFor="image"
-        className={`w-80 outline-1 outline-[var(--border)] rounded-lg flex items-center justify-center cursor-pointer ${imageLabelClassName ?? "h-32"}`}
+        className={`
+      group
+      w-80 
+      rounded-lg 
+      flex items-center justify-center 
+      cursor-pointer 
+      overflow-hidden 
+      transition-all duration-300
+      outline-1 outline-[var(--border)]
+      hover:outline-[var(--primary)] 
+      hover:shadow-lg
+      relative
+      ${imageLabelClassName ?? "h-32"}
+    `}
       >
         {previewUrl ? (
-          <img
-            src={previewUrl}
-            alt="preview"
-            className="w-full h-full object-cover rounded-lg"
-          />
+          <div className="relative w-full h-full">
+            <img
+              src={previewUrl}
+              alt="preview"
+              className="w-full h-full object-cover rounded-lg transition-opacity duration-300"
+            />
+            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg" />
+          </div>
         ) : (
-          <ImageIcon className="w-8 h-8 text-border-foreground font-normal" />
+          <ImageIcon className="w-8 h-8 text-border-foreground font-normal transition-colors duration-300 group-hover:text-[var(--primary-600)]" />
         )}
       </label>
+
       <Input
         id="image"
         type="file"
