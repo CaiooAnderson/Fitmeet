@@ -118,14 +118,14 @@ export default function PreferencesDialog({
           <AlertDialogDescription></AlertDialogDescription>
         </AlertDialogHeader>
 
-        <div className="grid grid-cols-3 gap-6 py-8">
+        <div className="w-fit mx-auto grid grid-cols-3 gap-8 py-8">
           {activityTypes.map((item) => {
             const isSelected = selected.includes(item.id);
             return (
               <div
                 key={item.id}
                 onClick={() => toggle(item.id)}
-                className="flex flex-col items-center gap-1 cursor-pointer"
+                className="flex flex-col items-center gap-1 cursor-pointer w-30"
               >
                 <div className="relative w-16 h-16">
                   <img
@@ -140,7 +140,7 @@ export default function PreferencesDialog({
                     </div>
                   )}
                 </div>
-                <p className="text-sm font-medium text-center overflow-hidden text-ellipsis whitespace-nowrap max-w-full text-[var(--title)]">
+                <p className="w-full text-sm font-medium text-center overflow-hidden text-ellipsis whitespace-nowrap text-[var(--title)]">
                   {item.name}
                 </p>
               </div>
