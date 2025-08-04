@@ -62,7 +62,7 @@ export default function TypesAndLocation({
                     <img
                       src={type.image?.replace("localstack", "localhost")}
                       alt={type.name}
-                      className={`w-20 h-20 rounded-full object-cover border-2 box-content transition duration-300
+                      className={`w-20 h-20  rounded-full object-cover text-ellipsis overflow-hidden max-w-full border-2 box-content transition duration-300
                   ${isSelected ? "border-primary" : "border-transparent"}
                   group-hover:brightness-75
                 `}
