@@ -217,7 +217,7 @@ export default function ActivityDetails({
                 src={activity.image?.replace("localstack", "localhost")}
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
-              <h2 className="text-[2rem] h-9 mb-2 font-bebas">
+              <h2 className="text-[2rem] h-9 mb-2 font-bebas overflow-hidden text-ellipsis">
                 {activity.title}
               </h2>
               <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
