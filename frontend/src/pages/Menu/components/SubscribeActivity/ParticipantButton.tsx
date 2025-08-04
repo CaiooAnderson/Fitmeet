@@ -258,7 +258,7 @@ export default function ParticipantButton({
                 button.label === "Inscrição negada"
                   ? "bg-red-600 text-white flex items-center justify-center gap-2"
                   : button.label === "Desinscrever"
-                    ? "border border-[var(--warning)] text-[var(--warning)] bg-white hover:bg-muted"
+                    ? "border border-[var(--warning)] text-[var(--warning)] bg-white hover:bg-red-600 hover:text-white"
                     : "bg-[var(--primary)] text-white hover:bg-[var(--primary-600)]"
               }`}
             >
