@@ -194,7 +194,7 @@ export default function ParticipantButton({
               placeholder="Código de confirmação"
               value={confirmationCode}
               onChange={(e) => setConfirmationCode(e.target.value)}
-              className="h-12 px-3 rounded-[8px] border text-sm w-full"
+              className="h-12 px-3 rounded-[8px] border text-sm w-full outline-none focus:border-primary"
             />
             <AlertDialogAction
               onClick={handleClick}
