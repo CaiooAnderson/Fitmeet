@@ -195,7 +195,7 @@ export default function EditProfile() {
               {isLoading ? "Salvando..." : "Editar"}
             </Button>
             <Button
-              className="h-12 w-full"
+              className="h-12 w-full hover:bg-muted"
               variant="outline"
               onClick={() => navigate("/profile")}
             >
