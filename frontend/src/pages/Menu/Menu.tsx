@@ -163,7 +163,7 @@ function Menu() {
   };
 
   return (
-    <div className="pt-6 w-full sm:px-10 px-5 flex flex-col items-center">
+    <div className="py-6 w-full sm:px-10 px-5 flex flex-col items-center">
       <div className="flex flex-col gap-14 w-full max-w-[76.25rem]">
         <MenuHeader
           avatar={user.avatar ?? ""}
