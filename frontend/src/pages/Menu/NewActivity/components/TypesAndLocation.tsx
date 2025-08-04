@@ -45,6 +45,7 @@ export default function TypesAndLocation({
         <Label className="text-[1rem] font-semibold h-5 text-[var(--text)]">
           Tipo da atividade <span className="text-[var(--warning)] h-5">*</span>
         </Label>
+
         <Carousel className="w-full">
           <CarouselContent className="-ml-2">
             {activityTypes.map((type) => {
@@ -55,15 +56,16 @@ export default function TypesAndLocation({
                   className="pl-2 basis-auto shrink-0 w-fit"
                 >
                   <div
-                    className="flex flex-col items-center gap-3 cursor-pointer h-30.5"
+                    className="flex flex-col items-center gap-3 cursor-pointer h-30.5 group"
                     onClick={() => setActivityType(type.id)}
                   >
                     <img
                       src={type.image?.replace("localstack", "localhost")}
                       alt={type.name}
-                      className={`w-20 h-20 rounded-full object-cover border-2 box-content ${
-                        isSelected ? "border-primary" : "border-transparent"
-                      }`}
+                      className={`w-20 h-20 rounded-full object-cover border-2 box-content transition duration-300
+                  ${isSelected ? "border-primary" : "border-transparent"}
+                  group-hover:brightness-75
+                `}
                     />
                     <p className="text-[1rem] text-center font-semibold h-5 leading-none">
                       {type.name}
@@ -80,7 +82,8 @@ export default function TypesAndLocation({
         <Label className="text-[1rem] font-semibold h-5 text-[var(--text)]">
           Ponto de encontro <span className="text-[var(--warning)] h-5">*</span>
         </Label>
-        <div className="h-52 rounded-[0.625rem] overflow-hidden">
+
+        <div className="h-52 rounded-[0.625rem] overflow-hidden relative">
           <MapContainer
             center={mapCenter}
             zoom={13}
@@ -105,6 +108,13 @@ export default function TypesAndLocation({
               />
             )}
           </MapContainer>
+
+          {coordinates && (
+            <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded-md z-[1000]">
+              Lat: {coordinates.lat.toFixed(5)}, Lng:{" "}
+              {coordinates.lng.toFixed(5)}
+            </div>
+          )}
         </div>
       </div>
     </>
