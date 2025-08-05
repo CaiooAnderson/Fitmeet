@@ -11,7 +11,9 @@ import {
 import prisma from "../orm/database";
 import { generateToken } from "../middlewares/authMiddleware";
 
-const XP_PER_CHECKIN = 50;
+const XP_PER_CREATE = 20;
+const XP_PER_CHECKIN = 20;
+const XP_PER_CONCLUDE = 20;
 
 export enum UserSubscriptionStatus {
   APPROVED = "APPROVED",
@@ -216,6 +218,8 @@ const createActivity = async (
     confirmationCode,
   });
 
+  await UserRepository.addXP(userId, XP_PER_CREATE);
+
   await grantAchievementIfNotExists(userId, "Criou sua primeira atividade");
   return activity;
 };
@@ -280,7 +284,20 @@ const concludeActivity = async (userId: string, activityId: string) => {
     throw new Error("Apenas o criador pode concluir esta atividade.");
   }
 
+  await UserRepository.addXP(userId, XP_PER_CONCLUDE);
   await grantAchievementIfNotExists(userId, "Concluiu sua primeira atividade");
+
+  const participants = await getActivityParticipants(activityId);
+
+  const checkedInParticipants = participants.filter(
+    (p) => p.confirmedAt !== null && p.userId !== userId
+  );
+
+  for (const participant of checkedInParticipants) {
+    await UserRepository.addXP(participant.userId, XP_PER_CONCLUDE);
+    await grantAchievementIfNotExists(participant.userId, "Concluiu sua primeira atividade");
+  }
+
   return await ActivityRepository.concludeActivity(activityId);
 };
 
