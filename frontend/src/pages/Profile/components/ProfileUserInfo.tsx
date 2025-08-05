@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,6 +35,19 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
   const xpParaProximoNivel = 100;
   const progressPercent = (xpNoNivelAtual / xpParaProximoNivel) * 100;
 
+  const containerRef = useRef<HTMLHeadingElement>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const text = textRef.current;
+
+    if (container && text) {
+      setIsOverflowing(text.scrollWidth > container.clientWidth);
+    }
+  }, [user.name]);
+
   return (
     <div className="relative flex flex-col items-center w-full bg-[#fafafa] rounded-lg p-10">
       <div className="flex mb-10 w-full justify-end items-center gap-1.5">
@@ -55,7 +69,12 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
           />
         </Avatar>
         <h1 className="relative text-[2rem] font-bebas truncate overflow-hidden text-ellipsis whitespace-nowrap w-48 text-center">
-          <span className="marquee">{user.name}</span>
+          <span
+            ref={textRef}
+            className={isOverflowing ? "marquee inline-block" : "inline-block"}
+          >
+            {user.name}
+          </span>
         </h1>
       </div>
 
