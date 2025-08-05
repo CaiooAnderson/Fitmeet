@@ -136,29 +136,17 @@
   }
 }
 
-@keyframes typing {
-  from {
-    width: 0;
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
   }
-  to {
-    width: 100%;
-  }
-}
-
-@keyframes blink {
-  50% {
-    border-color: transparent;
+  100% {
+    transform: translateX(-100%);
   }
 }
 
-@layer utilities {
-  .animate-typing {
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 2px solid #00bc7d; /* Cor do cursor */
-    width: fit-content;
-    animation:
-      typing 2s steps(20, end),
-      blink 0.7s step-end infinite;
-  }
+.marquee {
+  white-space: nowrap;
+  display: inline-block;
+  animation: marquee 6s linear infinite;
 }

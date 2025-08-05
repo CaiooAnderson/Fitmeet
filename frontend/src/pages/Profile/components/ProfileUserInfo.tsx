@@ -112,9 +112,11 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                           className="object-contain w-10 h-12"
                         />
                       </div>
-                      <span className="text-[0.75rem] font-light text-[var(--text)] w-full text-center line-clamp-2 animate-typing">
-                        {ach.name}
-                      </span>
+                      <div className="relative w-full h-[1rem] overflow-hidden">
+                        <span className="text-[0.75rem] font-light text-[var(--text)] w-full text-center line-clamp-2 marquee">
+                          {ach.name}
+                        </span>
+                      </div>
                     </div>
                   </CarouselItem>
                 ))}
