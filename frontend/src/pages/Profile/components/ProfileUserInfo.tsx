@@ -105,7 +105,14 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                 {user.achievements.map((ach, index) => (
                   <CarouselItem key={index} className="basis-1/3">
                     <div className="w-24 h-30 flex flex-col items-center justify-start gap-2 text-center group">
-                      <div className="bg-[#ececec] rounded-full flex items-center justify-center w-20 h-20 p-5 transition duration-300 group-hover:brightness-75">
+                      <div
+                        className={`
+            bg-[#ececec] rounded-full flex items-center justify-center
+            w-20 h-20 p-5 transition duration-300
+            group-hover:brightness-100
+            ${!ach.name ? "" : "animate-pulse group-hover:animate-none"}
+          `}
+                      >
                         <img
                           src="/Achievement.png"
                           alt={`Achievement ${ach.name}`}
@@ -116,10 +123,23 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                       <div className="relative w-full h-5 overflow-hidden leading-none">
                         <span
                           className={`
-                text-[0.75rem] font-light text-[var(--text)]
-                inline-block whitespace-nowrap text-ellipsis cursor-pointer
-                group-hover:animate-[marquee_6s_linear_infinite]
-              `}
+              text-[0.75rem] font-light text-[var(--text)]
+              block transition-opacity duration-300
+              group-hover:opacity-0
+            `}
+                        >
+                          Conquista
+                        </span>
+
+                        <span
+                          className={`
+              text-[0.75rem] font-light text-[var(--text)]
+              absolute left-0 top-0
+              whitespace-nowrap inline-block
+              opacity-0 group-hover:opacity-100
+              group-hover:animate-[marquee_6s_linear_infinite]
+              transition-opacity duration-300
+            `}
                         >
                           {ach.name}&nbsp;&nbsp;
                         </span>
