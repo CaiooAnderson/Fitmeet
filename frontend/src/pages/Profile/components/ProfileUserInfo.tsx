@@ -104,16 +104,23 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
               <CarouselContent className="gap-0.25">
                 {user.achievements.map((ach, index) => (
                   <CarouselItem key={index} className="basis-1/3">
-                    <div className="w-24 h-30 flex flex-col items-center justify-start gap-2 text-center">
-                      <div className="bg-[#ececec] rounded-full flex items-center justify-center w-20 h-20 p-5">
+                    <div className="w-24 h-30 flex flex-col items-center justify-start gap-2 text-center group">
+                      <div className="bg-[#ececec] rounded-full flex items-center justify-center w-20 h-20 p-5 transition duration-300 group-hover:brightness-75">
                         <img
                           src="/Achievement.png"
                           alt={`Achievement ${ach.name}`}
                           className="object-contain w-10 h-12"
                         />
                       </div>
+
                       <div className="relative w-full h-5 overflow-hidden leading-none">
-                        <span className="text-[0.75rem] font-light text-[var(--text)] marquee">
+                        <span
+                          className={`
+                text-[0.75rem] font-light text-[var(--text)]
+                inline-block whitespace-nowrap
+                group-hover:animate-[marquee_6s_linear_infinite]
+              `}
+                        >
                           {ach.name}&nbsp;&nbsp;
                         </span>
                       </div>
