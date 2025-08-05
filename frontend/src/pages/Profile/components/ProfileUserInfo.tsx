@@ -117,7 +117,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                         <span
                           className={`
                 text-[0.75rem] font-light text-[var(--text)]
-                inline-block whitespace-nowrap
+                inline-block whitespace-nowrap text-ellipsis cursor-pointer
                 group-hover:animate-[marquee_6s_linear_infinite]
               `}
                         >
