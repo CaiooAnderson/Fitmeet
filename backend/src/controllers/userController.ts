@@ -290,9 +290,22 @@ export const grantAchievement = async (
     if (!req.user) throw new Error("Autenticação necessária.");
 
     const { achievementId } = req.body;
-    await UserService.grantAchievement(req.user.id, achievementId);
 
-    res.status(200).json({ message: "Conquista desbloqueada!" });
+    const achievement = await UserService.grantAchievement(
+      req.user.id,
+      achievementId
+    );
+
+    if (achievement) {
+      res.status(200).json({
+        message: "Conquista desbloqueada!",
+        achievement,
+      });
+    } else {
+      res.status(200).json({
+        message: "Essa conquista já havia sido desbloqueada.",
+      });
+    }
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });
   }

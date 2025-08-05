@@ -116,10 +116,17 @@ const grantAchievement = async (userId: string, achievementId: string) => {
   });
 
   if (!existingAchievement) {
-    await prisma.userAchievements.create({
-      data: { userId, achievementId }
+    const newAchievement = await prisma.userAchievements.create({
+      data: { userId, achievementId },
+      include: {
+        achievement: true,
+      },
     });
+
+    return newAchievement.achievement;
   }
+
+  return null;
 };
 
 const grantAchievementIfNotExists = async (userId: string, achievementName: string) => {
