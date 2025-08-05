@@ -14,7 +14,6 @@ interface ButtonConfig {
 
 export function getButtonState({
   isCreator,
-  isPrivate,
   scheduledDate,
   subscriptionStatus,
   confirmedAt,
@@ -67,7 +66,7 @@ export function getButtonState({
   }
 
   if (subscriptionStatus === "APPROVED") {
-    if (isPrivate && isCheckinTime && !confirmedAt) {
+    if (isCheckinTime && !confirmedAt) {
       return { label: "Confirmar", action: "check-in", showInput: true };
     }
     if (confirmedAt) {
