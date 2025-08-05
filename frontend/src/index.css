@@ -151,8 +151,17 @@
   animation: marquee 6s linear infinite;
 }
 
+@keyframes title-marquee {
+  0% {
+    transform: translateX(25%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 .title-marquee {
   white-space: nowrap;
   display: inline-block;
-  animation: marquee 10s linear infinite;
+  animation: title-marquee 10s linear infinite;
 }
