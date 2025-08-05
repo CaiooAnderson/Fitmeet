@@ -68,7 +68,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
             onError={(e) => (e.currentTarget.style.display = "none")}
           />
         </Avatar>
-        <h1 className="relative text-[2rem] font-bebas truncate overflow-hidden text-ellipsis whitespace-nowrap w-48 text-center">
+        <h1 ref={containerRef} className="relative text-[2rem] font-bebas overflow-hidden w-48 text-center">
           <span
             ref={textRef}
             className={isOverflowing ? "marquee inline-block" : "inline-block"}
