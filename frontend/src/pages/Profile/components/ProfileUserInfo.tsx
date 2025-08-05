@@ -113,7 +113,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                         />
                       </div>
                       <span className="text-[0.75rem] font-light text-[var(--text)] w-full text-center line-clamp-2">
-                        {ach.criterion ?? ach.name}
+                        {ach.name}
                       </span>
                     </div>
                   </CarouselItem>
