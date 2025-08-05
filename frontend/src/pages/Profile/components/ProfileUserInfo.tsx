@@ -160,7 +160,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                 transition-opacity duration-300
               `}
                         >
-                          {ach.name}&nbsp;&nbsp;
+                          &nbsp;&nbsp;{ach.name}&nbsp;&nbsp;
                         </span>
                       </div>
                     </div>
