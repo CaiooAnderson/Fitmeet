@@ -10,13 +10,19 @@ import { Progress } from "@/components/ui/progress";
 import { Pen } from "lucide-react";
 import { useNavigate } from "react-router";
 
+interface Achievement {
+  id?: string;
+  name: string;
+  criterion?: string;
+}
+
 interface ProfileUserInfoProps {
   user: {
     name?: string;
     avatar?: string;
     level?: number;
     xp?: number;
-    achievements: { id?: string; name: string }[];
+    achievements: Achievement[];
   };
 }
 
@@ -27,12 +33,6 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
   const xpNoNivelAtual = xpAtual % 1000;
   const xpParaProximoNivel = 1000;
   const progressPercent = (xpNoNivelAtual / xpParaProximoNivel) * 100;
-
-  const achievementCriteria: Record<string, string> = {
-    Convidado: "Fez check-in em uma atividade",
-    "Fine, I'll do it myself": "Criou uma atividade",
-    Anfitrião: "Concluiu uma atividade",
-  };
 
   return (
     <div className="relative flex flex-col items-center w-full bg-[#fafafa] rounded-lg p-10">
@@ -113,8 +113,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                         />
                       </div>
                       <span className="text-[0.75rem] font-light text-[var(--text)] w-full text-center line-clamp-2">
-                        {achievementCriteria[ach.name] ??
-                          "Conquista desbloqueada"}
+                        {ach.criterion ?? ach.name}
                       </span>
                     </div>
                   </CarouselItem>
