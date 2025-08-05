@@ -61,27 +61,34 @@ export default function ParticipantButton({
   }, [activity]);
 
   useEffect(() => {
-  const interval = setInterval(() => {
-    const scheduledDate = new Date(activity.scheduledDate);
-    const now = new Date();
-    const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
-    const isLessThan30Min = now >= checkinStart && now < scheduledDate;
+    const interval = setInterval(() => {
+      const scheduledDate = new Date(activity.scheduledDate);
+      const now = new Date();
+      const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
+      const isLessThan30Min = now >= checkinStart && now < scheduledDate;
 
-    if (
-      activity.private &&
-      isLessThan30Min &&
-      userSubscriptionStatus === "WAITING" &&
-      !alreadyWarned.current
-    ) {
-      toast.error("Inscrição não aprovada a tempo. Tente novamente em outra atividade.");
-      alreadyWarned.current = true;
-      onStatusChange?.(undefined);
-      onClose?.();
-    }
-  }, 500);
+      if (
+        activity.private &&
+        isLessThan30Min &&
+        userSubscriptionStatus === "WAITING" &&
+        !alreadyWarned.current
+      ) {
+        toast.error(
+          "Inscrição não aprovada a tempo. Tente novamente em outra atividade."
+        );
+        alreadyWarned.current = true;
+        onStatusChange?.(undefined);
+        onClose?.();
+      }
+    }, 500);
 
-  return () => clearInterval(interval);
-}, [activity.scheduledDate, userSubscriptionStatus, activity.private, onClose]);
+    return () => clearInterval(interval);
+  }, [
+    activity.scheduledDate,
+    userSubscriptionStatus,
+    activity.private,
+    onClose,
+  ]);
 
   const isWithinLast30Minutes = (scheduledDate: string | Date): boolean => {
     const now = new Date();
@@ -185,7 +192,9 @@ export default function ParticipantButton({
         >
           Atividade encerrada
         </AlertDialogAction>
-      ) : button.action === "check-in" && !confirmedAt && isWithinLast30Minutes(activity.scheduledDate) ? (
+      ) : userSubscriptionStatus === "APPROVED" &&
+        !confirmedAt &&
+        isWithinLast30Minutes(activity.scheduledDate) ? (
         <>
           <h3 className="font-bebas text-[28px] h-8">Faça seu check-in</h3>
           <div className="flex gap-1.5 w-full rounded-[8px]">
