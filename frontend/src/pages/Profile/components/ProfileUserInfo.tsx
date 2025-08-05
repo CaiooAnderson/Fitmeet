@@ -46,7 +46,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
         </Button>
       </div>
 
-      <div className="flex flex-col items-center gap-4 overflow-ellipsis">
+      <div className="flex flex-col items-center gap-4">
         <Avatar className="w-48 h-48">
           <AvatarImage
             src={user.avatar?.replace("localstack", "localhost")}
@@ -54,8 +54,8 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
             onError={(e) => (e.currentTarget.style.display = "none")}
           />
         </Avatar>
-        <h1 className="text-[2rem] font-bebas truncate overflow-hidden text-ellipsis whitespace-nowrap w-48 text-center">
-          {user.name}
+        <h1 className="relative text-[2rem] font-bebas truncate overflow-hidden text-ellipsis whitespace-nowrap w-48 text-center">
+          <span className="marquee">{user.name}</span>
         </h1>
       </div>
 
