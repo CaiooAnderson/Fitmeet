@@ -113,7 +113,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                         />
                       </div>
                       <div className="relative w-full h-5 overflow-hidden leading-none">
-                        <span className="text-[0.75rem] font-light text-[var(--text)] text-center marquee">
+                        <span className="text-[0.75rem] font-light text-[var(--text)] marquee">
                           {ach.name}&nbsp;&nbsp;&nbsp;&nbsp;
                         </span>
                       </div>
