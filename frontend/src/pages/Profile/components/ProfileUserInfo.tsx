@@ -30,8 +30,8 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
   const navigate = useNavigate();
 
   const xpAtual = user.xp ?? 0;
-  const xpNoNivelAtual = xpAtual % 1000;
-  const xpParaProximoNivel = 1000;
+  const xpNoNivelAtual = xpAtual % 100;
+  const xpParaProximoNivel = 100;
   const progressPercent = (xpNoNivelAtual / xpParaProximoNivel) * 100;
 
   return (
