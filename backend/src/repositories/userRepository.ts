@@ -38,7 +38,7 @@ const findById = async (id: string) => {
     where: { id },
     include: {
       userAchievements: {
-        select: {
+        include: {
           achievement: true,
         },
       },
