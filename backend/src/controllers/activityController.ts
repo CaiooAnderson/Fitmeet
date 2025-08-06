@@ -442,16 +442,7 @@ export const getUserParticipantActivities = async (req: AuthenticatedRequest, re
       activities: await Promise.all(activities.map(async (participant) => {
         const activity = participant.activity;
 
-        const creatorAvatar = activity.creator.avatar;
-        let signedAvatarUrl = null;
-
-        if (creatorAvatar?.includes(bucketName)) {
-          const key = creatorAvatar.split(`/${bucketName}/`)[1];
-          if (key) {
-            const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
-            signedAvatarUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
-          }
-        }
+        let signedAvatarUrl: string | null = null;
 
         let signedActivityImageUrl = null;
         if (activity.image) {
