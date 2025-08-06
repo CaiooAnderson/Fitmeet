@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -38,6 +38,9 @@ export default function ActivityDetails({
   const [now, setNow] = useState(new Date());
   const [participantCount, setParticipantCount] = useState(0);
   const [localActivity, setLocalActivity] = useState(activity);
+  const titleContainerRef = useRef<HTMLHeadingElement>(null);
+  const titleTextRef = useRef<HTMLSpanElement>(null);
+  const [isTitleOverflowing, setIsTitleOverflowing] = useState(false);
 
   const fetchParticipants = async () => {
     const token = sessionStorage.getItem("token");
@@ -200,6 +203,15 @@ export default function ActivityDetails({
     setLocalActivity(activity);
   }, [activity]);
 
+  useEffect(() => {
+    const container = titleContainerRef.current;
+    const text = titleTextRef.current;
+
+    if (container && text) {
+      setIsTitleOverflowing(text.scrollWidth > container.clientWidth);
+    }
+  }, [activity.title]);
+
   const scheduledDate = new Date(activity.scheduledDate);
   const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
   const isCheckinTime = now >= checkinStart && now < scheduledDate;
@@ -217,8 +229,18 @@ export default function ActivityDetails({
                 src={activity.image?.replace("localstack", "localhost")}
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
-              <h2 className="text-[2rem] h-9 mb-2 font-bebas overflow-hidden text-ellipsis">
-                {activity.title}
+              <h2
+                ref={titleContainerRef}
+                className="relative text-[2rem] h-9 mb-2 font-bebas overflow-hidden w-96"
+              >
+                <span
+                  ref={titleTextRef}
+                  className={`inline-block whitespace-nowrap ${
+                    isTitleOverflowing ? "marquee" : ""
+                  }`}
+                >
+                  {activity.title}
+                </span>
               </h2>
               <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
                 {activity.description}
