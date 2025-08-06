@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -35,6 +35,8 @@ export default function SubscribeActivity({
   );
   const [marqueeTitle, setMarqueeTitle] = useState(false);
   const [marqueeParticipants, setMarqueeParticipants] = useState<string[]>([]);
+  const titleRef = useRef<HTMLSpanElement>(null);
+  const [canMarqueeTitle, setCanMarqueeTitle] = useState(false);
 
   const fetchUser = async () => {
     const token = sessionStorage.getItem("token");
@@ -120,6 +122,36 @@ export default function SubscribeActivity({
     setActivityCompletedAt(activity.completedAt);
   }, [activity.completedAt]);
 
+  useEffect(() => {
+    if (titleRef.current) {
+      const isOverflowing =
+        titleRef.current.scrollWidth > titleRef.current.clientWidth;
+      setCanMarqueeTitle(isOverflowing);
+    }
+  }, [activity.title]);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      const updated = participants
+        .filter((p) => {
+          const el = document.querySelector(
+            `[data-userid="${p.userId}"] .participant-name`
+          ) as HTMLSpanElement;
+
+          if (!el) return false;
+
+          return el.scrollWidth > el.clientWidth;
+        })
+        .map((p) => p.userId);
+
+      setMarqueeParticipants((prev) =>
+        prev.filter((id) => updated.includes(id))
+      );
+    };
+
+    setTimeout(checkOverflow, 100);
+  }, [participants]);
+
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => open || onClose()}>
       <AlertDialogTitle></AlertDialogTitle>
@@ -132,19 +164,19 @@ export default function SubscribeActivity({
               className="h-56 w-full object-cover rounded-lg mb-6"
             />
             <h2
-              className="text-[2rem] h-9 mb-2 font-bebas w-96 overflow-hidden cursor-pointer"
-              onClick={(e) => {
-                const span = e.currentTarget.querySelector("span");
-                if (span && span.scrollWidth > span.clientWidth) {
-                  setMarqueeTitle((prev) => !prev);
-                }
+              className={`text-[2rem] h-9 mb-2 font-bebas overflow-hidden w-96 ${
+                canMarqueeTitle ? "cursor-pointer" : ""
+              }`}
+              onClick={() => {
+                if (canMarqueeTitle) setMarqueeTitle(!marqueeTitle);
               }}
             >
-              {!marqueeTitle ? (
-                <span className="block truncate">{activity.title}</span>
-              ) : (
-                <span className="title-marquee">{activity.title}</span>
-              )}
+              <span
+                ref={titleRef}
+                className={marqueeTitle ? "title-marquee" : "truncate block"}
+              >
+                {activity.title}
+              </span>
             </h2>
             <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
               {activity.description}
@@ -240,16 +272,24 @@ export default function SubscribeActivity({
                     </div>
                     <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[220px] overflow-hidden">
                       <span
-                        className={`text-[1rem] font-semibold h-5 leading-none ${
+                        className={`text-[1rem] font-semibold h-5 leading-none overflow-hidden ${
                           marqueeParticipants.includes(participant.userId)
                             ? "cursor-pointer"
                             : ""
                         }`}
-                        onClick={(e) => {
-                          const spanEl = e.currentTarget.querySelector("span");
+                        onClick={() => {
                           if (
-                            spanEl &&
-                            spanEl.scrollWidth > spanEl.clientWidth
+                            marqueeParticipants.includes(participant.userId) ||
+                            (
+                              document.querySelector(
+                                `[data-userid="${participant.userId}"] .participant-name`
+                              ) as HTMLSpanElement
+                            )?.scrollWidth >
+                              (
+                                document.querySelector(
+                                  `[data-userid="${participant.userId}"] .participant-name`
+                                ) as HTMLSpanElement
+                              )?.clientWidth
                           ) {
                             setMarqueeParticipants((prev) =>
                               prev.includes(participant.userId)
@@ -260,10 +300,10 @@ export default function SubscribeActivity({
                         }}
                       >
                         <span
-                          className={`block ${
+                          className={`participant-name ${
                             marqueeParticipants.includes(participant.userId)
                               ? "marquee"
-                              : "truncate"
+                              : "truncate block"
                           }`}
                         >
                           {participant.name}
