@@ -217,13 +217,20 @@ export default function ActivityDetails({
                 src={activity.image?.replace("localstack", "localhost")}
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
-              <h2 className="text-[2rem] h-9 mb-2 font-bebas relative group w-96 overflow-hidden">
-                <span className="block truncate">{activity.title}</span>
-                {activity.title.length > 30 && (
-                  <span className="absolute left-0 top-0 inline-block whitespace-nowrap pr-8 opacity-0 group-hover:opacity-100 group-hover:animate-marquee">
-                    {activity.title}
-                  </span>
-                )}
+              <h2 className="text-[2rem] h-9 mb-2 font-bebas overflow-hidden">
+                <span
+                  className="inline-block"
+                  style={{
+                    whiteSpace: "nowrap",
+                    minWidth: "100%",
+                    animation:
+                      activity.title.length > 30
+                        ? "marquee 8s linear infinite"
+                        : "none",
+                  }}
+                >
+                  {activity.title}
+                </span>
               </h2>
               <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
                 {activity.description}
@@ -327,16 +334,23 @@ export default function ActivityDetails({
                             </Avatar>
                           </div>
                           <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[180px] overflow-hidden">
-                            <span className="text-[1rem] font-semibold h-5 leading-none block truncate">
-                              {participant.name}
-                            </span>
-
-                            {participant.name.length > 22 && (
-                              <span className="absolute top-0 left-0 h-5 leading-none font-semibold text-[1rem] whitespace-nowrap pr-8 opacity-0 group-hover:opacity-100 group-hover:animate-marquee pointer-events-none">
+                            <span
+                              className="text-[1rem] font-semibold h-5 leading-none overflow-hidden"
+                              style={{ display: "block" }}
+                            >
+                              <span
+                                className="inline-block"
+                                style={{
+                                  whiteSpace: "nowrap",
+                                  animation:
+                                    participant.name.length > 22
+                                      ? "marquee 6s linear infinite"
+                                      : "none",
+                                }}
+                              >
                                 {participant.name}
                               </span>
-                            )}
-
+                            </span>
                             {participant.userId === activity.creator.id && (
                               <span className="text-[12px] h-4 leading-none">
                                 Organizador
