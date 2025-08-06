@@ -132,11 +132,16 @@ export default function SubscribeActivity({
               className="h-56 w-full object-cover rounded-lg mb-6"
             />
             <h2
-              className="text-[2rem] h-9 mb-2 font-bebas overflow-hidden cursor-pointer w-96"
-              onClick={() => setMarqueeTitle(!marqueeTitle)}
+              className="text-[2rem] h-9 mb-2 font-bebas w-96 overflow-hidden cursor-pointer"
+              onClick={(e) => {
+                const span = e.currentTarget.querySelector("span");
+                if (span && span.scrollWidth > span.clientWidth) {
+                  setMarqueeTitle((prev) => !prev);
+                }
+              }}
             >
               {!marqueeTitle ? (
-                <span className="truncate block">{activity.title}</span>
+                <span className="block truncate">{activity.title}</span>
               ) : (
                 <span className="title-marquee">{activity.title}</span>
               )}
