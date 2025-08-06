@@ -204,9 +204,18 @@ export default function ActivityDetails({
 
   useEffect(() => {
     const el = titleRef.current;
-    if (el) {
+    if (!el) return;
+
+    const checkOverflow = () => {
       setIsOverflowing(el.scrollWidth > el.clientWidth);
-    }
+    };
+
+    requestAnimationFrame(checkOverflow);
+
+    const resizeObserver = new ResizeObserver(checkOverflow);
+    resizeObserver.observe(el);
+
+    return () => resizeObserver.disconnect();
   }, [activity.title]);
 
   const scheduledDate = new Date(activity.scheduledDate);

@@ -121,11 +121,19 @@ export default function SubscribeActivity({
   }, [activity.completedAt]);
 
   useEffect(() => {
-    if (titleRef.current) {
-      const isOverflow =
-        titleRef.current.scrollWidth > titleRef.current.clientWidth;
-      setIsOverflowing(isOverflow);
-    }
+    const el = titleRef.current;
+    if (!el) return;
+
+    const checkOverflow = () => {
+      setIsOverflowing(el.scrollWidth > el.clientWidth);
+    };
+
+    requestAnimationFrame(checkOverflow);
+
+    const resizeObserver = new ResizeObserver(checkOverflow);
+    resizeObserver.observe(el);
+
+    return () => resizeObserver.disconnect();
   }, [activity.title]);
 
   return (
