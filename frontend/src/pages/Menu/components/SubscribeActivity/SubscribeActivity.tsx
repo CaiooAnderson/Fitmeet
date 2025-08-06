@@ -33,8 +33,9 @@ export default function SubscribeActivity({
   const [activityCompletedAt, setActivityCompletedAt] = useState(
     activity.completedAt
   );
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const [isOverflowing, setIsOverflowing] = useState(false);
+  const titleContainerRef = useRef<HTMLHeadingElement>(null);
+  const titleTextRef = useRef<HTMLSpanElement>(null);
+  const [titleOverflow, setTitleOverflow] = useState(false);
 
   const fetchUser = async () => {
     const token = sessionStorage.getItem("token");
@@ -121,31 +122,12 @@ export default function SubscribeActivity({
   }, [activity.completedAt]);
 
   useEffect(() => {
-    const el = titleRef.current;
-    if (!el) return;
-
-    const checkOverflow = () => {
-      setIsOverflowing(el.scrollWidth > el.clientWidth);
-    };
-
-    requestAnimationFrame(checkOverflow);
-
-    const resizeObserver = new ResizeObserver(checkOverflow);
-    resizeObserver.observe(el);
-
-    return () => resizeObserver.disconnect();
+    const container = titleContainerRef.current;
+    const text = titleTextRef.current;
+    if (container && text) {
+      setTitleOverflow(text.scrollWidth > container.clientWidth);
+    }
   }, [activity.title]);
-
-  useEffect(() => {
-  const el = titleRef.current;
-  if (!el) return;
-
-  const timeout = setTimeout(() => {
-    setIsOverflowing(el.scrollWidth > el.clientWidth);
-  }, 50);
-
-  return () => clearTimeout(timeout);
-}, [activity.title]);
 
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => open || onClose()}>
@@ -158,16 +140,17 @@ export default function SubscribeActivity({
               src={activity.image?.replace("localstack", "localhost")}
               className="h-56 w-full object-cover rounded-lg mb-6"
             />
-            <div className="relative w-96 h-9 mb-2 overflow-hidden">
-              <h2
-                ref={titleRef}
-                className={`text-[2rem] font-bebas ${
-                  isOverflowing ? "title-marquee" : ""
-                }`}
+            <h2
+                ref={titleContainerRef}
+                className="relative text-[2rem] h-9 mb-2 font-bebas overflow-hidden whitespace-nowrap"
               >
-                {activity.title}
+                <span
+                  ref={titleTextRef}
+                  className={titleOverflow ? "title-marquee inline-block" : "inline-block"}
+                >
+                  {activity.title}
+                </span>
               </h2>
-            </div>
             <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
               {activity.description}
             </p>
