@@ -327,23 +327,16 @@ export default function ActivityDetails({
                             </Avatar>
                           </div>
                           <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[180px] overflow-hidden">
-                            <span
-                              className="text-[1rem] font-semibold h-5 leading-none overflow-hidden"
-                              style={{ display: "block" }}
-                            >
-                              <span
-                                className="inline-block"
-                                style={{
-                                  whiteSpace: "nowrap",
-                                  animation:
-                                    participant.name.length > 22
-                                      ? "marquee 6s linear infinite"
-                                      : "none",
-                                }}
-                              >
+                            <span className="text-[1rem] font-semibold h-5 leading-none block truncate">
+                              {participant.name}
+                            </span>
+
+                            {participant.name.length > 22 && (
+                              <span className="absolute top-0 left-0 h-5 leading-none font-semibold text-[1rem] whitespace-nowrap pr-8 opacity-0 group-hover:opacity-100 group-hover:animate-marquee pointer-events-none">
                                 {participant.name}
                               </span>
-                            </span>
+                            )}
+
                             {participant.userId === activity.creator.id && (
                               <span className="text-[12px] h-4 leading-none">
                                 Organizador
