@@ -442,8 +442,6 @@ export const getUserParticipantActivities = async (req: AuthenticatedRequest, re
       activities: await Promise.all(activities.map(async (participant) => {
         const activity = participant.activity;
 
-        let signedAvatarUrl: string | null = null;
-
         let signedActivityImageUrl = null;
         if (activity.image) {
         const key = activity.image;
@@ -453,8 +451,20 @@ export const getUserParticipantActivities = async (req: AuthenticatedRequest, re
           signedActivityImageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
         } catch (err) {
           console.error(`Erro ao gerar URL assinada para imagem da atividade ${key}:`, err);
+          }
         }
-      }
+
+        let signedCreatorAvatarUrl: string | null = null;
+        if (activity.creator?.avatar && activity.creator.avatar.includes("avatars/")) {
+        const key = activity.creator.avatar;
+        const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
+
+        try {
+          signedCreatorAvatarUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+        } catch (err) {
+          console.error(`Erro ao gerar URL assinada para avatar do criador ${key}:`, err);
+          }
+        }
 
         return {
           id: activity.id,
@@ -477,7 +487,7 @@ export const getUserParticipantActivities = async (req: AuthenticatedRequest, re
           creator: {
             id: activity.creatorId,
             name: activity.creator.name,
-            avatar: signedAvatarUrl ?? null,
+            avatar: signedCreatorAvatarUrl ?? null,
           },
         };
       })),
