@@ -227,13 +227,12 @@ export default function ActivityDetails({
                 src={activity.image?.replace("localstack", "localhost")}
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
-              <h2 className="relative text-[2rem] h-9 mb-2 font-bebas overflow-hidden whitespace-nowrap">
+              <h2
+                ref={titleRef}
+                className="relative text-[2rem] h-9 mb-2 font-bebas overflow-hidden whitespace-nowrap"
+              >
                 <span
-                  className={
-                    isOverflowing
-                      ? "title-marquee inline-block"
-                      : "inline-block"
-                  }
+                  className={isOverflowing ? "title-marquee inline-block" : "inline-block"}
                 >
                   {activity.title}
                 </span>
