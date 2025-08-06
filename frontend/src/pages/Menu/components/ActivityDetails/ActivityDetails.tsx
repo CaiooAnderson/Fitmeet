@@ -222,20 +222,21 @@ export default function ActivityDetails({
         <AlertDialogDescription></AlertDialogDescription>
         <AlertDialogContent className="w-[848px] h-[752px] border-0 p-12">
           <div className="flex gap-12">
-            <div className="flex flex-col w-96 justify-between h-full">
+            <div className="flex flex-col w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
               <img
                 src={activity.image?.replace("localstack", "localhost")}
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
-              <h2
-                ref={titleRef}
-                className={`text-[2rem] h-9 mb-2 font-bebas ${
-                  isOverflowing
-                    ? "title-marquee whitespace-nowrap overflow-visible"
-                    : "overflow-hidden text-ellipsis whitespace-nowrap"
-                }`}
-              >
-                {activity.title}
+              <h2 className="relative text-[2rem] h-9 mb-2 font-bebas overflow-hidden whitespace-nowrap">
+                <span
+                  className={
+                    isOverflowing
+                      ? "title-marquee inline-block"
+                      : "inline-block"
+                  }
+                >
+                  {activity.title}
+                </span>
               </h2>
               <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
                 {activity.description}
@@ -368,7 +369,9 @@ export default function ActivityDetails({
                                 <Check />
                               </button>
                               <button
-                                onClick={() => handleApproval(participant.userId, false)}
+                                onClick={() =>
+                                  handleApproval(participant.userId, false)
+                                }
                                 className="hover:text-red-500"
                               >
                                 <X />
