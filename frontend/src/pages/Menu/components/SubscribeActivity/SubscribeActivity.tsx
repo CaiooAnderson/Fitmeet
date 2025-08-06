@@ -136,6 +136,17 @@ export default function SubscribeActivity({
     return () => resizeObserver.disconnect();
   }, [activity.title]);
 
+  useEffect(() => {
+  const el = titleRef.current;
+  if (!el) return;
+
+  const timeout = setTimeout(() => {
+    setIsOverflowing(el.scrollWidth > el.clientWidth);
+  }, 50);
+
+  return () => clearTimeout(timeout);
+}, [activity.title]);
+
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => open || onClose()}>
       <AlertDialogTitle></AlertDialogTitle>

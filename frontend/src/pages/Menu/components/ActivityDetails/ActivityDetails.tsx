@@ -218,6 +218,17 @@ export default function ActivityDetails({
     return () => resizeObserver.disconnect();
   }, [activity.title]);
 
+  useEffect(() => {
+  const el = titleRef.current;
+  if (!el) return;
+
+  const timeout = setTimeout(() => {
+    setIsOverflowing(el.scrollWidth > el.clientWidth);
+  }, 50);
+
+  return () => clearTimeout(timeout);
+}, [activity.title]);
+
   const scheduledDate = new Date(activity.scheduledDate);
   const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
   const isCheckinTime = now >= checkinStart && now < scheduledDate;
