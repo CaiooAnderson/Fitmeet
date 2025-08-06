@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -33,6 +33,8 @@ export default function SubscribeActivity({
   const [activityCompletedAt, setActivityCompletedAt] = useState(
     activity.completedAt
   );
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
 
   const fetchUser = async () => {
     const token = sessionStorage.getItem("token");
@@ -118,6 +120,14 @@ export default function SubscribeActivity({
     setActivityCompletedAt(activity.completedAt);
   }, [activity.completedAt]);
 
+  useEffect(() => {
+    if (titleRef.current) {
+      const isOverflow =
+        titleRef.current.scrollWidth > titleRef.current.clientWidth;
+      setIsOverflowing(isOverflow);
+    }
+  }, [activity.title]);
+
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => open || onClose()}>
       <AlertDialogTitle></AlertDialogTitle>
@@ -129,7 +139,12 @@ export default function SubscribeActivity({
               src={activity.image?.replace("localstack", "localhost")}
               className="h-56 w-full object-cover rounded-lg mb-6"
             />
-            <h2 className="text-[2rem] h-9 mb-2 font-bebas overflow-hidden text-ellipsis">
+            <h2
+              ref={titleRef}
+              className={`text-[2rem] h-9 mb-2 font-bebas overflow-hidden text-ellipsis ${
+                isOverflowing ? "title-marquee" : ""
+              }`}
+            >
               {activity.title}
             </h2>
             <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
