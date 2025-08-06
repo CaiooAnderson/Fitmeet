@@ -38,8 +38,9 @@ export default function ActivityDetails({
   const [now, setNow] = useState(new Date());
   const [participantCount, setParticipantCount] = useState(0);
   const [localActivity, setLocalActivity] = useState(activity);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const [isOverflowing, setIsOverflowing] = useState(false);
+  const titleContainerRef = useRef<HTMLHeadingElement>(null);
+  const titleTextRef = useRef<HTMLSpanElement>(null);
+  const [isTitleOverflowing, setIsTitleOverflowing] = useState(false);
 
   const fetchParticipants = async () => {
     const token = sessionStorage.getItem("token");
@@ -203,10 +204,11 @@ export default function ActivityDetails({
   }, [activity]);
 
   useEffect(() => {
-    if (titleRef.current) {
-      const isOverflow =
-        titleRef.current.scrollWidth > titleRef.current.clientWidth;
-      setIsOverflowing(isOverflow);
+    const container = titleContainerRef.current;
+    const text = titleTextRef.current;
+
+    if (container && text) {
+      setIsTitleOverflowing(text.scrollWidth > container.clientWidth);
     }
   }, [activity.title]);
 
@@ -228,11 +230,14 @@ export default function ActivityDetails({
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
               <h2
-                ref={titleRef}
-                className="relative text-[2rem] h-9 mb-2 font-bebas overflow-hidden whitespace-nowrap"
+                ref={titleContainerRef}
+                className="relative text-[2rem] h-9 mb-2 font-bebas overflow-hidden w-full max-w-[384px]" // ou w-96 se preferir
               >
                 <span
-                  className={isOverflowing ? "title-marquee inline-block" : "inline-block"}
+                  ref={titleTextRef}
+                  className={
+                    isTitleOverflowing ? "title-marquee inline-block" : "inline-block"
+                  }
                 >
                   {activity.title}
                 </span>
@@ -368,9 +373,7 @@ export default function ActivityDetails({
                                 <Check />
                               </button>
                               <button
-                                onClick={() =>
-                                  handleApproval(participant.userId, false)
-                                }
+                                onClick={() => handleApproval(participant.userId, false)}
                                 className="hover:text-red-500"
                               >
                                 <X />
