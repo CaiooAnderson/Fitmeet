@@ -151,6 +151,7 @@ const getUserCreatedActivities = async (
 
   const include = {
     activityAddress: true,
+    participants: true,
     creator: {
       select: {
         id: true,

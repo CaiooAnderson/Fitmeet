@@ -338,6 +338,7 @@ export const getUserCreatedActivities = async (req: AuthenticatedRequest, res: R
                   longitude: activity.activityAddress.longitude,
                 }
               : null,
+          participantCount: activity.participants.length,
         };
       })
     );
