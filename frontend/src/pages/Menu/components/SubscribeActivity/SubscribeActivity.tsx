@@ -235,22 +235,34 @@ export default function SubscribeActivity({
                     </div>
                     <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[220px] overflow-hidden">
                       <span
-                        className="text-[1rem] font-semibold h-5 leading-none overflow-hidden cursor-pointer"
-                        onClick={() => {
-                          setMarqueeParticipants((prev) =>
-                            prev.includes(participant.userId)
-                              ? prev.filter((id) => id !== participant.userId)
-                              : [...prev, participant.userId]
-                          );
+                        className={`text-[1rem] font-semibold h-5 leading-none ${
+                          marqueeParticipants.includes(participant.userId)
+                            ? "cursor-pointer"
+                            : ""
+                        }`}
+                        onClick={(e) => {
+                          const spanEl = e.currentTarget.querySelector("span");
+                          if (
+                            spanEl &&
+                            spanEl.scrollWidth > spanEl.clientWidth
+                          ) {
+                            setMarqueeParticipants((prev) =>
+                              prev.includes(participant.userId)
+                                ? prev.filter((id) => id !== participant.userId)
+                                : [...prev, participant.userId]
+                            );
+                          }
                         }}
                       >
-                        {!marqueeParticipants.includes(participant.userId) ? (
-                          <span className="block truncate">
-                            {participant.name}
-                          </span>
-                        ) : (
-                          <span className="marquee">{participant.name}</span>
-                        )}
+                        <span
+                          className={`block ${
+                            marqueeParticipants.includes(participant.userId)
+                              ? "marquee"
+                              : "truncate"
+                          }`}
+                        >
+                          {participant.name}
+                        </span>
                       </span>
 
                       {participant.userId === activity.creator.id && (
