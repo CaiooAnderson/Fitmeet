@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -33,9 +33,6 @@ export default function SubscribeActivity({
   const [activityCompletedAt, setActivityCompletedAt] = useState(
     activity.completedAt
   );
-  const titleContainerRef = useRef<HTMLHeadingElement>(null);
-  const titleTextRef = useRef<HTMLSpanElement>(null);
-  const [titleOverflow, setTitleOverflow] = useState(false);
 
   const fetchUser = async () => {
     const token = sessionStorage.getItem("token");
@@ -121,14 +118,6 @@ export default function SubscribeActivity({
     setActivityCompletedAt(activity.completedAt);
   }, [activity.completedAt]);
 
-  useEffect(() => {
-    const container = titleContainerRef.current;
-    const text = titleTextRef.current;
-    if (container && text) {
-      setTitleOverflow(text.scrollWidth > container.clientWidth);
-    }
-  }, [activity.title]);
-
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => open || onClose()}>
       <AlertDialogTitle></AlertDialogTitle>
@@ -140,17 +129,9 @@ export default function SubscribeActivity({
               src={activity.image?.replace("localstack", "localhost")}
               className="h-56 w-full object-cover rounded-lg mb-6"
             />
-            <h2
-                ref={titleContainerRef}
-                className="relative text-[2rem] h-9 mb-2 font-bebas overflow-hidden whitespace-nowrap"
-              >
-                <span
-                  ref={titleTextRef}
-                  className={titleOverflow ? "title-marquee inline-block" : "inline-block"}
-                >
-                  {activity.title}
-                </span>
-              </h2>
+            <h2 className="text-[2rem] h-9 mb-2 font-bebas overflow-hidden text-ellipsis">
+              {activity.title}
+            </h2>
             <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
               {activity.description}
             </p>
@@ -244,8 +225,22 @@ export default function SubscribeActivity({
                       </Avatar>
                     </div>
                     <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[220px] overflow-hidden">
-                      <span className="text-[1rem] font-semibold h-5 leading-none truncate">
-                        {participant.name}
+                      <span
+                        className="text-[1rem] font-semibold h-5 leading-none overflow-hidden"
+                        style={{ display: "block" }}
+                      >
+                        <span
+                          className="inline-block"
+                          style={{
+                            whiteSpace: "nowrap",
+                            animation:
+                              participant.name.length > 22
+                                ? "marquee 6s linear infinite"
+                                : "none",
+                          }}
+                        >
+                          {participant.name}
+                        </span>
                       </span>
                       {participant.userId === activity.creator.id && (
                         <span className="text-[12px] h-4 leading-none">
