@@ -231,13 +231,13 @@ export default function ActivityDetails({
               />
               <h2
                 ref={titleContainerRef}
-                className="relative text-[2rem] h-9 mb-2 font-bebas overflow-hidden w-full max-w-[384px]" // ou w-96 se preferir
+                className="relative text-[2rem] h-9 mb-2 font-bebas overflow-hidden w-96"
               >
                 <span
                   ref={titleTextRef}
-                  className={
-                    isTitleOverflowing ? "title-marquee inline-block" : "inline-block"
-                  }
+                  className={`inline-block whitespace-nowrap ${
+                    isTitleOverflowing ? "absolute left-0 title-marquee" : ""
+                  }`}
                 >
                   {activity.title}
                 </span>
