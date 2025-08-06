@@ -33,6 +33,8 @@ export default function SubscribeActivity({
   const [activityCompletedAt, setActivityCompletedAt] = useState(
     activity.completedAt
   );
+  const [marqueeTitle, setMarqueeTitle] = useState(false);
+  const [marqueeParticipants, setMarqueeParticipants] = useState<string[]>([]);
 
   const fetchUser = async () => {
     const token = sessionStorage.getItem("token");
@@ -129,20 +131,15 @@ export default function SubscribeActivity({
               src={activity.image?.replace("localstack", "localhost")}
               className="h-56 w-full object-cover rounded-lg mb-6"
             />
-            <h2 className="text-[2rem] h-9 mb-2 font-bebas overflow-hidden">
-              <span
-                className="inline-block"
-                style={{
-                  whiteSpace: "nowrap",
-                  minWidth: "100%",
-                  animation:
-                    activity.title.length > 30
-                      ? "marquee 8s linear infinite"
-                      : "none",
-                }}
-              >
-                {activity.title}
-              </span>
+            <h2
+              className="text-[2rem] h-9 mb-2 font-bebas overflow-hidden cursor-pointer w-96"
+              onClick={() => setMarqueeTitle(!marqueeTitle)}
+            >
+              {!marqueeTitle ? (
+                <span className="truncate block">{activity.title}</span>
+              ) : (
+                <span className="title-marquee">{activity.title}</span>
+              )}
             </h2>
             <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
               {activity.description}
@@ -238,22 +235,24 @@ export default function SubscribeActivity({
                     </div>
                     <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[220px] overflow-hidden">
                       <span
-                        className="text-[1rem] font-semibold h-5 leading-none overflow-hidden"
-                        style={{ display: "block" }}
+                        className="text-[1rem] font-semibold h-5 leading-none overflow-hidden cursor-pointer"
+                        onClick={() => {
+                          setMarqueeParticipants((prev) =>
+                            prev.includes(participant.userId)
+                              ? prev.filter((id) => id !== participant.userId)
+                              : [...prev, participant.userId]
+                          );
+                        }}
                       >
-                        <span
-                          className="inline-block"
-                          style={{
-                            whiteSpace: "nowrap",
-                            animation:
-                              participant.name.length > 22
-                                ? "marquee 6s linear infinite"
-                                : "none",
-                          }}
-                        >
-                          {participant.name}
-                        </span>
+                        {!marqueeParticipants.includes(participant.userId) ? (
+                          <span className="block truncate">
+                            {participant.name}
+                          </span>
+                        ) : (
+                          <span className="marquee">{participant.name}</span>
+                        )}
                       </span>
+
                       {participant.userId === activity.creator.id && (
                         <span className="text-[12px] h-4 leading-none">
                           Organizador
