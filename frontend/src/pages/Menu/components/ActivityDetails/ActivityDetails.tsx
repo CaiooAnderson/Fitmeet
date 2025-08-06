@@ -220,13 +220,13 @@ export default function ActivityDetails({
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
               <h2
-                className="text-[2rem] h-9 mb-2 font-bebas overflow-hidden cursor-pointer"
+                className="text-[2rem] h-9 mb-2 font-bebas overflow-hidden cursor-pointer w-96"
                 onClick={() => setMarqueeTitle(!marqueeTitle)}
               >
                 {!marqueeTitle ? (
                   <span className="truncate block">{activity.title}</span>
                 ) : (
-                  <span className="inline-block whitespace-nowrap animate-marquee">
+                  <span className="title-marquee">
                     {activity.title}
                   </span>
                 )}
@@ -353,8 +353,7 @@ export default function ActivityDetails({
                                 </span>
                               ) : (
                                 <span
-                                  className="inline-block whitespace-nowrap animate-marquee"
-                                  style={{ animationDuration: "10s" }}
+                                  className="marquee"
                                 >
                                   {participant.name}
                                 </span>
