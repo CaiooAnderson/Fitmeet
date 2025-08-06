@@ -222,15 +222,17 @@ export default function ActivityDetails({
         <AlertDialogDescription></AlertDialogDescription>
         <AlertDialogContent className="w-[848px] h-[752px] border-0 p-12">
           <div className="flex gap-12">
-            <div className="flex flex-col w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
+            <div className="flex flex-col w-96 justify-between h-full">
               <img
                 src={activity.image?.replace("localstack", "localhost")}
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
               <h2
                 ref={titleRef}
-                className={`text-[2rem] h-9 mb-2 font-bebas overflow-hidden text-ellipsis ${
-                  isOverflowing ? "title-marquee" : ""
+                className={`text-[2rem] h-9 mb-2 font-bebas ${
+                  isOverflowing
+                    ? "title-marquee whitespace-nowrap overflow-visible"
+                    : "overflow-hidden text-ellipsis whitespace-nowrap"
                 }`}
               >
                 {activity.title}
