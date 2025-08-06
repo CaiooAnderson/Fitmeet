@@ -296,10 +296,11 @@ export const getUserCreatedActivities = async (req: AuthenticatedRequest, res: R
     const activitiesWithSignedImage = await Promise.all(
       activities.map(async (activity) => {
         let signedImageUrl = null;
+        let signedCreatorAvatarUrl = null;
 
         if (activity.image) {
           const key = activity.image;
-          const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
+          const command = new GetObjectCommand({ Bucket: bucketName, Key: activity.image });
 
           try {
             signedImageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
@@ -308,9 +309,26 @@ export const getUserCreatedActivities = async (req: AuthenticatedRequest, res: R
           }
         }
 
+        if (activity.creator?.avatar) {
+          const avatarCommand = new GetObjectCommand({
+            Bucket: bucketName,
+            Key: activity.creator.avatar,
+          });
+
+          try {
+            signedCreatorAvatarUrl = await getSignedUrl(s3, avatarCommand, { expiresIn: 3600 });
+          } catch (err) {
+            console.error(`Erro ao gerar URL assinada do avatar do criador:`, err);
+          }
+        }
+
         return {
           ...activity,
           image: signedImageUrl,
+          creator: {
+            ...activity.creator,
+            avatar: signedCreatorAvatarUrl,
+          },
           address:
             activity.activityAddress && 
             activity.activityAddress.latitude != null && 
