@@ -38,6 +38,8 @@ export default function ActivityDetails({
   const [now, setNow] = useState(new Date());
   const [participantCount, setParticipantCount] = useState(0);
   const [localActivity, setLocalActivity] = useState(activity);
+  const [marqueeTitle, setMarqueeTitle] = useState(false);
+  const [marqueeParticipants, setMarqueeParticipants] = useState<string[]>([]);
 
   const fetchParticipants = async () => {
     const token = sessionStorage.getItem("token");
@@ -217,20 +219,17 @@ export default function ActivityDetails({
                 src={activity.image?.replace("localstack", "localhost")}
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
-              <h2 className="text-[2rem] h-9 mb-2 font-bebas overflow-hidden">
-                <span
-                  className="inline-block"
-                  style={{
-                    whiteSpace: "nowrap",
-                    minWidth: "100%",
-                    animation:
-                      activity.title.length > 30
-                        ? "marquee 8s linear infinite"
-                        : "none",
-                  }}
-                >
-                  {activity.title}
-                </span>
+              <h2
+                className="text-[2rem] h-9 mb-2 font-bebas overflow-hidden cursor-pointer"
+                onClick={() => setMarqueeTitle(!marqueeTitle)}
+              >
+                {!marqueeTitle ? (
+                  <span className="truncate block">{activity.title}</span>
+                ) : (
+                  <span className="inline-block whitespace-nowrap animate-marquee">
+                    {activity.title}
+                  </span>
+                )}
               </h2>
               <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
                 {activity.description}
@@ -335,22 +334,33 @@ export default function ActivityDetails({
                           </div>
                           <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[180px] overflow-hidden">
                             <span
-                              className="text-[1rem] font-semibold h-5 leading-none overflow-hidden"
-                              style={{ display: "block" }}
+                              className="text-[1rem] font-semibold h-5 leading-none overflow-hidden cursor-pointer"
+                              onClick={() => {
+                                setMarqueeParticipants((prev) =>
+                                  prev.includes(participant.userId)
+                                    ? prev.filter(
+                                        (id) => id !== participant.userId
+                                      )
+                                    : [...prev, participant.userId]
+                                );
+                              }}
                             >
-                              <span
-                                className="inline-block"
-                                style={{
-                                  whiteSpace: "nowrap",
-                                  animation:
-                                    participant.name.length > 22
-                                      ? "marquee 6s linear infinite"
-                                      : "none",
-                                }}
-                              >
-                                {participant.name}
-                              </span>
+                              {!marqueeParticipants.includes(
+                                participant.userId
+                              ) ? (
+                                <span className="block truncate">
+                                  {participant.name}
+                                </span>
+                              ) : (
+                                <span
+                                  className="inline-block whitespace-nowrap animate-marquee"
+                                  style={{ animationDuration: "10s" }}
+                                >
+                                  {participant.name}
+                                </span>
+                              )}
                             </span>
+
                             {participant.userId === activity.creator.id && (
                               <span className="text-[12px] h-4 leading-none">
                                 Organizador
