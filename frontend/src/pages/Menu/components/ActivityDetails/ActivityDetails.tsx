@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -38,6 +38,8 @@ export default function ActivityDetails({
   const [now, setNow] = useState(new Date());
   const [participantCount, setParticipantCount] = useState(0);
   const [localActivity, setLocalActivity] = useState(activity);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
 
   const fetchParticipants = async () => {
     const token = sessionStorage.getItem("token");
@@ -200,6 +202,13 @@ export default function ActivityDetails({
     setLocalActivity(activity);
   }, [activity]);
 
+  useEffect(() => {
+    const el = titleRef.current;
+    if (el) {
+      setIsOverflowing(el.scrollWidth > el.clientWidth);
+    }
+  }, [activity.title]);
+
   const scheduledDate = new Date(activity.scheduledDate);
   const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
   const isCheckinTime = now >= checkinStart && now < scheduledDate;
@@ -217,9 +226,16 @@ export default function ActivityDetails({
                 src={activity.image?.replace("localstack", "localhost")}
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
-              <h2 className="text-[2rem] h-9 mb-2 font-bebas overflow-hidden text-ellipsis">
-                {activity.title}
-              </h2>
+              <div className="relative w-96 h-9 mb-2 overflow-hidden">
+                <h2
+                  ref={titleRef}
+                  className={`text-[2rem] font-bebas ${
+                    isOverflowing ? "title-marquee" : ""
+                  }`}
+                >
+                  {activity.title}
+                </h2>
+              </div>
               <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
                 {activity.description}
               </p>
@@ -351,7 +367,9 @@ export default function ActivityDetails({
                                 <Check />
                               </button>
                               <button
-                                onClick={() => handleApproval(participant.userId, false)}
+                                onClick={() =>
+                                  handleApproval(participant.userId, false)
+                                }
                                 className="hover:text-red-500"
                               >
                                 <X />
