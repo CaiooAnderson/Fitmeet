@@ -235,9 +235,14 @@ export default function ActivityDetails({
               >
                 <span
                   ref={titleTextRef}
-                  className={`inline-block whitespace-nowrap ${
-                    isTitleOverflowing ? "marquee" : ""
+                  className={`absolute left-0 whitespace-nowrap inline-block transition-transform duration-[10000ms] ease-linear hover:animate-none ${
+                    isTitleOverflowing ? "hover:animate-marquee" : ""
                   }`}
+                  style={{
+                    animation: isTitleOverflowing
+                      ? "marquee 10s linear infinite"
+                      : undefined,
+                  }}
                 >
                   {activity.title}
                 </span>
