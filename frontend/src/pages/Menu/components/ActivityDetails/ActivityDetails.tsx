@@ -220,7 +220,9 @@ export default function ActivityDetails({
             `[data-userid="${p.userId}"] .participant-name`
           ) as HTMLSpanElement;
 
-          return el && el.scrollWidth > el.clientWidth;
+          if (!el) return false;
+
+          return el.scrollWidth > el.clientWidth;
         })
         .map((p) => p.userId);
 
@@ -231,18 +233,6 @@ export default function ActivityDetails({
 
     setTimeout(checkOverflow, 100);
   }, [participants]);
-
-  useEffect(() => {
-    const checkOverflow = () => {
-      if (titleRef.current) {
-        setCanMarqueeTitle(
-          titleRef.current.scrollWidth > titleRef.current.clientWidth
-        );
-      }
-    };
-
-    setTimeout(checkOverflow, 100);
-  }, [activity.title]);
 
   const scheduledDate = new Date(activity.scheduledDate);
   const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
@@ -262,7 +252,7 @@ export default function ActivityDetails({
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
               <h2
-                className={`text-[2rem] h-9 mb-2 font-bebas overflow-hidden w-96 ${
+                className={`text-[2rem] h-9 mb-2 font-bebas w-96 overflow-hidden ${
                   canMarqueeTitle ? "cursor-pointer" : ""
                 }`}
                 onClick={() => {
@@ -271,10 +261,9 @@ export default function ActivityDetails({
               >
                 <span
                   ref={titleRef}
-                  className={`block w-full truncate ${
-                    marqueeTitle ? "title-marquee" : ""
+                  className={`block max-w-full ${
+                    marqueeTitle ? "title-marquee" : "truncate"
                   }`}
-                  style={{ maxWidth: "100%" }}
                 >
                   {activity.title}
                 </span>
@@ -382,18 +371,27 @@ export default function ActivityDetails({
                           </div>
                           <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[180px] overflow-hidden">
                             <span
-                              className={`text-[1rem] font-semibold h-5 leading-none overflow-hidden cursor-pointer`}
+                              className={`text-[1rem] font-semibold h-5 leading-none overflow-hidden ${
+                                marqueeParticipants.includes(participant.userId)
+                                  ? "cursor-pointer"
+                                  : ""
+                              }`}
                               onClick={() => {
-                                const el = document.querySelector(
-                                  `[data-userid="${participant.userId}"] .participant-name`
-                                ) as HTMLSpanElement;
-
-                                if (!el) return;
-
-                                const isOverflowing =
-                                  el.scrollWidth > el.clientWidth;
-
-                                if (isOverflowing) {
+                                if (
+                                  marqueeParticipants.includes(
+                                    participant.userId
+                                  ) ||
+                                  (
+                                    document.querySelector(
+                                      `[data-userid="${participant.userId}"] .participant-name`
+                                    ) as HTMLSpanElement
+                                  )?.scrollWidth >
+                                    (
+                                      document.querySelector(
+                                        `[data-userid="${participant.userId}"] .participant-name`
+                                      ) as HTMLSpanElement
+                                    )?.clientWidth
+                                ) {
                                   setMarqueeParticipants((prev) =>
                                     prev.includes(participant.userId)
                                       ? prev.filter(
@@ -405,12 +403,12 @@ export default function ActivityDetails({
                               }}
                             >
                               <span
-                                className={`participant-name block max-w-[180px] truncate ${
+                                className={`participant-name block max-w-full ${
                                   marqueeParticipants.includes(
                                     participant.userId
                                   )
                                     ? "marquee"
-                                    : ""
+                                    : "truncate"
                                 }`}
                               >
                                 {participant.name}
