@@ -205,11 +205,16 @@ export default function ActivityDetails({
   }, [activity]);
 
   useEffect(() => {
-    if (titleRef.current) {
-      const isOverflowing =
-        titleRef.current.scrollWidth > titleRef.current.clientWidth;
-      setCanMarqueeTitle(isOverflowing);
-    }
+    const checkTitleOverflow = () => {
+      if (titleRef.current) {
+        const isOverflowing =
+          titleRef.current.scrollWidth > titleRef.current.clientWidth;
+        setCanMarqueeTitle(isOverflowing);
+      }
+    };
+    const timeout = setTimeout(checkTitleOverflow, 100);
+
+    return () => clearTimeout(timeout);
   }, [activity.title]);
 
   useEffect(() => {
