@@ -123,11 +123,16 @@ export default function SubscribeActivity({
   }, [activity.completedAt]);
 
   useEffect(() => {
-    if (titleRef.current) {
-      const isOverflowing =
-        titleRef.current.scrollWidth > titleRef.current.clientWidth;
-      setCanMarqueeTitle(isOverflowing);
-    }
+    const checkTitleOverflow = () => {
+      if (titleRef.current) {
+        const isOverflowing =
+          titleRef.current.scrollWidth > titleRef.current.clientWidth;
+        setCanMarqueeTitle(isOverflowing);
+      }
+    };
+    const timeout = setTimeout(checkTitleOverflow, 100);
+
+    return () => clearTimeout(timeout);
   }, [activity.title]);
 
   useEffect(() => {
@@ -164,7 +169,7 @@ export default function SubscribeActivity({
               className="h-56 w-full object-cover rounded-lg mb-6"
             />
             <h2
-              className={`text-[2rem] h-9 mb-2 font-bebas overflow-hidden w-96 ${
+              className={`text-[2rem] h-9 mb-2 font-bebas w-96 overflow-hidden ${
                 canMarqueeTitle ? "cursor-pointer" : ""
               }`}
               onClick={() => {
@@ -173,7 +178,9 @@ export default function SubscribeActivity({
             >
               <span
                 ref={titleRef}
-                className={marqueeTitle ? "title-marquee" : "truncate block"}
+                className={`block max-w-full ${
+                  marqueeTitle ? "title-marquee" : "truncate"
+                }`}
               >
                 {activity.title}
               </span>
