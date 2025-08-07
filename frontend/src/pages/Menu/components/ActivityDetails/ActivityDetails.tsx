@@ -231,9 +231,7 @@ export default function ActivityDetails({
         })
         .map((p) => p.userId);
 
-      setMarqueeParticipants((prev) =>
-        prev.filter((id) => updated.includes(id))
-      );
+      setMarqueeParticipants(updated);
     };
 
     setTimeout(checkOverflow, 100);
@@ -379,7 +377,7 @@ export default function ActivityDetails({
                               className={`text-[1rem] font-semibold h-5 leading-none overflow-hidden ${
                                 marqueeParticipants.includes(participant.userId)
                                   ? "cursor-pointer"
-                                  : ""
+                                  : "cursor-default"
                               }`}
                               onClick={() => {
                                 if (
