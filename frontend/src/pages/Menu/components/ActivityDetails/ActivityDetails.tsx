@@ -220,9 +220,7 @@ export default function ActivityDetails({
             `[data-userid="${p.userId}"] .participant-name`
           ) as HTMLSpanElement;
 
-          if (!el) return false;
-
-          return el.scrollWidth > el.clientWidth;
+          return el && el.scrollWidth > el.clientWidth;
         })
         .map((p) => p.userId);
 
@@ -233,6 +231,18 @@ export default function ActivityDetails({
 
     setTimeout(checkOverflow, 100);
   }, [participants]);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (titleRef.current) {
+        setCanMarqueeTitle(
+          titleRef.current.scrollWidth > titleRef.current.clientWidth
+        );
+      }
+    };
+
+    setTimeout(checkOverflow, 100);
+  }, [activity.title]);
 
   const scheduledDate = new Date(activity.scheduledDate);
   const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
@@ -261,7 +271,10 @@ export default function ActivityDetails({
               >
                 <span
                   ref={titleRef}
-                  className={marqueeTitle ? "title-marquee" : "truncate block"}
+                  className={`block w-full truncate ${
+                    marqueeTitle ? "title-marquee" : ""
+                  }`}
+                  style={{ maxWidth: "100%" }}
                 >
                   {activity.title}
                 </span>
@@ -369,27 +382,18 @@ export default function ActivityDetails({
                           </div>
                           <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[180px] overflow-hidden">
                             <span
-                              className={`text-[1rem] font-semibold h-5 leading-none overflow-hidden ${
-                                marqueeParticipants.includes(participant.userId)
-                                  ? "cursor-pointer"
-                                  : ""
-                              }`}
+                              className={`text-[1rem] font-semibold h-5 leading-none overflow-hidden cursor-pointer`}
                               onClick={() => {
-                                if (
-                                  marqueeParticipants.includes(
-                                    participant.userId
-                                  ) ||
-                                  (
-                                    document.querySelector(
-                                      `[data-userid="${participant.userId}"] .participant-name`
-                                    ) as HTMLSpanElement
-                                  )?.scrollWidth >
-                                    (
-                                      document.querySelector(
-                                        `[data-userid="${participant.userId}"] .participant-name`
-                                      ) as HTMLSpanElement
-                                    )?.clientWidth
-                                ) {
+                                const el = document.querySelector(
+                                  `[data-userid="${participant.userId}"] .participant-name`
+                                ) as HTMLSpanElement;
+
+                                if (!el) return;
+
+                                const isOverflowing =
+                                  el.scrollWidth > el.clientWidth;
+
+                                if (isOverflowing) {
                                   setMarqueeParticipants((prev) =>
                                     prev.includes(participant.userId)
                                       ? prev.filter(
@@ -401,12 +405,12 @@ export default function ActivityDetails({
                               }}
                             >
                               <span
-                                className={`participant-name ${
+                                className={`participant-name block max-w-[180px] truncate ${
                                   marqueeParticipants.includes(
                                     participant.userId
                                   )
                                     ? "marquee"
-                                    : "truncate block"
+                                    : ""
                                 }`}
                               >
                                 {participant.name}
