@@ -143,7 +143,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
       <AlertDialogContent
         className="
     w-full max-w-[784px] 
-    h-[90vh] sm:h-[770px] 
+    h-[100vh] sm:h-[770px] 
     border-0 p-6
     flex flex-col
   "
