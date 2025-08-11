@@ -37,18 +37,18 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
   const [approvalRequired, setApprovalRequired] = useState<boolean>(false);
 
   useEffect(() => {
-  const token = sessionStorage.getItem("token");
-  if (!token) return;
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
 
-  fetch(`${import.meta.env.VITE_API_URL}/activities/types`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => setActivityTypes(data))
-    .catch(() => toast.error("Erro ao carregar os tipos de atividade."));
-}, []);
+    fetch(`${import.meta.env.VITE_API_URL}/activities/types`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setActivityTypes(data))
+      .catch(() => toast.error("Erro ao carregar os tipos de atividade."));
+  }, []);
 
   useEffect(() => {
     if (!isOpen) {
@@ -112,11 +112,14 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
     formData.append("private", String(approvalRequired));
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/activities/new`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/activities/new`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        }
+      );
 
       const result = await response.json();
       if (!response.ok) {
@@ -137,9 +140,9 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-[784px] h-[770px] border-0 p-6">
-        <div className="p-6 h-full flex flex-col justify-between">
-          <div>
+      <AlertDialogContent className="w-full max-w-[784px] h-auto sm:h-[770px] max-h-[90vh] border-0 p-0">
+        <div className="flex flex-col h-full">
+          <div className="flex-1 overflow-y-auto p-6">
             <AlertDialogTitle className="text-[2rem] font-bebas font-normal">
               NOVA ATIVIDADE
             </AlertDialogTitle>
@@ -183,7 +186,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
             </div>
           </div>
 
-          <AlertDialogFooter className="w-full flex justify-end">
+          <AlertDialogFooter className="w-full flex justify-end border-t p-6">
             <div className="w-full h-[48px] flex justify-end gap-4">
               <AlertDialogCancel className="w-50 h-full rounded-lg text-white text-sm">
                 Cancelar
