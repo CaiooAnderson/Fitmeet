@@ -50,7 +50,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
 
   return (
     <div className="relative flex flex-col items-center w-full bg-[#fafafa] rounded-lg p-10">
-      <div className="flex mb-10 w-full justify-end items-center gap-1.5">
+      <div className="sm:flex mb-10 w-full justify-end items-center gap-1.5 hidden">
         <Button
           className="h-10 w-28 p-3 border border-[#a1a1a1] text-gray-900 bg-white hover:bg-muted"
           onClick={() => navigate("/profile/edit")}
@@ -81,10 +81,20 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
             {user.name}
           </span>
         </h1>
+
+        <div className="sm:hidden flex justify-center w-full mt-4">
+          <Button
+            className="h-10 w-28 p-3 border border-[#a1a1a1] text-gray-900 bg-white hover:bg-muted"
+            onClick={() => navigate("/profile/edit")}
+          >
+            <Pen className="w-3 h-3" />
+            Editar perfil
+          </Button>
+        </div>
       </div>
 
-      <div className="flex gap-3 items-center mt-10">
-        <div className="flex flex-col gap-8 bg-[#f5f5f5] rounded-lg w-103.5 h-52 px-8 py-8.5">
+      <div className="flex flex-col sm:flex-row gap-3 items-center sm:items-start mt-10 w-full max-w-[850px] justify-center">
+        <div className="flex flex-col gap-8 bg-[#f5f5f5] rounded-lg px-8 py-8.5 w-full sm:w-[420px] h-52">
           <div className="flex justify-between items-start">
             <div className="flex flex-col gap-2">
               <span className="text-[0.75rem] h-[15px] font-semibold text-[var(--text)]">
@@ -115,7 +125,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
           </div>
         </div>
 
-        <div className="bg-[#f5f5f5] rounded-lg w-93.25 h-52 px-8 pt-8 pb-14 flex flex-col items-center justify-between">
+        <div className="bg-[#f5f5f5] rounded-lg w-full sm:w-[390px] h-52 px-8 pt-8 pb-14 flex flex-col items-center justify-between">
           {user.achievements.length === 0 ? (
             <span className="text-sm text-[var(--text)] font-bold text-center">
               Você ainda não possui conquistas
