@@ -74,8 +74,12 @@ const Recommended = ({
     }
   };
 
+  const cardClass =
+    "cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap flex flex-col items-start " +
+    "sm:w-full md:w-1/2 lg:w-1/4 p-2";
+
   return (
-    <div className="w-full h-[33.5rem] flex flex-col">
+    <div className="w-full flex flex-col">
       <div className="flex justify-between items-center h-8 mb-4">
         <h2 className="text-[1.75rem] font-bebas">
           {title ?? "RECOMENDADO PARA VOCÊ"}
@@ -96,19 +100,15 @@ const Recommended = ({
             </div>
           ) : (
             <>
-              <div className="flex flex-col md:flex-row md:flex-wrap md:gap-3 h-57">
-                {[...firstLine, ...secondLine].map((activity) => (
+              {/* Primeira linha */}
+              <div className="flex flex-wrap gap-3">
+                {firstLine.map((activity) => (
                   <div
                     key={activity.id}
+                    className={cardClass}
                     onClick={() => handleActivityClick(activity)}
-                    className="
-                      flex flex-col items-start cursor-pointer
-                      w-full mb-6
-                      md:w-74
-                      overflow-hidden text-ellipsis whitespace-nowrap
-                    "
                   >
-                    <div className="relative w-full md:w-74 h-40 mb-4 rounded-lg overflow-hidden">
+                    <div className="relative w-full h-40 mb-4 rounded-lg overflow-hidden">
                       <img
                         src={activity.image?.replace("localstack", "localhost")}
                         className="w-full h-full object-cover rounded-lg"
@@ -135,6 +135,47 @@ const Recommended = ({
                   </div>
                 ))}
               </div>
+
+              {/* Segunda linha */}
+              {secondLine.length > 0 && (
+                <div className="flex flex-wrap gap-3 mt-8">
+                  {secondLine.map((activity) => (
+                    <div
+                      key={activity.id}
+                      className={cardClass}
+                      onClick={() => handleActivityClick(activity)}
+                    >
+                      <div className="relative w-full h-40 mb-4 rounded-lg overflow-hidden">
+                        <img
+                          src={activity.image?.replace(
+                            "localstack",
+                            "localhost"
+                          )}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                        {activity.private && (
+                          <div className="absolute top-1 left-1 p-[6px] bg-emerald-500 rounded-full">
+                            <Lock className="text-white w-[16px] h-[16px]" />
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-sm font-semibold text-left overflow-hidden text-ellipsis max-w-full">
+                        {activity.title}
+                      </p>
+                      <div className="flex items-center gap-3 text-xs text-gray-500 mt-3 h-5">
+                        <Calendar className="w-4 h-4 text-[#009966]" />
+                        {format(
+                          new Date(activity.scheduledDate),
+                          "dd/MM/yyyy HH:mm"
+                        )}
+                        <span className="mx-1">|</span>
+                        <Users className="w-4 h-4 text-[#009966]" />
+                        {activity.participantCount ?? 0}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </>
           )}
 
