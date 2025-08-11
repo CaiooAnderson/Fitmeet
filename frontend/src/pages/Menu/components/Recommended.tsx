@@ -96,17 +96,22 @@ const Recommended = ({
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-2 gap-3 h-57 md:flex">
-                {firstLine.map((activity) => (
+              <div className="flex flex-col md:flex-row md:flex-wrap md:gap-3 h-57">
+                {[...firstLine, ...secondLine].map((activity) => (
                   <div
                     key={activity.id}
-                    className="flex flex-col items-start cursor-pointer w-full max-w-[18.5rem] overflow-hidden text-ellipsis whitespace-nowrap"
                     onClick={() => handleActivityClick(activity)}
+                    className="
+                      flex flex-col items-start cursor-pointer
+                      w-full mb-6
+                      md:w-74
+                      overflow-hidden text-ellipsis whitespace-nowrap
+                    "
                   >
-                    <div className="relative w-full h-40 mb-4">
+                    <div className="relative w-full md:w-74 h-40 mb-4 rounded-lg overflow-hidden">
                       <img
                         src={activity.image?.replace("localstack", "localhost")}
-                        className="w-full h-full rounded-lg object-cover"
+                        className="w-full h-full object-cover rounded-lg"
                       />
                       {activity.private && (
                         <div className="absolute top-1 left-1 p-[6px] bg-gradient-to-b from-[#00BC7D] to-[#009966] rounded-full">
@@ -130,46 +135,6 @@ const Recommended = ({
                   </div>
                 ))}
               </div>
-
-              {secondLine.length > 0 && (
-                <div className="mt-8 grid grid-cols-1 gap-3 h-57 md:flex">
-                  {secondLine.map((activity) => (
-                    <div
-                      key={activity.id}
-                      className="flex flex-col items-start cursor-pointer w-full max-w-[18.5rem] overflow-hidden text-ellipsis whitespace-nowrap"
-                      onClick={() => handleActivityClick(activity)}
-                    >
-                      <div className="relative w-full h-40 mb-4">
-                        <img
-                          src={activity.image?.replace(
-                            "localstack",
-                            "localhost"
-                          )}
-                          className="w-full h-full rounded-xl object-cover"
-                        />
-                        {activity.private && (
-                          <div className="absolute top-1 left-1 p-[6px] bg-emerald-500 rounded-full">
-                            <Lock className="text-white w-[16px] h-[16px]" />
-                          </div>
-                        )}
-                      </div>
-                      <p className="text-sm font-semibold text-left">
-                        {activity.title}
-                      </p>
-                      <div className="flex items-center gap-3 text-xs text-gray-500 mt-3 h-5">
-                        <Calendar className="w-4 h-4 text-[#009966]" />
-                        {format(
-                          new Date(activity.scheduledDate),
-                          "dd/MM/yyyy HH:mm"
-                        )}
-                        <span className="mx-1">|</span>
-                        <Users className="w-4 h-4 text-[#009966]" />
-                        {activity.participantCount ?? 0}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
             </>
           )}
 
