@@ -132,7 +132,7 @@ const Recommended = ({
               </div>
 
               {secondLine.length > 0 && (
-                <div className="mt-8 grid grid-cols-2 gap-3 h-57 md:flex">
+                <div className="mt-8 grid grid-cols-1 gap-3 h-57 md:flex">
                   {secondLine.map((activity) => (
                     <div
                       key={activity.id}
