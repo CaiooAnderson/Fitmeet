@@ -159,47 +159,41 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
           <div
             className="
           mt-6 flex-1 overflow-y-auto pr-1
+          flex flex-col lg:flex-row
+          gap-6 lg:gap-12
         "
           >
-            <div
-              className="
-            flex flex-col lg:flex-row 
-            justify-evenly 
-            gap-6 lg:gap-12
-          "
-            >
-              <div className="flex flex-col gap-4 w-full lg:w-auto">
-                <ImageUpload
-                  image={image}
-                  previewUrl={previewUrl}
-                  handleFileChange={setImage}
-                  setPreviewUrl={setPreviewUrl}
-                />
-                <Inputs
-                  title={title}
-                  setTitle={setTitle}
-                  description={description}
-                  setDescription={setDescription}
-                />
-                <Schedule
-                  scheduledDate={scheduledDate}
-                  setScheduledDate={setScheduledDate}
-                />
-              </div>
+            <div className="flex flex-col gap-4 w-full lg:w-auto">
+              <ImageUpload
+                image={image}
+                previewUrl={previewUrl}
+                handleFileChange={setImage}
+                setPreviewUrl={setPreviewUrl}
+              />
+              <Inputs
+                title={title}
+                setTitle={setTitle}
+                description={description}
+                setDescription={setDescription}
+              />
+              <Schedule
+                scheduledDate={scheduledDate}
+                setScheduledDate={setScheduledDate}
+              />
+            </div>
 
-              <div className="flex flex-col gap-6 w-full lg:w-80">
-                <TypesAndLocation
-                  activityTypes={activityTypes}
-                  activityType={activityTypeId}
-                  setActivityType={setActivityTypeId}
-                  coordinates={coordinates}
-                  setCoordinates={setCoordinates}
-                />
-                <Approval
-                  approvalRequired={approvalRequired}
-                  setApprovalRequired={setApprovalRequired}
-                />
-              </div>
+            <div className="flex flex-col gap-6 w-full lg:w-80">
+              <TypesAndLocation
+                activityTypes={activityTypes}
+                activityType={activityTypeId}
+                setActivityType={setActivityTypeId}
+                coordinates={coordinates}
+                setCoordinates={setCoordinates}
+              />
+              <Approval
+                approvalRequired={approvalRequired}
+                setApprovalRequired={setApprovalRequired}
+              />
             </div>
           </div>
 
