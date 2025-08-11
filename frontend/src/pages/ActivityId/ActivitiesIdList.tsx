@@ -90,7 +90,7 @@ export default function ActivitiesIdList({
                 {activity.title}
               </p>
               <div className="flex items-center h-5 gap-1 sm:gap-1.5 text-xs text-gray-500 mt-3">
-                <div className="flex items-center gap-1 sm:gap-1.5 min-w-32">
+                <div className="flex items-center gap-1.5 min-w-32">
                   <Calendar className="w-4 h-4 text-[#009966]" />
                   <span className="whitespace-nowrap">
                     {format(
@@ -99,8 +99,8 @@ export default function ActivitiesIdList({
                     )}
                   </span>
                 </div>
-                <span className="mx-0.5 sm:mx-1">|</span>
-                <div className="flex items-center gap-1 sm:gap-1.5">
+                <span className="mx-1">|</span>
+                <div className="flex items-center gap-1.5">
                   <Users className="w-4 h-4 text-[#009966]" />
                   {activity.participantCount ?? 0}
                 </div>
