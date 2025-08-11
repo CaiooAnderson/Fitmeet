@@ -142,75 +142,73 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent
         className="
-      w-full max-w-[784px] 
-      sm:h-[770px] h-[90vh] 
-      border-0 p-6
-      overflow-hidden
-    "
+    w-full max-w-[784px] 
+    h-[90vh] sm:h-[770px] 
+    border-0 p-6
+    flex flex-col
+  "
       >
-        <div className="flex flex-col h-full">
-          <div className="flex-shrink-0">
-            <AlertDialogTitle className="text-[2rem] font-bebas font-normal">
-              NOVA ATIVIDADE
-            </AlertDialogTitle>
-            <AlertDialogDescription />
-          </div>
-
-          <div
-            className="
-          mt-6 flex-1 overflow-y-auto pr-1
-          flex flex-col lg:flex-row
-          gap-6 lg:gap-12
-        "
-          >
-            <div className="flex flex-col gap-4 w-full lg:w-auto">
-              <ImageUpload
-                image={image}
-                previewUrl={previewUrl}
-                handleFileChange={setImage}
-                setPreviewUrl={setPreviewUrl}
-              />
-              <Inputs
-                title={title}
-                setTitle={setTitle}
-                description={description}
-                setDescription={setDescription}
-              />
-              <Schedule
-                scheduledDate={scheduledDate}
-                setScheduledDate={setScheduledDate}
-              />
-            </div>
-
-            <div className="flex flex-col gap-6 w-full lg:w-80">
-              <TypesAndLocation
-                activityTypes={activityTypes}
-                activityType={activityTypeId}
-                setActivityType={setActivityTypeId}
-                coordinates={coordinates}
-                setCoordinates={setCoordinates}
-              />
-              <Approval
-                approvalRequired={approvalRequired}
-                setApprovalRequired={setApprovalRequired}
-              />
-            </div>
-          </div>
-
-          <AlertDialogFooter className="flex-shrink-0 mt-4">
-            <div className="w-full h-[48px] flex justify-end gap-4">
-              <AlertDialogCancel className="w-50 h-full rounded-lg text-white text-sm">
-                Cancelar
-              </AlertDialogCancel>
-              <AlertDialogAction
-                className="w-50 h-full rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
-                onClick={handleCreateActivity}
-              >
-                Criar
-              </AlertDialogAction>
-            </div>
-          </AlertDialogFooter>
+        <div className="flex-shrink-0">
+          <AlertDialogTitle className="text-[2rem] font-bebas font-normal">
+            NOVA ATIVIDADE
+          </AlertDialogTitle>
+          <AlertDialogDescription />
         </div>
+
+        <div
+          className="
+      flex-1 overflow-y-auto mt-6
+      flex flex-col lg:flex-row gap-6 lg:gap-12
+    "
+          style={{ minHeight: 0 }}
+        >
+          <div className="flex flex-col gap-4 w-full lg:w-auto">
+            <ImageUpload
+              image={image}
+              previewUrl={previewUrl}
+              handleFileChange={setImage}
+              setPreviewUrl={setPreviewUrl}
+            />
+            <Inputs
+              title={title}
+              setTitle={setTitle}
+              description={description}
+              setDescription={setDescription}
+            />
+            <Schedule
+              scheduledDate={scheduledDate}
+              setScheduledDate={setScheduledDate}
+            />
+          </div>
+
+          <div className="flex flex-col gap-6 w-full lg:w-80">
+            <TypesAndLocation
+              activityTypes={activityTypes}
+              activityType={activityTypeId}
+              setActivityType={setActivityTypeId}
+              coordinates={coordinates}
+              setCoordinates={setCoordinates}
+            />
+            <Approval
+              approvalRequired={approvalRequired}
+              setApprovalRequired={setApprovalRequired}
+            />
+          </div>
+        </div>
+
+        <AlertDialogFooter className="flex-shrink-0 mt-4">
+          <div className="w-full h-[48px] flex justify-end gap-4">
+            <AlertDialogCancel className="w-50 h-full rounded-lg text-white text-sm">
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className="w-50 h-full rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
+              onClick={handleCreateActivity}
+            >
+              Criar
+            </AlertDialogAction>
+          </div>
+        </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
