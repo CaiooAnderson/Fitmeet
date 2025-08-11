@@ -39,6 +39,9 @@ export default function ActivityDetails({
   const [participantCount, setParticipantCount] = useState(0);
   const [localActivity, setLocalActivity] = useState(activity);
   const [marqueeTitle, setMarqueeTitle] = useState(false);
+  const [canMarqueeParticipants, setCanMarqueeParticipants] = useState<
+    string[]
+  >([]);
   const [marqueeParticipants, setMarqueeParticipants] = useState<string[]>([]);
   const titleRef = useRef<HTMLSpanElement>(null);
   const [canMarqueeTitle, setCanMarqueeTitle] = useState(false);
@@ -193,14 +196,6 @@ export default function ActivityDetails({
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchParticipants();
-    }, 2500);
-
-    return () => clearInterval(interval);
-  }, [activity?.id]);
-
-  useEffect(() => {
     setLocalActivity(activity);
   }, [activity]);
 
@@ -226,15 +221,48 @@ export default function ActivityDetails({
           ) as HTMLSpanElement;
 
           if (!el) return false;
-
           return el.scrollWidth > el.clientWidth;
         })
         .map((p) => p.userId);
 
-      setMarqueeParticipants(updated);
+      setCanMarqueeParticipants(updated);
     };
 
     setTimeout(checkOverflow, 100);
+  }, [participants]);
+
+  useEffect(() => {
+    const idsWithMarquee = participants
+      .filter((p) => {
+        const el = document.querySelector(
+          `[data-userid="${p.userId}"] .participant-name`
+        ) as HTMLSpanElement;
+        return el && el.scrollWidth > el.clientWidth;
+      })
+      .map((p) => p.userId);
+
+    setMarqueeParticipants(idsWithMarquee);
+  }, [participants]);
+
+  useEffect(() => {
+    setMarqueeParticipants((prev) => {
+      const stillHere = participants.map((p) => p.userId);
+
+      const filtered = prev.filter((id) => stillHere.includes(id));
+
+      const newWithMarquee = participants
+        .filter((p) => {
+          const el = document.querySelector(
+            `[data-userid="${p.userId}"] .participant-name`
+          ) as HTMLSpanElement;
+          return (
+            !prev.includes(p.userId) && el && el.scrollWidth > el.clientWidth
+          );
+        })
+        .map((p) => p.userId);
+
+      return [...filtered, ...newWithMarquee];
+    });
   }, [participants]);
 
   const scheduledDate = new Date(activity.scheduledDate);
@@ -375,25 +403,17 @@ export default function ActivityDetails({
                           <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[180px] overflow-hidden">
                             <span
                               className={`text-[1rem] font-semibold h-5 leading-none overflow-hidden ${
-                                marqueeParticipants.includes(participant.userId)
+                                canMarqueeParticipants.includes(
+                                  participant.userId
+                                )
                                   ? "cursor-pointer"
                                   : "cursor-default"
                               }`}
                               onClick={() => {
                                 if (
-                                  marqueeParticipants.includes(
+                                  canMarqueeParticipants.includes(
                                     participant.userId
-                                  ) ||
-                                  (
-                                    document.querySelector(
-                                      `[data-userid="${participant.userId}"] .participant-name`
-                                    ) as HTMLSpanElement
-                                  )?.scrollWidth >
-                                    (
-                                      document.querySelector(
-                                        `[data-userid="${participant.userId}"] .participant-name`
-                                      ) as HTMLSpanElement
-                                    )?.clientWidth
+                                  )
                                 ) {
                                   setMarqueeParticipants((prev) =>
                                     prev.includes(participant.userId)
