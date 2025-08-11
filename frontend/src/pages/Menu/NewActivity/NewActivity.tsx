@@ -207,13 +207,14 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
           </div>
         </div>
 
-        <AlertDialogFooter className="flex-shrink-0 mt-4">
-          <div className="w-full h-[48px] flex flex-col sm:flex-row justify-center sm:justify-end gap-3">
-            <AlertDialogCancel className="w-full sm:w-48 h-full rounded-lg text-white text-sm">
+        <AlertDialogFooter className="flex-shrink-0 mt-6 sm:mt-4">
+          {" "}
+          <div className="w-full h-[48px] flex flex-row justify-center sm:justify-end gap-3">
+            <AlertDialogCancel className="flex-1 max-w-[140px] h-full rounded-lg text-white text-sm">
               Cancelar
             </AlertDialogCancel>
             <AlertDialogAction
-              className="w-full sm:w-48 h-full rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
+              className="flex-1 max-w-[140px] h-full rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
               onClick={handleCreateActivity}
             >
               Criar

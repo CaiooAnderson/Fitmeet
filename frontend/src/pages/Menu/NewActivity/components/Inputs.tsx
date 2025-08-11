@@ -19,6 +19,7 @@ export default function Inputs({
 }: InputsProps) {
   return (
     <>
+      <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1.5">
         <Label
           htmlFor="title"
@@ -50,6 +51,7 @@ export default function Inputs({
           className={`w-80 resize-none rounded-lg overflow-auto pr-10 focus:shadow-green-300 focus-visible:border-[var(--primary)] border-[var(--input-border)] px-5 py-4 ${descriptionClassName ?? "h-27.5"}`}
         />
       </div>
+    </div>
     </>
   );
 }
