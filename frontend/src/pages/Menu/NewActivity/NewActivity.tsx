@@ -145,7 +145,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
     w-full max-w-[784px] 
     h-[100vh] sm:h-[770px] 
     border-0 p-6
-    flex flex-col
+    flex flex-col rounded-none sm:rounded-xl
   "
       >
         <div className="flex-shrink-0">
@@ -158,13 +158,14 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
         <div
           className="
       flex-1 overflow-y-auto mt-6
-      flex flex-col lg:flex-row gap-6 lg:gap-12
+      flex flex-col lg:flex-row gap-6 lg:gap-12 justify-center
     "
           style={{ minHeight: 0 }}
         >
           <div
             className="
-        flex flex-col gap-4 w-full lg:w-auto
+        flex flex-col gap-4
+        w-full max-w-[320px]
         items-center lg:items-start
       "
           >
@@ -208,7 +209,6 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
         </div>
 
         <AlertDialogFooter className="flex-shrink-0 mt-6 sm:mt-4">
-          {" "}
           <div className="w-full h-[48px] flex flex-row justify-center sm:justify-end gap-3">
             <AlertDialogCancel className="flex-1 max-w-[140px] h-full rounded-lg text-white text-sm">
               Cancelar
