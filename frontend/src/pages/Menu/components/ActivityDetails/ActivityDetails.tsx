@@ -231,18 +231,18 @@ export default function ActivityDetails({
     setTimeout(checkOverflow, 100);
   }, [participants]);
 
-  useEffect(() => {
-    const idsWithMarquee = participants
-      .filter((p) => {
-        const el = document.querySelector(
-          `[data-userid="${p.userId}"] .participant-name`
-        ) as HTMLSpanElement;
-        return el && el.scrollWidth > el.clientWidth;
-      })
-      .map((p) => p.userId);
+  // useEffect(() => {
+  //   const idsWithMarquee = participants
+  //     .filter((p) => {
+  //       const el = document.querySelector(
+  //         `[data-userid="${p.userId}"] .participant-name`
+  //       ) as HTMLSpanElement;
+  //       return el && el.scrollWidth > el.clientWidth;
+  //     })
+  //     .map((p) => p.userId);
 
-    setMarqueeParticipants(idsWithMarquee);
-  }, [participants]);
+  //   setMarqueeParticipants(idsWithMarquee);
+  // }, [participants]);
 
   useEffect(() => {
     setMarqueeParticipants((prev) => {
