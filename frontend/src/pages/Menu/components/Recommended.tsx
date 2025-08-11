@@ -27,6 +27,25 @@ const Recommended = ({
   const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
   const [isSubscribeDialogOpen, setIsSubscribeDialogOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [itemsToShowCount, setItemsToShowCount] = useState(8);
+
+  useEffect(() => {
+    const updateItemsCount = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setItemsToShowCount(2);
+      } else if (width < 1024) {
+        setItemsToShowCount(4);
+      } else {
+        setItemsToShowCount(8);
+      }
+    };
+
+    updateItemsCount();
+
+    window.addEventListener("resize", updateItemsCount);
+    return () => window.removeEventListener("resize", updateItemsCount);
+  }, []);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -61,9 +80,14 @@ const Recommended = ({
     includeCreator ? true : activity.creator?.id !== currentUserId
   );
 
-  const listToShow = filteredActivities.slice(0, 8);
-  const firstLine = listToShow.slice(0, 4);
-  const secondLine = listToShow.slice(4, 8);
+  const listToShow = filteredActivities.slice(0, itemsToShowCount);
+  const half = Math.ceil(listToShow.length / 2);
+  const firstLine = listToShow.slice(0, half);
+  const secondLine = listToShow.slice(half, listToShow.length);
+
+  let cardWidthClass = "w-full";
+  if (itemsToShowCount === 4) cardWidthClass = "w-1/2";
+  else if (itemsToShowCount === 8) cardWidthClass = "w-1/4";
 
   const handleActivityClick = (activity: any) => {
     setSelectedActivity(activity);
@@ -74,16 +98,10 @@ const Recommended = ({
     }
   };
 
-  const cardClass =
-    "cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap flex flex-col items-start " +
-    "sm:w-full md:w-1/2 lg:w-1/4 p-2";
-
   return (
     <div className="w-full flex flex-col">
       <div className="flex justify-between items-center h-8 mb-4">
-        <h2 className="text-[1.75rem] font-bebas">
-          {title ?? "RECOMENDADO PARA VOCÊ"}
-        </h2>
+        <h2 className="text-[1.75rem] font-bebas">{title ?? "RECOMENDADO PARA VOCÊ"}</h2>
       </div>
 
       {error && (
@@ -100,12 +118,11 @@ const Recommended = ({
             </div>
           ) : (
             <>
-              {/* Primeira linha */}
               <div className="flex flex-wrap gap-3">
                 {firstLine.map((activity) => (
                   <div
                     key={activity.id}
-                    className={cardClass}
+                    className={`flex flex-col items-start cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap p-2 ${cardWidthClass}`}
                     onClick={() => handleActivityClick(activity)}
                   >
                     <div className="relative w-full h-40 mb-4 rounded-lg overflow-hidden">
@@ -124,10 +141,7 @@ const Recommended = ({
                     </p>
                     <div className="flex items-center gap-3 text-xs text-[#404040] mt-3 h-5">
                       <Calendar className="w-4 h-4 text-[#009966]" />
-                      {format(
-                        new Date(activity.scheduledDate),
-                        "dd/MM/yyyy HH:mm"
-                      )}
+                      {format(new Date(activity.scheduledDate), "dd/MM/yyyy HH:mm")}
                       <span className="mx-1">|</span>
                       <Users className="w-4 h-4 text-[#009966]" />
                       {activity.participantCount ?? 0}
@@ -136,21 +150,17 @@ const Recommended = ({
                 ))}
               </div>
 
-              {/* Segunda linha */}
               {secondLine.length > 0 && (
                 <div className="flex flex-wrap gap-3 mt-8">
                   {secondLine.map((activity) => (
                     <div
                       key={activity.id}
-                      className={cardClass}
+                      className={`flex flex-col items-start cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap p-2 ${cardWidthClass}`}
                       onClick={() => handleActivityClick(activity)}
                     >
                       <div className="relative w-full h-40 mb-4 rounded-lg overflow-hidden">
                         <img
-                          src={activity.image?.replace(
-                            "localstack",
-                            "localhost"
-                          )}
+                          src={activity.image?.replace("localstack", "localhost")}
                           className="w-full h-full object-cover rounded-lg"
                         />
                         {activity.private && (
@@ -164,10 +174,7 @@ const Recommended = ({
                       </p>
                       <div className="flex items-center gap-3 text-xs text-gray-500 mt-3 h-5">
                         <Calendar className="w-4 h-4 text-[#009966]" />
-                        {format(
-                          new Date(activity.scheduledDate),
-                          "dd/MM/yyyy HH:mm"
-                        )}
+                        {format(new Date(activity.scheduledDate), "dd/MM/yyyy HH:mm")}
                         <span className="mx-1">|</span>
                         <Users className="w-4 h-4 text-[#009966]" />
                         {activity.participantCount ?? 0}
