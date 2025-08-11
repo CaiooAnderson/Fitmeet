@@ -247,21 +247,16 @@ export default function ActivityDetails({
   useEffect(() => {
     setMarqueeParticipants((prev) => {
       const stillHere = participants.map((p) => p.userId);
+      let filtered = prev.filter((id) => stillHere.includes(id));
 
-      const filtered = prev.filter((id) => stillHere.includes(id));
+      filtered = filtered.filter((id) => {
+        const el = document.querySelector(
+          `[data-userid="${id}"] .participant-name`
+        ) as HTMLSpanElement;
+        return el ? el.scrollWidth > el.clientWidth : false;
+      });
 
-      const newWithMarquee = participants
-        .filter((p) => {
-          const el = document.querySelector(
-            `[data-userid="${p.userId}"] .participant-name`
-          ) as HTMLSpanElement;
-          return (
-            !prev.includes(p.userId) && el && el.scrollWidth > el.clientWidth
-          );
-        })
-        .map((p) => p.userId);
-
-      return [...filtered, ...newWithMarquee];
+      return filtered;
     });
   }, [participants]);
 
