@@ -155,8 +155,8 @@ function Menu() {
                     <p className="text-[1rem] font-semibold leading-[20px] max-h-[40px] overflow-hidden text-ellipsis">
                       {activity.title}
                     </p>
-                    <div className="flex items-center h-5 gap-[6px] text-xs text-gray-500 mt-3">
-                      <div className="flex items-center gap-[6px] min-w-32">
+                    <div className="flex items-center h-5 gap-1.5 text-xs text-gray-500 mt-3">
+                      <div className="flex items-center gap-1.5 min-w-32">
                         <Calendar className="w-4 h-4 text-[var(--primary-600)]" />
                         <span className="whitespace-nowrap">
                           {format(
@@ -166,7 +166,7 @@ function Menu() {
                         </span>
                       </div>
                       <span className="mx-1">|</span>
-                      <div className="flex items-center gap-[6px]">
+                      <div className="flex items-center gap-1.5">
                         <Users className="w-4 h-4 text-[var(--primary-600)]" />
                         {activity.participantCount ?? 0}
                       </div>
@@ -223,8 +223,8 @@ function Menu() {
                       <p className="text-[1rem] font-semibold leading-[20px] max-h-[40px] overflow-hidden text-ellipsis">
                         {activity.title}
                       </p>
-                      <div className="flex items-center h-5 gap-[6px] text-xs text-gray-500 mt-3">
-                        <div className="flex items-center gap-[6px] min-w-32">
+                      <div className="flex items-center h-5 gap-1.5 text-xs text-gray-500 mt-3">
+                        <div className="flex items-center gap-1.5 min-w-32">
                           <Calendar className="w-4 h-4 text-[var(--primary-600)]" />
                           <span className="whitespace-nowrap">
                             {format(
@@ -234,7 +234,7 @@ function Menu() {
                           </span>
                         </div>
                         <span className="mx-1">|</span>
-                        <div className="flex items-center gap-[6px]">
+                        <div className="flex items-center gap-1.5">
                           <Users className="w-4 h-4 text-[var(--primary-600)]" />
                           {activity.participantCount ?? 0}
                         </div>
