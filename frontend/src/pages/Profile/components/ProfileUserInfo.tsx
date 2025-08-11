@@ -107,7 +107,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
             <img
               src="/Level.png"
               alt="Ícone de nível"
-              className="w-[140px] h-[70px] object-contain"
+              className="w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain"
             />
           </div>
 
@@ -137,7 +137,10 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
             >
               <CarouselContent className="gap-0.25">
                 {user.achievements.map((ach, index) => (
-                  <CarouselItem key={index} className="basis-1/3">
+                  <CarouselItem
+                    key={index}
+                    className="basis-1/2 sm:basis-1/3"
+                  >
                     <div className="w-24 h-30 flex flex-col items-center justify-start gap-2 text-center group">
                       <div
                         className={`
