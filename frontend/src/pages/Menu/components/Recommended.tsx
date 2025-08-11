@@ -96,14 +96,14 @@ const Recommended = ({
             </div>
           ) : (
             <>
-              <div className="flex gap-3 h-57">
+              <div className="grid grid-cols-2 gap-3 h-57 md:flex">
                 {firstLine.map((activity) => (
                   <div
                     key={activity.id}
-                    className="flex flex-col items-start cursor-pointer w-74 overflow-hidden text-ellipsis whitespace-nowrap"
+                    className="flex flex-col items-start cursor-pointer w-full max-w-[18.5rem] overflow-hidden text-ellipsis whitespace-nowrap"
                     onClick={() => handleActivityClick(activity)}
                   >
-                    <div className="relative w-74 h-40 mb-4">
+                    <div className="relative w-full h-40 mb-4">
                       <img
                         src={activity.image?.replace("localstack", "localhost")}
                         className="w-full h-full rounded-lg object-cover"
@@ -132,14 +132,14 @@ const Recommended = ({
               </div>
 
               {secondLine.length > 0 && (
-                <div className="mt-8 flex gap-3 h-57">
+                <div className="mt-8 grid grid-cols-2 gap-3 h-57 md:flex">
                   {secondLine.map((activity) => (
                     <div
                       key={activity.id}
-                      className="flex flex-col items-start cursor-pointer w-74 overflow-hidden text-ellipsis whitespace-nowrap"
+                      className="flex flex-col items-start cursor-pointer w-full max-w-[18.5rem] overflow-hidden text-ellipsis whitespace-nowrap"
                       onClick={() => handleActivityClick(activity)}
                     >
-                      <div className="relative w-74 h-40 mb-4">
+                      <div className="relative w-full h-40 mb-4">
                         <img
                           src={activity.image?.replace(
                             "localstack",
