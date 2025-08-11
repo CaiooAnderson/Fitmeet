@@ -20,9 +20,12 @@ const ActivityTypes = ({
     const fetchActivityTypes = async () => {
       if (token) {
         try {
-          const res = await fetch(`${import.meta.env.VITE_API_URL}/activities/types`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          const res = await fetch(
+            `${import.meta.env.VITE_API_URL}/activities/types`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
           const data = await res.json();
           setActivityTypes(data);
         } catch {
@@ -45,11 +48,11 @@ const ActivityTypes = ({
       </h2>
       {error && <p className="text-red-500">{error}</p>}
 
-      <div className="flex flex-wrap gap-3 mt-4">
+      <div className="mt-4 grid grid-cols-2 gap-3 justify-center sm:flex sm:flex-wrap sm:gap-3">
         {tiposParaExibir.map((type) => (
           <div
             key={type.id}
-            className="flex flex-col items-center justify-start h-[122px] cursor-pointer text-[#171717]"
+            className="flex flex-col items-center justify-start h-[122px] cursor-pointer text-[#171717] sm:h-auto"
             onClick={() => handleTypeClick(type.id)}
           >
             <div className="flex items-center justify-center w-[90px] h-[90px] p-[5px]">

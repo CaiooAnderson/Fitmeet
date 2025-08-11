@@ -39,6 +39,7 @@ const ActivitiesByTypes = ({
   const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
   const [isSubscribeDialogOpen, setIsSubscribeDialogOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -68,6 +69,19 @@ const ActivitiesByTypes = ({
     }
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 768);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const limit = isSmallScreen ? 3 : (showLimit ?? 6);
+
   return (
     <div className="w-full flex flex-col gap-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -89,8 +103,8 @@ const ActivitiesByTypes = ({
                 encontrada.
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-x-6 gap-y-3">
-                {group.activities?.slice(0, showLimit ?? 6).map((activity) => (
+              <div className="grid grid-cols-1 gap-x-6 gap-y-3 md:grid-cols-2">
+                {group.activities?.slice(0, limit).map((activity) => (
                   <div
                     key={activity.id}
                     className="flex gap-3 cursor-pointer"
