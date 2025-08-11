@@ -48,11 +48,11 @@ const ActivityTypes = ({
       </h2>
       {error && <p className="text-red-500">{error}</p>}
 
-      <div className="mt-4 grid grid-cols-2 gap-3 justify-center sm:flex sm:flex-wrap sm:gap-3">
+      <div className="mt-4 flex flex-wrap gap-3 justify-start sm:grid sm:grid-cols-2 sm:justify-start">
         {tiposParaExibir.map((type) => (
           <div
             key={type.id}
-            className="flex flex-col items-center justify-start h-[122px] cursor-pointer text-[#171717] sm:h-auto"
+            className="flex flex-col items-center justify-start h-[122px] cursor-pointer text-[#171717]"
             onClick={() => handleTypeClick(type.id)}
           >
             <div className="flex items-center justify-center w-[90px] h-[90px] p-[5px]">
