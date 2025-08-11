@@ -34,6 +34,9 @@ export default function SubscribeActivity({
     activity.completedAt
   );
   const [marqueeTitle, setMarqueeTitle] = useState(false);
+  const [canMarqueeParticipants, setCanMarqueeParticipants] = useState<
+    string[]
+  >([]);
   const [marqueeParticipants, setMarqueeParticipants] = useState<string[]>([]);
   const titleRef = useRef<HTMLSpanElement>(null);
   const [canMarqueeTitle, setCanMarqueeTitle] = useState(false);
@@ -144,12 +147,11 @@ export default function SubscribeActivity({
           ) as HTMLSpanElement;
 
           if (!el) return false;
-
           return el.scrollWidth > el.clientWidth;
         })
         .map((p) => p.userId);
 
-      setMarqueeParticipants(updated);
+      setCanMarqueeParticipants(updated);
     };
 
     setTimeout(checkOverflow, 100);
@@ -278,23 +280,13 @@ export default function SubscribeActivity({
                     <div className="flex flex-col justify-center h-10.5 gap-0.5 max-w-[220px] overflow-hidden">
                       <span
                         className={`text-[1rem] font-semibold h-5 leading-none overflow-hidden ${
-                          marqueeParticipants.includes(participant.userId)
+                          canMarqueeParticipants.includes(participant.userId)
                             ? "cursor-pointer"
                             : "cursor-default"
                         }`}
                         onClick={() => {
                           if (
-                            marqueeParticipants.includes(participant.userId) ||
-                            (
-                              document.querySelector(
-                                `[data-userid="${participant.userId}"] .participant-name`
-                              ) as HTMLSpanElement
-                            )?.scrollWidth >
-                              (
-                                document.querySelector(
-                                  `[data-userid="${participant.userId}"] .participant-name`
-                                ) as HTMLSpanElement
-                              )?.clientWidth
+                            canMarqueeParticipants.includes(participant.userId)
                           ) {
                             setMarqueeParticipants((prev) =>
                               prev.includes(participant.userId)
