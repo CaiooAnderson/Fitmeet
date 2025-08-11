@@ -162,19 +162,30 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
     "
           style={{ minHeight: 0 }}
         >
-          <div className="flex flex-col gap-4 w-full lg:w-auto">
-            <ImageUpload
-              image={image}
-              previewUrl={previewUrl}
-              handleFileChange={setImage}
-              setPreviewUrl={setPreviewUrl}
-            />
-            <Inputs
-              title={title}
-              setTitle={setTitle}
-              description={description}
-              setDescription={setDescription}
-            />
+          <div
+            className="
+        flex flex-col gap-4 w-full lg:w-auto
+        items-center lg:items-start
+      "
+          >
+            <div className="w-80 flex flex-col items-center lg:items-start">
+              <ImageUpload
+                image={image}
+                previewUrl={previewUrl}
+                handleFileChange={setImage}
+                setPreviewUrl={setPreviewUrl}
+              />
+            </div>
+
+            <div className="w-80">
+              <Inputs
+                title={title}
+                setTitle={setTitle}
+                description={description}
+                setDescription={setDescription}
+              />
+            </div>
+
             <Schedule
               scheduledDate={scheduledDate}
               setScheduledDate={setScheduledDate}
@@ -197,12 +208,12 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
         </div>
 
         <AlertDialogFooter className="flex-shrink-0 mt-4">
-          <div className="w-full h-[48px] flex justify-end gap-4">
-            <AlertDialogCancel className="w-50 h-full rounded-lg text-white text-sm">
+          <div className="w-full h-[48px] flex flex-col sm:flex-row justify-center sm:justify-end gap-3">
+            <AlertDialogCancel className="w-full sm:w-48 h-full rounded-lg text-white text-sm">
               Cancelar
             </AlertDialogCancel>
             <AlertDialogAction
-              className="w-50 h-full rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
+              className="w-full sm:w-48 h-full rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
               onClick={handleCreateActivity}
             >
               Criar
