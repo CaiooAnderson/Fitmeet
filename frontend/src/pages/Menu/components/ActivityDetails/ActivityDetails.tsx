@@ -257,37 +257,15 @@ export default function ActivityDetails({
       <AlertDialog open={isOpen} onOpenChange={onClose}>
         <AlertDialogTitle></AlertDialogTitle>
         <AlertDialogDescription></AlertDialogDescription>
-        <AlertDialogContent
-          className="
-      w-full max-w-[848px]
-      max-h-[100vh]
-      border-0 p-6
-      flex flex-col
-      overflow-y-auto
-      rounded-none sm:rounded-xl
-      [@media(max-width:320px)]:min-w-[300px]
-    "
-        >
-          <div
-            className="
-        flex flex-col md:flex-row
-        gap-6 lg:gap-12 justify-center
-      "
-          >
-            <div
-              className="
-          flex flex-col gap-4
-          w-full max-w-[320px]
-          items-center lg:items-start xs:max-w-[280px]
-        "
-            >
+        <AlertDialogContent className="w-[848px] h-[752px] border-0 p-12">
+          <div className="flex gap-12">
+            <div className="flex flex-col w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
               <img
                 src={activity.image?.replace("localstack", "localhost")}
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
-
               <h2
-                className={`text-[2rem] h-9 mb-2 font-bebas w-full overflow-hidden ${
+                className={`text-[2rem] h-9 mb-2 font-bebas w-96 overflow-hidden ${
                   canMarqueeTitle ? "cursor-pointer" : ""
                 }`}
                 onClick={() => {
@@ -303,11 +281,9 @@ export default function ActivityDetails({
                   {activity.title}
                 </span>
               </h2>
-
               <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
                 {activity.description}
               </p>
-
               <div className="flex flex-col gap-3 h-27">
                 <div className="flex items-center gap-1.5 h-7">
                   <Calendar className="w-5 h-5 text-emerald-500" />
@@ -324,7 +300,6 @@ export default function ActivityDetails({
                     : "Livre participação"}
                 </div>
               </div>
-
               {localActivity.completedAt ? (
                 <AlertDialogAction
                   disabled
@@ -353,7 +328,7 @@ export default function ActivityDetails({
               )}
             </div>
 
-            <div className="flex flex-col xs:gap-6 gap-8 w-full lg:w-80 xs:w-70">
+            <div className="flex flex-col gap-6 w-80">
               <div className="flex flex-col gap-2 h-62">
                 <h3 className="text-[1.75rem] h-8 font-bebas">
                   PONTO DE ENCONTRO
@@ -369,14 +344,13 @@ export default function ActivityDetails({
               </div>
 
               <div
-                className={`flex flex-col gap-2 ${
-                  isCheckinTime ? "h-60" : "h-96"
-                } overflow-hidden`}
+                className={`flex flex-col gap-2 ${isCheckinTime ? "h-60" : "h-96"} overflow-hidden`}
               >
                 <h3 className="text-[1.75rem] h-8 font-bebas">PARTICIPANTES</h3>
                 <div className="flex flex-col gap-2 h-full overflow-auto pr-1">
                   {participants.map((participant) => {
                     const avatarUrl = participant.avatar;
+
                     return (
                       <div
                         key={participant.id}
@@ -393,6 +367,13 @@ export default function ActivityDetails({
                                 }
                                 alt={`${participant.name || "Usuário"} avatar`}
                                 onError={(e) => {
+                                  console.warn(
+                                    "Erro ao carregar imagem do participante:",
+                                    {
+                                      name: participant.name,
+                                      url: e.currentTarget.src,
+                                    }
+                                  );
                                   e.currentTarget.style.display = "none";
                                 }}
                               />
@@ -438,6 +419,7 @@ export default function ActivityDetails({
                                 {participant.name}
                               </span>
                             </span>
+
                             {participant.userId === activity.creator.id && (
                               <span className="text-[12px] h-4 leading-none">
                                 Organizador
@@ -478,9 +460,8 @@ export default function ActivityDetails({
                   })}
                 </div>
               </div>
-
               {isCheckinTime && (
-                <div className="w-full h-30 bg-[#f9f9f9] flex flex-col justify-center px-6 py-3 rounded-md gap-2">
+                <div className="w-80 h-30 bg-[#f9f9f9] flex flex-col justify-center px-6 py-3 rounded-md gap-2">
                   <div className="flex flex-row items-center gap-1 text-base font-semibold text-[#404040] mb-1">
                     <UserRoundCheck className="text-[var(--primary-600)]" />
                     Código de check-in
