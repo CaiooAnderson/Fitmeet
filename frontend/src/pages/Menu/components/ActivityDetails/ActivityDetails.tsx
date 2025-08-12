@@ -257,34 +257,23 @@ export default function ActivityDetails({
       <AlertDialog open={isOpen} onOpenChange={onClose}>
         <AlertDialogTitle></AlertDialogTitle>
         <AlertDialogDescription></AlertDialogDescription>
+
         <AlertDialogContent
-          className="w-[848px] h-[752px] border-0 p-12 max-w-full overflow-y-auto
-    [@media(max-width:1024px)]:w-full
-    [@media(max-width:768px)]:p-6
-    [@media(max-width:480px)]:p-4
-  "
+          className="w-[848px] h-[752px] border-0 p-12
+               max-w-full
+               sm:max-w-[848px]
+               sm:h-[752px]
+               overflow-y-auto
+               [@media(max-width:640px)]:p-6"
         >
-          <div
-            className="flex gap-12
-      flex-col
-      sm:flex-row
-    "
-          >
-            <div
-              className="
-          flex flex-col justify-between h-full
-          overflow-hidden text-ellipsis whitespace-nowrap break-words
-          w-96
-          sm:w-80         
-          max-w-full
-        "
-            >
+          <div className="flex gap-12 flex-col sm:flex-row">
+            <div className="flex flex-col w-full sm:w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
               <img
                 src={activity.image?.replace("localstack", "localhost")}
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
               <h2
-                className={`text-[2rem] h-9 mb-2 font-bebas w-full max-w-full overflow-hidden whitespace-nowrap ${
+                className={`text-[2rem] h-9 mb-2 font-bebas w-full sm:w-96 overflow-hidden ${
                   canMarqueeTitle ? "cursor-pointer" : ""
                 }`}
                 onClick={() => {
@@ -301,23 +290,14 @@ export default function ActivityDetails({
                 </span>
               </h2>
               <p
-                className="
-            text-[1rem] text-gray-700 whitespace-normal overflow-y-auto
-            mb-2 sm:mb-6
-            max-h-36 sm:max-h-36
-            [@media(max-width:640px)]:max-h-none
-          "
+                className="text-[1rem] text-gray-700 mb-6 whitespace-normal overflow-y-auto
+                     max-h-36
+                     [@media(max-width:640px)]:max-h-none"
                 style={{ minHeight: "auto" }}
               >
                 {activity.description}
               </p>
-              <div
-                className="
-            flex flex-col gap-3 
-            h-27 sm:h-27
-            [@media(max-width:640px)]:h-auto
-          "
-              >
+              <div className="flex flex-col gap-3 h-27">
                 <div className="flex items-center gap-1.5 h-7">
                   <Calendar className="w-5 h-5 text-emerald-500" />
                   {format(new Date(activity.scheduledDate), "dd/MM/yyyy HH:mm")}
@@ -333,41 +313,40 @@ export default function ActivityDetails({
                     : "Livre participação"}
                 </div>
               </div>
-              {localActivity.completedAt ? (
-                <AlertDialogAction
-                  disabled
-                  className="w-56 h-12 text-[1rem] rounded-sm mt-10 border border-gray-300 text-gray-500 bg-white cursor-not-allowed"
-                >
-                  Atividade encerrada
-                </AlertDialogAction>
-              ) : isEventStarted ? (
-                <AlertDialogAction
-                  onClick={handleConcludeActivity}
-                  className="w-56 h-12 text-[1rem] rounded-sm mt-10"
-                >
-                  <Flag className="mr-1.5 w-5 h-5 text-white" /> Encerrar
-                  atividade
-                </AlertDialogAction>
-              ) : (
-                <AlertDialogAction
-                  onClick={() => {
-                    setIsEditOpen(true);
-                    onClose();
-                  }}
-                  className="w-56 h-12 text-[1rem] bg-background border-1 border-[#171717] text-[#171717] hover:bg-primary/75 font-bold rounded-sm mt-10"
-                >
-                  <Pencil className="mr-1.5 w-6 h-6 text-black" /> Editar
-                </AlertDialogAction>
-              )}
+
+              <div className="hidden sm:block mt-10">
+                {localActivity.completedAt ? (
+                  <AlertDialogAction
+                    disabled
+                    className="w-56 h-12 text-[1rem] rounded-sm border border-gray-300 text-gray-500 bg-white cursor-not-allowed"
+                  >
+                    Atividade encerrada
+                  </AlertDialogAction>
+                ) : isEventStarted ? (
+                  <AlertDialogAction
+                    onClick={handleConcludeActivity}
+                    className="w-56 h-12 text-[1rem] rounded-sm"
+                  >
+                    <Flag className="mr-1.5 w-5 h-5 text-white" /> Encerrar
+                    atividade
+                  </AlertDialogAction>
+                ) : (
+                  <AlertDialogAction
+                    onClick={() => {
+                      setIsEditOpen(true);
+                      onClose();
+                    }}
+                    className="w-56 h-12 text-[1rem] bg-background border-1 border-[#171717] text-[#171717] hover:bg-primary/75 font-bold rounded-sm"
+                  >
+                    <Pencil className="mr-1.5 w-6 h-6 text-black" /> Editar
+                  </AlertDialogAction>
+                )}
+              </div>
             </div>
 
             <div
-              className="
-          flex flex-col gap-6
-          w-80           
-          sm:w-full       
-          max-w-full
-        "
+              className="flex flex-col gap-6 w-full sm:w-80
+                   max-w-full"
             >
               <div className="flex flex-col gap-2 h-62">
                 <h3 className="text-[1.75rem] h-8 font-bebas">
@@ -384,20 +363,16 @@ export default function ActivityDetails({
               </div>
 
               <div
-                className={`
-            flex flex-col gap-2
-            ${isCheckinTime ? "h-60" : "h-96"}
-            overflow-hidden overflow-y-auto
-            [@media(max-width:640px)]:h-auto
+                className={`flex flex-col gap-2 overflow-hidden ${
+                  isCheckinTime ? "h-60" : "h-96"
+                }
+          [@media(max-width:640px)]:h-auto
+          [@media(max-width:640px)]:max-h-none
+          [@media(max-width:640px)]:overflow-visible
           `}
               >
                 <h3 className="text-[1.75rem] h-8 font-bebas">PARTICIPANTES</h3>
-                <div
-                  className="flex flex-col gap-2 pr-1
-            [@media(max-width:640px)]:max-h-none
-            [@media(max-width:640px)]:overflow-visible
-          "
-                >
+                <div className="flex flex-col gap-2 h-full overflow-auto pr-1 [@media(max-width:640px)]:h-auto">
                   {participants.map((participant) => {
                     const avatarUrl = participant.avatar;
 
@@ -511,11 +486,37 @@ export default function ActivityDetails({
                 </div>
               </div>
 
+              <div className="sm:hidden mt-6 flex justify-center">
+                {localActivity.completedAt ? (
+                  <AlertDialogAction
+                    disabled
+                    className="w-56 h-12 text-[1rem] rounded-sm border border-gray-300 text-gray-500 bg-white cursor-not-allowed"
+                  >
+                    Atividade encerrada
+                  </AlertDialogAction>
+                ) : isEventStarted ? (
+                  <AlertDialogAction
+                    onClick={handleConcludeActivity}
+                    className="w-56 h-12 text-[1rem] rounded-sm"
+                  >
+                    <Flag className="mr-1.5 w-5 h-5 text-white" /> Encerrar
+                    atividade
+                  </AlertDialogAction>
+                ) : (
+                  <AlertDialogAction
+                    onClick={() => {
+                      setIsEditOpen(true);
+                      onClose();
+                    }}
+                    className="w-56 h-12 text-[1rem] bg-background border-1 border-[#171717] text-[#171717] hover:bg-primary/75 font-bold rounded-sm"
+                  >
+                    <Pencil className="mr-1.5 w-6 h-6 text-black" /> Editar
+                  </AlertDialogAction>
+                )}
+              </div>
+
               {isCheckinTime && (
-                <div
-                  className="w-80 h-30 bg-[#f9f9f9] flex flex-col justify-center px-6 py-3 rounded-md gap-2
-            sm:w-full"
-                >
+                <div className="w-80 h-30 bg-[#f9f9f9] flex flex-col justify-center px-6 py-3 rounded-md gap-2 mt-4">
                   <div className="flex flex-row items-center gap-1 text-base font-semibold text-[#404040] mb-1">
                     <UserRoundCheck className="text-[var(--primary-600)]" />
                     Código de check-in
