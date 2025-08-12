@@ -60,7 +60,7 @@ export default function Schedule({
           <Button
             variant="outline"
             className={cn(
-              "w-80 justify-between font-normal !px-5 !py-4 h-14 border-[var(--input-border)] rounded-lg text-[var(--text)]"
+              "w-full justify-between font-normal !px-5 !py-4 h-14 border-[var(--input-border)] rounded-lg text-[var(--text)]"
             )}
           >
             {scheduledDate ? (
