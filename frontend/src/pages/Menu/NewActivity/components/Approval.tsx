@@ -10,7 +10,7 @@ export default function Approval({
   setApprovalRequired,
 }: ApprovalProps) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col xs:gap-2 gap-4">
       <Label className="text-[1rem] font-semibold h-5 text-[var(--text)]">
         Requer aprovação para participar?{" "}
         <span className="text-[var(--warning)]">*</span>

@@ -187,14 +187,15 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
                 setDescription={setDescription}
               />
             </div>
-
-            <Schedule
-              scheduledDate={scheduledDate}
-              setScheduledDate={setScheduledDate}
-            />
+            <div className="w-80 xs:w-70">
+              <Schedule
+                scheduledDate={scheduledDate}
+                setScheduledDate={setScheduledDate}
+              />
+            </div>
           </div>
 
-          <div className="flex flex-col gap-6 w-full lg:w-80 xs:w-70">
+          <div className="flex flex-col xs:gap-6 gap-8 w-full lg:w-80 xs:w-70">
             <TypesAndLocation
               activityTypes={activityTypes}
               activityType={activityTypeId}
