@@ -260,26 +260,21 @@ export default function ActivityDetails({
 
         <AlertDialogContent
           className="
-        w-[848px] h-[752px] border-0 p-12 
-        overflow-y-auto
-        max-w-full
-        sm:max-w-[848px]
-        sm:h-[752px]
-        [@media(max-width:480px)]:p-6
-        [@media(max-width:320px)]:p-4
-      "
+      w-[848px] h-[752px] border-0 p-12 
+      overflow-y-auto
+      max-w-full
+      sm:max-w-[848px]
+      sm:h-[752px]
+      [@media(max-width:480px)]:p-6
+      [@media(max-width:320px)]:p-4
+    "
         >
-          <div
-            className="
-          flex gap-12
-          flex-col sm:flex-row
-        "
-          >
+          <div className="flex gap-12 flex-col sm:flex-row">
             <div
               className="
-            flex flex-col w-full sm:w-96 justify-between
-            overflow-hidden text-ellipsis whitespace-nowrap break-words
-          "
+          flex flex-col w-full sm:w-96 justify-between
+          overflow-hidden text-ellipsis whitespace-nowrap break-words
+        "
             >
               <img
                 src={activity.image?.replace("localstack", "localhost")}
@@ -305,15 +300,16 @@ export default function ActivityDetails({
 
               <p
                 className="
-              text-[1rem] h-36 text-gray-700
-              whitespace-normal overflow-y-auto
-              mb-2 sm:mb-6
-            "
+            text-[1rem] text-gray-700 whitespace-normal overflow-y-auto
+            mb-2 sm:mb-6 max-h-none sm:max-h-36
+            [@media(max-width:640px)]:max-h-none
+          "
+                style={{ minHeight: "auto" }}
               >
                 {activity.description}
               </p>
 
-              <div className="flex flex-col gap-3 h-27">
+              <div className="flex flex-col gap-3 h-27 sm:h-27 [@media(max-width:640px)]:h-auto">
                 <div className="flex items-center gap-1.5 h-7">
                   <Calendar className="w-5 h-5 text-emerald-500" />
                   {format(new Date(activity.scheduledDate), "dd/MM/yyyy HH:mm")}
@@ -376,12 +372,16 @@ export default function ActivityDetails({
               </div>
 
               <div
-                className={`flex flex-col gap-2 ${
-                  isCheckinTime ? "h-60" : "h-96"
-                } overflow-hidden`}
+                className="
+            flex flex-col gap-2 
+            max-h-96
+            [@media(max-width:640px)]:max-h-none
+            overflow-hidden
+            overflow-y-auto
+          "
               >
                 <h3 className="text-[1.75rem] h-8 font-bebas">PARTICIPANTES</h3>
-                <div className="flex flex-col gap-2 h-full overflow-auto pr-1">
+                <div className="flex flex-col gap-2 pr-1">
                   {participants.map((participant) => {
                     const avatarUrl = participant.avatar;
 
