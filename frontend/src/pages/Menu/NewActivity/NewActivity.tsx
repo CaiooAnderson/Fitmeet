@@ -160,7 +160,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
 
         <div
           className="
-        mt-6 flex flex-col lg:flex-row gap-6 lg:gap-12 justify-center
+        mt-6 flex flex-col md:flex-row gap-6 lg:gap-12 justify-center
       "
         >
           <div
