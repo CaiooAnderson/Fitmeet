@@ -170,7 +170,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
           items-center lg:items-start xs:max-w-[280px]
         "
           >
-            <div className="w-80 xs:w-70 flex flex-col items-center lg:items-start">
+            <div className="w-80 xs:w-70 max-[320px]:w-[300px] flex flex-col items-center lg:items-start">
               <ImageUpload
                 image={image}
                 previewUrl={previewUrl}
@@ -179,7 +179,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
               />
             </div>
 
-            <div className="w-80 xs:w-70">
+            <div className="w-80 xs:w-70 max-[320px]:w-[300px]">
               <Inputs
                 title={title}
                 setTitle={setTitle}
@@ -194,7 +194,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
             />
           </div>
 
-          <div className="flex flex-col gap-6 w-full lg:w-80 xs:w-70">
+          <div className="flex flex-col gap-6 w-full lg:w-80 xs:w-70 max-[320px]:w-[300px]">
             <TypesAndLocation
               activityTypes={activityTypes}
               activityType={activityTypeId}
