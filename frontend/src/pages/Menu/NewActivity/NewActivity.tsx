@@ -142,11 +142,12 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent
         className="
-    w-full max-w-[784px] 
-    h-[100vh] sm:h-[770px] 
-    border-0 p-6
-    flex flex-col rounded-none sm:rounded-xl
-  "
+      w-full max-w-[784px] 
+      h-[100vh] sm:h-[770px] 
+      border-0 p-6
+      flex flex-col 
+      rounded-none sm:rounded-xl
+    "
       >
         <div className="flex-shrink-0">
           <AlertDialogTitle className="text-[2rem] font-bebas font-normal">
@@ -157,17 +158,17 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
 
         <div
           className="
-      flex-1 overflow-y-auto mt-6
-      flex flex-col lg:flex-row gap-6 lg:gap-12 justify-center
-    "
+        flex-1 overflow-y-auto mt-6
+        flex flex-col lg:flex-row gap-6 lg:gap-12 justify-center
+      "
           style={{ minHeight: 0 }}
         >
           <div
             className="
-        flex flex-col gap-4
-        w-full max-w-[320px]
-        items-center lg:items-start
-      "
+          flex flex-col gap-4
+          w-full max-w-[320px]
+          items-center lg:items-start
+        "
           >
             <div className="w-80 flex flex-col items-center lg:items-start">
               <ImageUpload
