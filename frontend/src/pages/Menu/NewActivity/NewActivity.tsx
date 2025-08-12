@@ -143,10 +143,12 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
       <AlertDialogContent
         className="
       w-full max-w-[784px]
-      h-[100vh] sm:h-[770px]
+      max-h-[100vh]
       border-0 p-6
       flex flex-col
+      overflow-y-auto
       rounded-none sm:rounded-xl
+      [@media(max-width:320px)]:min-w-[320px]
     "
       >
         <div className="flex-shrink-0">
@@ -158,9 +160,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
 
         <div
           className="
-        flex-1 min-h-0 mt-6
-        overflow-y-auto
-        flex flex-col lg:flex-row gap-6 lg:gap-12 justify-center
+        mt-6 flex flex-col lg:flex-row gap-6 lg:gap-12 justify-center
       "
         >
           <div
