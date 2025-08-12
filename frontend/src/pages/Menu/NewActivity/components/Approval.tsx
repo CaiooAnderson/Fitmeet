@@ -15,7 +15,7 @@ export default function Approval({
         Requer aprovação para participar?{" "}
         <span className="text-[var(--warning)]">*</span>
       </Label>
-      <div className="flex gap-2 [@media(max-width:320px)]:px-2 [@media(max-width:320px)]:items-center">
+      <div className="flex gap-2">
         <button
           type="button"
           onClick={() => setApprovalRequired(true)}
