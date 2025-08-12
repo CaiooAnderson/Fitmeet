@@ -162,7 +162,7 @@ const MenuHeader = ({
 
       <div className="sm:hidden fixed bottom-4 right-4 z-50">
         <Button
-          className="flex items-center h-12 rounded-full shadow-lg bg-green-600 hover:bg-green-700"
+          className="flex items-center h-12 rounded-full shadow-lg bg-primary hover:bg-[var(--primary-600)]"
           onClick={onCreateActivity}
           aria-label="Criar atividade"
         >
