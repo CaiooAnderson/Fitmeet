@@ -28,7 +28,7 @@ export default function ImageUpload({
     <div className="flex flex-col gap-1.5">
       <Label
         htmlFor="image"
-        className="text-[1rem] font-semibold h-5 text-[var(--text)]"
+        className="text-[1rem] font-semibold h-5 text-[var(--text)] [@media(max-width:320px)]:w-4/5 [@media(max-width:320px)]:mx-auto"
       >
         Imagem <span className="text-[var(--warning)] h-5">*</span>
       </Label>
@@ -47,7 +47,7 @@ export default function ImageUpload({
       hover:outline-[var(--primary)] 
       hover:shadow-lg
       relative
-      ${imageLabelClassName ?? "h-32"}
+      ${imageLabelClassName ?? "h-32"} [@media(max-width:320px)]:w-4/5 [@media(max-width:320px)]:mx-auto
     `}
       >
         {previewUrl ? (
