@@ -289,12 +289,7 @@ export default function ActivityDetails({
                   {activity.title}
                 </span>
               </h2>
-              <p
-                className="text-[1rem] text-gray-700 mb-6 whitespace-normal overflow-y-auto
-                     max-h-36
-                     [@media(max-width:640px)]:max-h-none"
-                style={{ minHeight: "auto" }}
-              >
+              <p className="text-[1rem] text-gray-700 mb-6 whitespace-normal sm:max-h-36 sm:overflow-y-auto max-h-full overflow-visible">
                 {activity.description}
               </p>
               <div className="flex flex-col gap-3 h-27">
