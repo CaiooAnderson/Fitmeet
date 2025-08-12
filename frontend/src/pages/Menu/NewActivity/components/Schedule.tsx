@@ -14,13 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import {
-  addDays,
-  format,
-  isBefore,
-  setHours,
-  setMinutes,
-} from "date-fns";
+import { addDays, format, isBefore, setHours, setMinutes } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -57,7 +51,7 @@ export default function Schedule({
   };
 
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-1.5 w-80 [@media(max-width:320px)]:w-4/5 [@media(max-width:320px)]:mx-auto">
       <Label className="text-[1rem] font-semibold h-5 text-[var(--text)]">
         Agendar para <span className="text-[var(--warning)] h-5">*</span>
       </Label>
