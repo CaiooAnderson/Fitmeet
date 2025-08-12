@@ -45,6 +45,7 @@ export default function ActivityDetails({
   const [marqueeParticipants, setMarqueeParticipants] = useState<string[]>([]);
   const titleRef = useRef<HTMLSpanElement>(null);
   const [canMarqueeTitle, setCanMarqueeTitle] = useState(false);
+  const [isSmOrLarger, setIsSmOrLarger] = useState(window.innerWidth >= 640);
 
   const fetchParticipants = async () => {
     const token = sessionStorage.getItem("token");
@@ -202,14 +203,20 @@ export default function ActivityDetails({
   useEffect(() => {
     const checkTitleOverflow = () => {
       if (titleRef.current) {
-        const isOverflowing =
-          titleRef.current.scrollWidth > titleRef.current.clientWidth;
+        const limit = window.innerWidth >= 640 ? 384 : 320;
+        const isOverflowing = titleRef.current.scrollWidth > limit;
         setCanMarqueeTitle(isOverflowing);
       }
     };
+
     const timeout = setTimeout(checkTitleOverflow, 100);
 
-    return () => clearTimeout(timeout);
+    window.addEventListener("resize", checkTitleOverflow);
+
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("resize", checkTitleOverflow);
+    };
   }, [activity.title]);
 
   useEffect(() => {
@@ -246,6 +253,14 @@ export default function ActivityDetails({
       return filtered;
     });
   }, [participants]);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsSmOrLarger(window.innerWidth >= 640);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const scheduledDate = new Date(activity.scheduledDate);
   const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
@@ -289,7 +304,12 @@ export default function ActivityDetails({
                   {activity.title}
                 </span>
               </h2>
-              <p className="text-[1rem] text-gray-700 mb-6 whitespace-normal sm:max-h-36 sm:overflow-y-auto max-h-full overflow-visible">
+              <p
+                className="text-[1rem] text-gray-700 mb-6 whitespace-normal overflow-y-auto max-h-36"
+                style={{
+                  height: isSmOrLarger ? "9rem" : "auto",
+                }}
+              >
                 {activity.description}
               </p>
               <div className="flex flex-col gap-3 h-27">
