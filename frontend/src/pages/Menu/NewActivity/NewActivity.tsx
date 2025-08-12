@@ -165,20 +165,12 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
         >
           <div
             className="
-    flex flex-col gap-4
-    w-full max-w-[320px]
-    items-center lg:items-start
-    [@media(max-width:320px)]:w-4/5
-    [@media(max-width:320px)]:mx-auto
-  "
+          flex flex-col gap-4
+          w-full max-w-[320px]
+          items-center lg:items-start xs:max-w-[280px]
+        "
           >
-            <div
-              className="
-      w-80 
-      flex flex-col items-center lg:items-start
-      [@media(max-width:320px)]:w-full
-    "
-            >
+            <div className="w-80 xs:w-70 flex flex-col items-center lg:items-start">
               <ImageUpload
                 image={image}
                 previewUrl={previewUrl}
@@ -187,12 +179,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
               />
             </div>
 
-            <div
-              className="
-      w-80
-      [@media(max-width:320px)]:w-full
-    "
-            >
+            <div className="w-80 xs:w-70">
               <Inputs
                 title={title}
                 setTitle={setTitle}
@@ -201,18 +188,10 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
               />
             </div>
 
-            <div
-              className="
-      w-80
-      [@media(max-width:320px)]:w-4/5
-      [@media(max-width:320px)]:mx-auto
-    "
-            >
-              <Schedule
-                scheduledDate={scheduledDate}
-                setScheduledDate={setScheduledDate}
-              />
-            </div>
+            <Schedule
+              scheduledDate={scheduledDate}
+              setScheduledDate={setScheduledDate}
+            />
           </div>
 
           <div className="flex flex-col gap-6 w-full lg:w-80 xs:w-70">

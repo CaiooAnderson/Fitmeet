@@ -25,7 +25,7 @@ export default function ImageUpload({
   };
 
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-1.5 w-full">
       <Label
         htmlFor="image"
         className="text-[1rem] font-semibold h-5 text-[var(--text)] [@media(max-width:320px)]:w-4/5 [@media(max-width:320px)]:mx-auto"
