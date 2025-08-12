@@ -55,13 +55,14 @@ export default function Schedule({
       <Label className="text-[1rem] font-semibold h-5 text-[var(--text)]">
         Agendar para <span className="text-[var(--warning)] h-5">*</span>
       </Label>
-      <Popover open={openPopover} onOpenChange={setOpenPopover}>
+      <Popover modal open={openPopover} onOpenChange={setOpenPopover}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             className={cn(
               "w-full justify-between font-normal !px-5 !py-4 h-14 border-[var(--input-border)] rounded-lg text-[var(--text)]"
             )}
+            onClick={() => setOpenPopover(true)}
           >
             {scheduledDate ? (
               <span className="text-[16px] leading-[24px] h-6 flex items-center">
