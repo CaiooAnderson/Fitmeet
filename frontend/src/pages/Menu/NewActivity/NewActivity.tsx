@@ -148,7 +148,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
       flex flex-col
       overflow-y-auto
       rounded-none sm:rounded-xl
-      [@media(max-width:320px)]:min-w-[320px]
+      [@media(max-width:320px)]:min-w-[300px]
     "
       >
         <div className="flex-shrink-0">
@@ -167,10 +167,10 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
             className="
           flex flex-col gap-4
           w-full max-w-[320px]
-          items-center lg:items-start
+          items-center lg:items-start xs:max-w-[280px]
         "
           >
-            <div className="w-80 flex flex-col items-center lg:items-start">
+            <div className="w-80 xs:w-70 flex flex-col items-center lg:items-start">
               <ImageUpload
                 image={image}
                 previewUrl={previewUrl}
@@ -179,7 +179,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
               />
             </div>
 
-            <div className="w-80">
+            <div className="w-80 xs:w-70">
               <Inputs
                 title={title}
                 setTitle={setTitle}
@@ -194,7 +194,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
             />
           </div>
 
-          <div className="flex flex-col gap-6 w-full lg:w-80">
+          <div className="flex flex-col gap-6 w-full lg:w-80 xs:w-70">
             <TypesAndLocation
               activityTypes={activityTypes}
               activityType={activityTypeId}
