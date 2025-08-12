@@ -257,15 +257,34 @@ export default function ActivityDetails({
       <AlertDialog open={isOpen} onOpenChange={onClose}>
         <AlertDialogTitle></AlertDialogTitle>
         <AlertDialogDescription></AlertDialogDescription>
-        <AlertDialogContent className="w-[848px] h-[752px] border-0 p-12">
-          <div className="flex gap-12">
-            <div className="flex flex-col w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
+        <AlertDialogContent
+          className="w-[848px] h-[752px] border-0 p-12 max-w-full overflow-y-auto
+    [@media(max-width:1024px)]:w-full
+    [@media(max-width:768px)]:p-6
+    [@media(max-width:480px)]:p-4
+  "
+        >
+          <div
+            className="flex gap-12
+      flex-col
+      sm:flex-row
+    "
+          >
+            <div
+              className="
+          flex flex-col justify-between h-full
+          overflow-hidden text-ellipsis whitespace-nowrap break-words
+          w-96
+          sm:w-80         
+          max-w-full
+        "
+            >
               <img
                 src={activity.image?.replace("localstack", "localhost")}
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
               <h2
-                className={`text-[2rem] h-9 mb-2 font-bebas w-96 overflow-hidden ${
+                className={`text-[2rem] h-9 mb-2 font-bebas w-full max-w-full overflow-hidden whitespace-nowrap ${
                   canMarqueeTitle ? "cursor-pointer" : ""
                 }`}
                 onClick={() => {
@@ -281,10 +300,24 @@ export default function ActivityDetails({
                   {activity.title}
                 </span>
               </h2>
-              <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
+              <p
+                className="
+            text-[1rem] text-gray-700 whitespace-normal overflow-y-auto
+            mb-2 sm:mb-6
+            max-h-36 sm:max-h-36
+            [@media(max-width:640px)]:max-h-none
+          "
+                style={{ minHeight: "auto" }}
+              >
                 {activity.description}
               </p>
-              <div className="flex flex-col gap-3 h-27">
+              <div
+                className="
+            flex flex-col gap-3 
+            h-27 sm:h-27
+            [@media(max-width:640px)]:h-auto
+          "
+              >
                 <div className="flex items-center gap-1.5 h-7">
                   <Calendar className="w-5 h-5 text-emerald-500" />
                   {format(new Date(activity.scheduledDate), "dd/MM/yyyy HH:mm")}
@@ -328,7 +361,14 @@ export default function ActivityDetails({
               )}
             </div>
 
-            <div className="flex flex-col gap-6 w-80">
+            <div
+              className="
+          flex flex-col gap-6
+          w-80           
+          sm:w-full       
+          max-w-full
+        "
+            >
               <div className="flex flex-col gap-2 h-62">
                 <h3 className="text-[1.75rem] h-8 font-bebas">
                   PONTO DE ENCONTRO
@@ -344,10 +384,20 @@ export default function ActivityDetails({
               </div>
 
               <div
-                className={`flex flex-col gap-2 ${isCheckinTime ? "h-60" : "h-96"} overflow-hidden`}
+                className={`
+            flex flex-col gap-2
+            ${isCheckinTime ? "h-60" : "h-96"}
+            overflow-hidden overflow-y-auto
+            [@media(max-width:640px)]:h-auto
+          `}
               >
                 <h3 className="text-[1.75rem] h-8 font-bebas">PARTICIPANTES</h3>
-                <div className="flex flex-col gap-2 h-full overflow-auto pr-1">
+                <div
+                  className="flex flex-col gap-2 pr-1
+            [@media(max-width:640px)]:max-h-none
+            [@media(max-width:640px)]:overflow-visible
+          "
+                >
                   {participants.map((participant) => {
                     const avatarUrl = participant.avatar;
 
@@ -460,8 +510,12 @@ export default function ActivityDetails({
                   })}
                 </div>
               </div>
+
               {isCheckinTime && (
-                <div className="w-80 h-30 bg-[#f9f9f9] flex flex-col justify-center px-6 py-3 rounded-md gap-2">
+                <div
+                  className="w-80 h-30 bg-[#f9f9f9] flex flex-col justify-center px-6 py-3 rounded-md gap-2
+            sm:w-full"
+                >
                   <div className="flex flex-row items-center gap-1 text-base font-semibold text-[#404040] mb-1">
                     <UserRoundCheck className="text-[var(--primary-600)]" />
                     Código de check-in
