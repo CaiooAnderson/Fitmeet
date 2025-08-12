@@ -271,17 +271,15 @@ export default function ActivityDetails({
         >
           <div className="flex gap-12 flex-col sm:flex-row">
             <div
-              className="
-          flex flex-col w-full sm:w-96 justify-between
-          overflow-hidden text-ellipsis whitespace-nowrap break-words
-        "
+              className="flex flex-col w-full sm:w-96 [@media(max-width:320px)]:w-[280px] justify-between
+          overflow-hidden text-ellipsis whitespace-nowrap break-words max-w-full"
             >
               <img
                 src={activity.image?.replace("localstack", "localhost")}
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
               <h2
-                className={`text-[2rem] h-9 mb-2 font-bebas w-full overflow-hidden ${
+                className={`text-[2rem] h-9 mb-2 font-bebas w-full max-w-full overflow-hidden whitespace-nowrap ${
                   canMarqueeTitle ? "cursor-pointer" : ""
                 }`}
                 onClick={() => {
@@ -302,9 +300,8 @@ export default function ActivityDetails({
                 className="
             text-[1rem] text-gray-700 whitespace-normal overflow-y-auto
             mb-2 sm:mb-6 max-h-none sm:max-h-36
-            [@media(max-width:640px)]:max-h-none
+            [@media(max-width:640px)]:max-h-none min-h-auto
           "
-                style={{ minHeight: "auto" }}
               >
                 {activity.description}
               </p>
