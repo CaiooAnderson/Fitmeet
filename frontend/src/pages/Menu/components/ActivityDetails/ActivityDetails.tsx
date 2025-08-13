@@ -279,6 +279,16 @@ export default function ActivityDetails({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    setMarqueeTitle(false);
+
+    if (titleRef.current) {
+      const needsMarquee =
+        titleRef.current.scrollWidth > titleRef.current.clientWidth;
+      setCanMarqueeTitle(needsMarquee);
+    }
+  }, [activity]);
+
   const scheduledDate = new Date(activity.scheduledDate);
   const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
   const isCheckinTime = now >= checkinStart && now < scheduledDate;
@@ -316,7 +326,9 @@ export default function ActivityDetails({
                       : "320px",
                 }}
                 onClick={() => {
-                  if (canMarqueeTitle) setMarqueeTitle(!marqueeTitle);
+                  if (canMarqueeTitle) {
+                    setMarqueeTitle((prev) => !prev);
+                  }
                 }}
               >
                 <span
