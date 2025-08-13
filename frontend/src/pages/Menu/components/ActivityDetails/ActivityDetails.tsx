@@ -289,6 +289,12 @@ export default function ActivityDetails({
     }
   }, [activity]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      setMarqueeTitle(false);
+    }
+  }, [isOpen]);
+
   const scheduledDate = new Date(activity.scheduledDate);
   const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
   const isCheckinTime = now >= checkinStart && now < scheduledDate;
