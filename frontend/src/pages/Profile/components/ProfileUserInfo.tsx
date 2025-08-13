@@ -95,19 +95,19 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
 
       <div className="flex flex-col sm:flex-row gap-3 items-center sm:items-start mt-10 w-full max-w-[850px] justify-center">
         <div className="flex flex-col gap-8 bg-[#f5f5f5] rounded-lg px-8 py-8.5 w-full sm:w-[420px] h-52">
-          <div className="flex justify-between items-start">
+          <div className="flex justify-between items-start sm:items-center [@media(max-width:320px)]:flex-col [@media(max-width:320px)]:gap-1">
             <div className="flex flex-col gap-2">
               <span className="text-[0.75rem] h-[15px] font-semibold text-[var(--text)]">
                 Seu nível é
               </span>
-              <span className="text-[1.5rem] h-7.5 font-bold text-[var(--title)]">
+              <span className="text-[1.5rem] h-7.5 font-bold text-[var(--title)] [@media(max-width:320px)]:text-[1.25rem]">
                 {user.level}
               </span>
             </div>
             <img
               src="/Level.png"
               alt="Ícone de nível"
-              className="w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain"
+              className="w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain mt-1 sm:mt-0"
             />
           </div>
 
@@ -139,7 +139,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                 {user.achievements.map((ach, index) => (
                   <CarouselItem
                     key={index}
-                    className="basis-1/2 sm:basis-1/3"
+                    className="basis-1/2 sm:basis-1/3 [@media(max-width:320px)]:basis-full"
                   >
                     <div className="w-24 h-30 flex flex-col items-center justify-start gap-2 text-center group">
                       <div
