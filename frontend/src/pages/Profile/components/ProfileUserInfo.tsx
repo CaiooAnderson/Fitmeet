@@ -95,8 +95,8 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
 
       <div className="flex flex-col sm:flex-row gap-3 items-center sm:items-start mt-10 w-full max-w-[850px] justify-center">
         <div className="flex flex-col gap-8 bg-[#f5f5f5] rounded-lg px-8 py-8.5 w-full sm:w-[420px] h-52">
-          <div className="flex justify-between items-start sm:items-center [@media(max-width:320px)]:flex-col [@media(max-width:320px)]:gap-1">
-            <div className="flex flex-col gap-2">
+          <div className="flex justify-between items-start sm:items-center [@media(max-width:320px)]:flex-row [@media(max-width:320px)]:justify-center [@media(max-width:320px)]:items-center [@media(max-width:320px)]:gap-4">
+            <div className="flex flex-col gap-2 items-center [@media(max-width:320px)]:text-center">
               <span className="text-[0.75rem] h-[15px] font-semibold text-[var(--text)]">
                 Seu nível é
               </span>
@@ -139,7 +139,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                 {user.achievements.map((ach, index) => (
                   <CarouselItem
                     key={index}
-                    className="basis-1/2 sm:basis-1/3 [@media(max-width:320px)]:basis-full"
+                    className="basis-1/2 sm:basis-1/3 [@media(max-width:320px)]:basis-full flex justify-center"
                   >
                     <div className="w-24 h-30 flex flex-col items-center justify-start gap-2 text-center group">
                       <div
