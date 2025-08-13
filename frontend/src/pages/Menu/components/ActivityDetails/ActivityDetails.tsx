@@ -38,12 +38,12 @@ export default function ActivityDetails({
   const [now, setNow] = useState(new Date());
   const [participantCount, setParticipantCount] = useState(0);
   const [localActivity, setLocalActivity] = useState(activity);
-  const [marqueeTitle, setMarqueeTitle] = useState(false);
+  const [marqueeParticipants, setMarqueeParticipants] = useState<string[]>([]);
   const [canMarqueeParticipants, setCanMarqueeParticipants] = useState<
     string[]
   >([]);
-  const [marqueeParticipants, setMarqueeParticipants] = useState<string[]>([]);
   const titleRef = useRef<HTMLSpanElement>(null);
+  const [marqueeTitle, setMarqueeTitle] = useState(false);
   const [canMarqueeTitle, setCanMarqueeTitle] = useState(false);
   const [isSmOrLarger, setIsSmOrLarger] = useState(window.innerWidth >= 640);
 
@@ -257,7 +257,24 @@ export default function ActivityDetails({
   useEffect(() => {
     function handleResize() {
       setIsSmOrLarger(window.innerWidth >= 640);
+
+      if (titleRef.current) {
+        const screenWidth = window.innerWidth;
+        let maxWidth;
+
+        if (screenWidth <= 320) {
+          maxWidth = screenWidth * 0.8;
+        } else if (screenWidth < 640) {
+          maxWidth = 320;
+        } else {
+          maxWidth = titleRef.current.parentElement?.offsetWidth || 0;
+        }
+
+        setCanMarqueeTitle(titleRef.current.scrollWidth > maxWidth);
+      }
     }
+
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -288,9 +305,16 @@ export default function ActivityDetails({
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
               <h2
-                className={`text-[2rem] h-9 mb-2 font-bebas w-full sm:w-96 overflow-hidden ${
+                className={`text-[2rem] h-9 mb-2 font-bebas overflow-hidden ${
                   canMarqueeTitle ? "cursor-pointer" : ""
                 }`}
+                style={{
+                  width: isSmOrLarger
+                    ? "100%"
+                    : window.innerWidth <= 320
+                      ? `${window.innerWidth * 0.8}px`
+                      : "320px",
+                }}
                 onClick={() => {
                   if (canMarqueeTitle) setMarqueeTitle(!marqueeTitle);
                 }}
