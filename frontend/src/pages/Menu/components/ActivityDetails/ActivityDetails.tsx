@@ -45,6 +45,9 @@ export default function ActivityDetails({
   const titleRef = useRef<HTMLSpanElement>(null);
   const [marqueeTitle, setMarqueeTitle] = useState(false);
   const [canMarqueeTitle, setCanMarqueeTitle] = useState(false);
+  const [availableTitleWidth, setAvailableTitleWidth] = useState<number>(
+    window.innerWidth < 640 ? window.innerWidth * 0.8 : 0
+  );
   const [isSmOrLarger, setIsSmOrLarger] = useState(window.innerWidth >= 640);
 
   const fetchParticipants = async () => {
@@ -201,21 +204,56 @@ export default function ActivityDetails({
   }, [activity]);
 
   useEffect(() => {
-    const checkTitleOverflow = () => {
-      if (!titleRef.current) return;
-
-      const availableWidth =
+    const updateWidth = () => {
+      const width =
         window.innerWidth < 640
           ? window.innerWidth * 0.8
-          : titleRef.current.parentElement?.offsetWidth || 0;
+          : titleRef.current?.parentElement?.offsetWidth || 0;
+      setAvailableTitleWidth(width);
 
-      setCanMarqueeTitle(titleRef.current.scrollWidth > availableWidth);
+      if (titleRef.current) {
+        setCanMarqueeTitle(titleRef.current.scrollWidth > width);
+      }
     };
 
-    checkTitleOverflow();
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, [activity.title]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const updated = participants
+        .filter((p) => {
+          const el = document.querySelector(
+            `[data-userid="${p.userId}"] .participant-name`
+          ) as HTMLSpanElement;
+          return el ? el.scrollWidth > el.clientWidth : false;
+        })
+        .map((p) => p.userId);
+      setCanMarqueeParticipants(updated);
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, [participants]);
+
+  useEffect(() => {
+    const checkTitleOverflow = () => {
+      if (titleRef.current) {
+        const limit = window.innerWidth >= 640 ? 384 : 320;
+        const isOverflowing = titleRef.current.scrollWidth > limit;
+        setCanMarqueeTitle(isOverflowing);
+      }
+    };
+
+    const timeout = setTimeout(checkTitleOverflow, 100);
+
     window.addEventListener("resize", checkTitleOverflow);
 
-    return () => window.removeEventListener("resize", checkTitleOverflow);
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("resize", checkTitleOverflow);
+    };
   }, [activity.title]);
 
   useEffect(() => {
@@ -240,16 +278,14 @@ export default function ActivityDetails({
   useEffect(() => {
     setMarqueeParticipants((prev) => {
       const stillHere = participants.map((p) => p.userId);
-      let filtered = prev.filter((id) => stillHere.includes(id));
-
-      filtered = filtered.filter((id) => {
-        const el = document.querySelector(
-          `[data-userid="${id}"] .participant-name`
-        ) as HTMLSpanElement;
-        return el ? el.scrollWidth > el.clientWidth : false;
-      });
-
-      return filtered;
+      return prev
+        .filter((id) => stillHere.includes(id))
+        .filter((id) => {
+          const el = document.querySelector(
+            `[data-userid="${id}"] .participant-name`
+          ) as HTMLSpanElement;
+          return el ? el.scrollWidth > el.clientWidth : false;
+        });
     });
   }, [participants]);
 
@@ -320,26 +356,15 @@ export default function ActivityDetails({
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
               <h2
-                className={`text-[2rem] h-9 mb-2 font-bebas overflow-hidden ${
-                  canMarqueeTitle ? "cursor-pointer" : ""
-                }`}
-                style={{
-                  width:
-                    window.innerWidth < 640
-                      ? `${Math.floor(window.innerWidth * 0.8)}px`
-                      : "100%",
-                }}
+                className={`text-[2rem] h-9 mb-2 font-bebas overflow-hidden ${canMarqueeTitle ? "cursor-pointer" : ""}`}
+                style={{ width: availableTitleWidth }}
                 onClick={() => {
-                  if (canMarqueeTitle) {
-                    setMarqueeTitle((prev) => !prev);
-                  }
+                  if (canMarqueeTitle) setMarqueeTitle((prev) => !prev);
                 }}
               >
                 <span
                   ref={titleRef}
-                  className={`block max-w-full ${
-                    marqueeTitle ? "title-marquee" : "truncate"
-                  }`}
+                  className={`block max-w-full ${marqueeTitle ? "title-marquee" : "truncate"}`}
                 >
                   {activity.title}
                 </span>
