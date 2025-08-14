@@ -45,9 +45,7 @@ export default function ActivityDetails({
   const titleRef = useRef<HTMLSpanElement>(null);
   const [marqueeTitle, setMarqueeTitle] = useState(false);
   const [canMarqueeTitle, setCanMarqueeTitle] = useState(false);
-  const [availableTitleWidth, setAvailableTitleWidth] = useState<number>(
-    window.innerWidth < 640 ? window.innerWidth * 0.8 : 0
-  );
+
   const [isSmOrLarger, setIsSmOrLarger] = useState(window.innerWidth >= 640);
 
   const fetchParticipants = async () => {
@@ -204,24 +202,6 @@ export default function ActivityDetails({
   }, [activity]);
 
   useEffect(() => {
-    const updateWidth = () => {
-      const width =
-        window.innerWidth < 640
-          ? window.innerWidth * 0.8
-          : titleRef.current?.parentElement?.offsetWidth || 0;
-      setAvailableTitleWidth(width);
-
-      if (titleRef.current) {
-        setCanMarqueeTitle(titleRef.current.scrollWidth > width);
-      }
-    };
-
-    updateWidth();
-    window.addEventListener("resize", updateWidth);
-    return () => window.removeEventListener("resize", updateWidth);
-  }, [activity.title]);
-
-  useEffect(() => {
     const timeout = setTimeout(() => {
       const updated = participants
         .filter((p) => {
@@ -240,20 +220,16 @@ export default function ActivityDetails({
   useEffect(() => {
     const checkTitleOverflow = () => {
       if (titleRef.current) {
-        const limit = window.innerWidth >= 640 ? 384 : 320;
-        const isOverflowing = titleRef.current.scrollWidth > limit;
-        setCanMarqueeTitle(isOverflowing);
+        setCanMarqueeTitle(
+          titleRef.current.scrollWidth > titleRef.current.clientWidth
+        );
       }
     };
 
-    const timeout = setTimeout(checkTitleOverflow, 100);
+    checkTitleOverflow();
 
     window.addEventListener("resize", checkTitleOverflow);
-
-    return () => {
-      clearTimeout(timeout);
-      window.removeEventListener("resize", checkTitleOverflow);
-    };
+    return () => window.removeEventListener("resize", checkTitleOverflow);
   }, [activity.title]);
 
   useEffect(() => {
@@ -330,23 +306,6 @@ export default function ActivityDetails({
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    const updateWidthAndCheck = () => {
-      const parentWidth = titleRef.current?.parentElement?.offsetWidth || 0;
-      const width =
-        window.innerWidth < 640 ? window.innerWidth * 0.8 : parentWidth;
-      setAvailableTitleWidth(width);
-
-      if (titleRef.current) {
-        setCanMarqueeTitle(titleRef.current.scrollWidth > width);
-      }
-    };
-
-    updateWidthAndCheck();
-    window.addEventListener("resize", updateWidthAndCheck);
-    return () => window.removeEventListener("resize", updateWidthAndCheck);
-  }, [activity.title]);
-
   const scheduledDate = new Date(activity.scheduledDate);
   const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
   const isCheckinTime = now >= checkinStart && now < scheduledDate;
@@ -374,7 +333,6 @@ export default function ActivityDetails({
               />
               <h2
                 className={`text-[2rem] h-9 mb-2 font-bebas overflow-hidden ${canMarqueeTitle ? "cursor-pointer" : ""}`}
-                style={{ width: isSmOrLarger ? "100%" : availableTitleWidth }}
                 onClick={() => {
                   if (canMarqueeTitle) setMarqueeTitle((prev) => !prev);
                 }}
