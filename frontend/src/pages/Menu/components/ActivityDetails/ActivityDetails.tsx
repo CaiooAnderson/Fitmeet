@@ -202,21 +202,20 @@ export default function ActivityDetails({
 
   useEffect(() => {
     const checkTitleOverflow = () => {
-      if (titleRef.current) {
-        const limit = window.innerWidth >= 640 ? 384 : 320;
-        const isOverflowing = titleRef.current.scrollWidth > limit;
-        setCanMarqueeTitle(isOverflowing);
-      }
+      if (!titleRef.current) return;
+
+      const availableWidth =
+        window.innerWidth >= 640
+          ? titleRef.current.parentElement?.offsetWidth || 0
+          : window.innerWidth * 0.8;
+
+      setCanMarqueeTitle(titleRef.current.scrollWidth > availableWidth);
     };
 
-    const timeout = setTimeout(checkTitleOverflow, 100);
-
+    checkTitleOverflow();
     window.addEventListener("resize", checkTitleOverflow);
 
-    return () => {
-      clearTimeout(timeout);
-      window.removeEventListener("resize", checkTitleOverflow);
-    };
+    return () => window.removeEventListener("resize", checkTitleOverflow);
   }, [activity.title]);
 
   useEffect(() => {
