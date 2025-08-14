@@ -39,14 +39,33 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
   const textRef = useRef<HTMLSpanElement>(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
 
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
   useEffect(() => {
     const container = containerRef.current;
     const text = textRef.current;
-
     if (container && text) {
       setIsOverflowing(text.scrollWidth > container.clientWidth);
     }
   }, [user.name]);
+
+  useEffect(() => {
+    const updateIsMobile = () =>
+      setIsMobile(
+        (typeof window !== "undefined" &&
+          window.matchMedia &&
+          window.matchMedia("(pointer: coarse)").matches) ||
+          window.innerWidth <= 640
+      );
+    updateIsMobile();
+    window.addEventListener("resize", updateIsMobile);
+    return () => window.removeEventListener("resize", updateIsMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile && activeIndex !== null) setActiveIndex(null);
+  }, [isMobile, activeIndex]);
 
   return (
     <div className="relative flex flex-col items-center w-full bg-[#fafafa] rounded-lg p-10">
@@ -136,54 +155,79 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
               opts={{ align: "start", slidesToScroll: 1, loop: false }}
             >
               <CarouselContent className="gap-0.25">
-                {user.achievements.map((ach, index) => (
-                  <CarouselItem
-                    key={index}
-                    className="basis-1/2 sm:basis-1/3 [@media(max-width:320px)]:basis-full flex justify-center"
-                  >
-                    <div className="w-24 h-30 flex flex-col items-center justify-start gap-2 text-center group">
+                {user.achievements.map((ach, index) => {
+                  const isActive = isMobile && activeIndex === index;
+                  return (
+                    <CarouselItem
+                      key={index}
+                      className="basis-1/2 sm:basis-1/3 [@media(max-width:320px)]:basis-full flex justify-center"
+                    >
                       <div
-                        className={`
-              bg-[#ececec] rounded-full flex items-center justify-center
-              w-20 h-20 p-5 transition duration-300
-              ${!ach.name ? "" : "animate-pulse brightness-75 group-hover:brightness-100 group-hover:animate-none"}
-            `}
+                        className="w-24 h-30 flex flex-col items-center justify-start gap-2 text-center group"
+                        onClick={() => {
+                          if (isMobile) {
+                            setActiveIndex((prev) =>
+                              prev === index ? null : index
+                            );
+                          }
+                        }}
+                        role={isMobile ? "button" : undefined}
+                        tabIndex={isMobile ? 0 : -1}
+                        onKeyDown={(e) => {
+                          if (!isMobile) return;
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            setActiveIndex((prev) =>
+                              prev === index ? null : index
+                            );
+                          }
+                        }}
                       >
-                        <img
-                          src="/Achievement.png"
-                          alt={`Achievement ${ach.name}`}
-                          className="object-contain w-10 h-12"
-                        />
-                      </div>
-
-                      <div className="relative w-full h-5 overflow-hidden leading-none">
-                        <span
-                          className={`
-                text-[0.75rem] font-light
-                text-primary underline underline-offset-2 decoration-primary
-                block transition-opacity duration-300
-                group-hover:opacity-0
-              `}
+                        <div
+                          className={`bg-[#ececec] rounded-full flex items-center justify-center w-20 h-20 p-5 transition duration-300 ${
+                            !ach.name
+                              ? ""
+                              : "animate-pulse brightness-75 group-hover:brightness-100 group-hover:animate-none"
+                          }`}
                         >
-                          Conquista
-                        </span>
+                          <img
+                            src="/Achievement.png"
+                            alt={`Achievement ${ach.name}`}
+                            className="object-contain w-10 h-12"
+                          />
+                        </div>
 
-                        <span
-                          className={`
-                text-[0.75rem] font-light text-[var(--text)]
-                absolute left-0 top-0
-                whitespace-nowrap inline-block
-                opacity-0 group-hover:opacity-100
-                group-hover:animate-[marquee_6s_linear_infinite]
-                transition-opacity duration-300
-              `}
-                        >
-                          &nbsp;&nbsp;{ach.name}&nbsp;&nbsp;
-                        </span>
+                        <div className="relative w-full h-5 overflow-hidden leading-none">
+                          <span
+                            className={
+                              isMobile
+                                ? `text-[0.75rem] font-light text-primary underline underline-offset-2 decoration-primary block transition-opacity duration-300 ${
+                                    isActive ? "opacity-0" : "opacity-100"
+                                  }`
+                                : `text-[0.75rem] font-light text-primary underline underline-offset-2 decoration-primary block transition-opacity duration-300 group-hover:opacity-0`
+                            }
+                          >
+                            Conquista
+                          </span>
+
+                          <span
+                            className={
+                              isMobile
+                                ? `text-[0.75rem] font-light text-[var(--text)] absolute left-0 top-0 whitespace-nowrap inline-block transition-opacity duration-300 ${
+                                    isActive
+                                      ? "opacity-100 animate-[marquee_6s_linear_infinite]"
+                                      : "opacity-0"
+                                  }`
+                                : `text-[0.75rem] font-light text-[var(--text)] absolute left-0 top-0 whitespace-nowrap inline-block opacity-0 group-hover:opacity-100 group-hover:animate-[marquee_6s_linear_infinite] transition-opacity duration-300`
+                            }
+                          >
+                            &nbsp;&nbsp;{ach.name}&nbsp;&nbsp;
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </CarouselItem>
-                ))}
+                    </CarouselItem>
+                  );
+                })}
               </CarouselContent>
               <CarouselDots />
             </Carousel>
