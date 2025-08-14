@@ -220,9 +220,8 @@ export default function ActivityDetails({
   useEffect(() => {
     const checkTitleOverflow = () => {
       if (titleRef.current) {
-        setCanMarqueeTitle(
-          titleRef.current.scrollWidth > titleRef.current.clientWidth
-        );
+        const el = titleRef.current;
+        setCanMarqueeTitle(el.scrollWidth > el.clientWidth);
       }
     };
 
@@ -233,78 +232,17 @@ export default function ActivityDetails({
   }, [activity.title]);
 
   useEffect(() => {
-    const checkOverflow = () => {
-      const updated = participants
-        .filter((p) => {
-          const el = document.querySelector(
-            `[data-userid="${p.userId}"] .participant-name`
-          ) as HTMLSpanElement;
-
-          if (!el) return false;
-          return el.scrollWidth > el.clientWidth;
-        })
-        .map((p) => p.userId);
-
-      setCanMarqueeParticipants(updated);
-    };
-
-    setTimeout(checkOverflow, 100);
-  }, [participants]);
-
-  useEffect(() => {
-    setMarqueeParticipants((prev) => {
-      const stillHere = participants.map((p) => p.userId);
-      return prev
-        .filter((id) => stillHere.includes(id))
-        .filter((id) => {
-          const el = document.querySelector(
-            `[data-userid="${id}"] .participant-name`
-          ) as HTMLSpanElement;
-          return el ? el.scrollWidth > el.clientWidth : false;
-        });
-    });
-  }, [participants]);
-
-  useEffect(() => {
-    function handleResize() {
-      setIsSmOrLarger(window.innerWidth >= 640);
-
-      if (titleRef.current) {
-        const screenWidth = window.innerWidth;
-        let maxWidth;
-
-        if (screenWidth <= 320) {
-          maxWidth = screenWidth * 0.8;
-        } else if (screenWidth < 640) {
-          maxWidth = 320;
-        } else {
-          maxWidth = titleRef.current.parentElement?.offsetWidth || 0;
-        }
-
-        setCanMarqueeTitle(titleRef.current.scrollWidth > maxWidth);
-      }
-    }
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    setMarqueeTitle(false);
-
-    if (titleRef.current) {
-      const needsMarquee =
-        titleRef.current.scrollWidth > titleRef.current.clientWidth;
-      setCanMarqueeTitle(needsMarquee);
-    }
-  }, [activity]);
-
-  useEffect(() => {
     if (!isOpen) {
       setMarqueeTitle(false);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    const handleResize = () => setIsSmOrLarger(window.innerWidth >= 640);
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const scheduledDate = new Date(activity.scheduledDate);
   const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
@@ -332,14 +270,18 @@ export default function ActivityDetails({
                 className="h-56 w-full object-cover rounded-lg mb-6"
               />
               <h2
-                className={`text-[2rem] h-9 mb-2 font-bebas overflow-hidden ${canMarqueeTitle ? "cursor-pointer" : ""}`}
+                className={`text-[2rem] h-9 mb-2 font-bebas overflow-hidden ${
+                  canMarqueeTitle ? "cursor-pointer" : ""
+                }`}
                 onClick={() => {
                   if (canMarqueeTitle) setMarqueeTitle((prev) => !prev);
                 }}
               >
                 <span
                   ref={titleRef}
-                  className={`block max-w-full ${marqueeTitle ? "title-marquee" : "truncate"}`}
+                  className={`block max-w-full ${
+                    marqueeTitle ? "title-marquee" : "truncate"
+                  }`}
                 >
                   {activity.title}
                 </span>
