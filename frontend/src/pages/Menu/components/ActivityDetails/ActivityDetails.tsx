@@ -330,6 +330,23 @@ export default function ActivityDetails({
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    const updateWidthAndCheck = () => {
+      const parentWidth = titleRef.current?.parentElement?.offsetWidth || 0;
+      const width =
+        window.innerWidth < 640 ? window.innerWidth * 0.8 : parentWidth;
+      setAvailableTitleWidth(width);
+
+      if (titleRef.current) {
+        setCanMarqueeTitle(titleRef.current.scrollWidth > width);
+      }
+    };
+
+    updateWidthAndCheck();
+    window.addEventListener("resize", updateWidthAndCheck);
+    return () => window.removeEventListener("resize", updateWidthAndCheck);
+  }, [activity.title]);
+
   const scheduledDate = new Date(activity.scheduledDate);
   const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
   const isCheckinTime = now >= checkinStart && now < scheduledDate;
@@ -357,7 +374,7 @@ export default function ActivityDetails({
               />
               <h2
                 className={`text-[2rem] h-9 mb-2 font-bebas overflow-hidden ${canMarqueeTitle ? "cursor-pointer" : ""}`}
-                style={{ width: availableTitleWidth }}
+                style={{ width: isSmOrLarger ? "100%" : availableTitleWidth }}
                 onClick={() => {
                   if (canMarqueeTitle) setMarqueeTitle((prev) => !prev);
                 }}
