@@ -204,10 +204,11 @@ export default function ActivityDetails({
     const checkTitleOverflow = () => {
       if (!titleRef.current) return;
 
+      const screenWidth = window.innerWidth;
       const availableWidth =
-        window.innerWidth >= 640
-          ? titleRef.current.parentElement?.offsetWidth || 0
-          : window.innerWidth * 0.8;
+        screenWidth < 640
+          ? screenWidth * 0.8
+          : titleRef.current.parentElement?.offsetWidth || 0;
 
       setCanMarqueeTitle(titleRef.current.scrollWidth > availableWidth);
     };
