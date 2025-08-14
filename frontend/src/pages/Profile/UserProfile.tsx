@@ -135,7 +135,7 @@ function Menu() {
               {userActivities.slice(0, visibleActivities).map((activity) => (
                 <div
                   key={activity.id}
-                  className="flex gap-3 cursor-pointer"
+                  className="flex gap-2 sm:gap-3 cursor-pointer"
                   onClick={() => handleActivityClick(activity, true)}
                 >
                   <div className="relative w-22 h-22 flex-shrink-0">
@@ -203,7 +203,7 @@ function Menu() {
                 .map((activity) => (
                   <div
                     key={activity.id}
-                    className="flex gap-3 cursor-pointer"
+                    className="flex gap-2 sm:gap-3 cursor-pointer"
                     onClick={() => handleActivityClick(activity, false)}
                   >
                     <div className="relative w-22 h-22 flex-shrink-0">
