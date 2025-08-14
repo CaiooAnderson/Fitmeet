@@ -327,9 +327,7 @@ export default function ActivityDetails({
                 style={{
                   width: isSmOrLarger
                     ? "100%"
-                    : window.innerWidth <= 320
-                      ? `${window.innerWidth * 0.8}px`
-                      : "320px",
+                    : `${Math.floor(window.innerWidth * 0.8)}px`,
                 }}
                 onClick={() => {
                   if (canMarqueeTitle) {
