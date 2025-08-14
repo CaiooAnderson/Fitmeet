@@ -202,21 +202,21 @@ export default function ActivityDetails({
 
   useEffect(() => {
     const checkTitleOverflow = () => {
-      if (!titleRef.current) return;
-
-      const availableWidth =
-        window.innerWidth >= 640
-          ? titleRef.current.parentElement?.offsetWidth || 0
-          : window.innerWidth * 0.8;
-
-      const isOverflowing = titleRef.current.scrollWidth > availableWidth;
-      setCanMarqueeTitle(isOverflowing);
+      if (titleRef.current) {
+        const limit = window.innerWidth >= 640 ? 384 : 320;
+        const isOverflowing = titleRef.current.scrollWidth > limit;
+        setCanMarqueeTitle(isOverflowing);
+      }
     };
 
-    checkTitleOverflow();
+    const timeout = setTimeout(checkTitleOverflow, 100);
+
     window.addEventListener("resize", checkTitleOverflow);
 
-    return () => window.removeEventListener("resize", checkTitleOverflow);
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("resize", checkTitleOverflow);
+    };
   }, [activity.title]);
 
   useEffect(() => {
@@ -325,10 +325,9 @@ export default function ActivityDetails({
                   canMarqueeTitle ? "cursor-pointer" : ""
                 }`}
                 style={{
-                  width:
-                    window.innerWidth >= 640
-                      ? "100%"
-                      : `${window.innerWidth * 0.8}px`,
+                  width: isSmOrLarger
+                    ? "100%"
+                    : `${Math.floor(window.innerWidth * 0.8)}px`,
                 }}
                 onClick={() => {
                   if (canMarqueeTitle) {
