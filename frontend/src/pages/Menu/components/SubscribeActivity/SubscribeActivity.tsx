@@ -40,6 +40,10 @@ export default function SubscribeActivity({
   const [marqueeParticipants, setMarqueeParticipants] = useState<string[]>([]);
   const titleRef = useRef<HTMLSpanElement>(null);
   const [canMarqueeTitle, setCanMarqueeTitle] = useState(false);
+  const [availableTitleWidth, setAvailableTitleWidth] = useState<number>(
+    window.innerWidth < 640 ? window.innerWidth * 0.8 : 0
+  );
+  const [isSmOrLarger, setIsSmOrLarger] = useState(window.innerWidth >= 640);
 
   const fetchUser = async () => {
     const token = sessionStorage.getItem("token");
@@ -128,14 +132,20 @@ export default function SubscribeActivity({
   useEffect(() => {
     const checkTitleOverflow = () => {
       if (titleRef.current) {
-        const isOverflowing =
-          titleRef.current.scrollWidth > titleRef.current.clientWidth;
+        const limit = window.innerWidth >= 640 ? 384 : 320;
+        const isOverflowing = titleRef.current.scrollWidth > limit;
         setCanMarqueeTitle(isOverflowing);
       }
     };
+
     const timeout = setTimeout(checkTitleOverflow, 100);
 
-    return () => clearTimeout(timeout);
+    window.addEventListener("resize", checkTitleOverflow);
+
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("resize", checkTitleOverflow);
+    };
   }, [activity.title]);
 
   useEffect(() => {
@@ -157,35 +167,72 @@ export default function SubscribeActivity({
     setTimeout(checkOverflow, 100);
   }, [participants]);
 
+  useEffect(() => {
+    const updateWidthAndCheck = () => {
+      const parentWidth = titleRef.current?.parentElement?.offsetWidth || 0;
+      const width =
+        window.innerWidth < 640 ? window.innerWidth * 0.8 : parentWidth;
+      setAvailableTitleWidth(width);
+
+      if (titleRef.current) {
+        setCanMarqueeTitle(titleRef.current.scrollWidth > width);
+      }
+
+      setIsSmOrLarger(window.innerWidth >= 640);
+    };
+
+    updateWidthAndCheck();
+    window.addEventListener("resize", updateWidthAndCheck);
+    return () => window.removeEventListener("resize", updateWidthAndCheck);
+  }, [activity.title]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const updated = participants
+        .filter((p) => {
+          const el = document.querySelector(
+            `[data-userid="${p.userId}"] .participant-name`
+          ) as HTMLSpanElement;
+          return el ? el.scrollWidth > el.clientWidth : false;
+        })
+        .map((p) => p.userId);
+      setCanMarqueeParticipants(updated);
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, [participants]);
+
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => open || onClose()}>
       <AlertDialogTitle></AlertDialogTitle>
       <AlertDialogDescription></AlertDialogDescription>
       <AlertDialogContent className="w-[848px] h-[752px] border-0 p-12">
-        <div className="flex gap-12">
-          <div className="flex flex-col w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
+        <div className="flex gap-12 flex-col sm:flex-row">
+          <div className="flex flex-col sm:w-96 w-full justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
             <img
               src={activity.image?.replace("localstack", "localhost")}
               className="h-56 w-full object-cover rounded-lg mb-6"
             />
             <h2
-              className={`text-[2rem] h-9 mb-2 font-bebas w-96 overflow-hidden ${
-                canMarqueeTitle ? "cursor-pointer" : ""
-              }`}
+              className={`text-[2rem] h-9 mb-2 font-bebas overflow-hidden ${canMarqueeTitle ? "cursor-pointer" : ""}`}
+              style={{ width: isSmOrLarger ? "100%" : availableTitleWidth }}
               onClick={() => {
-                if (canMarqueeTitle) setMarqueeTitle(!marqueeTitle);
+                if (canMarqueeTitle) setMarqueeTitle((prev) => !prev);
               }}
             >
               <span
                 ref={titleRef}
-                className={`block max-w-full ${
-                  marqueeTitle ? "title-marquee" : "truncate"
-                }`}
+                className={`block max-w-full ${marqueeTitle ? "title-marquee" : "truncate"}`}
               >
                 {activity.title}
               </span>
             </h2>
-            <p className="text-[1rem] h-36 text-gray-700 mb-6 whitespace-normal overflow-y-auto">
+            <p
+              className="text-[1rem] text-gray-700 mb-6 whitespace-normal overflow-y-auto max-h-36"
+              style={{
+                height: isSmOrLarger ? "9rem" : "auto",
+              }}
+            >
               {activity.description}
             </p>
             <div className="flex flex-col gap-3 h-27">
@@ -228,7 +275,7 @@ export default function SubscribeActivity({
             )}
           </div>
 
-          <div className="flex flex-col gap-10 w-80">
+          <div className="flex flex-col gap-10 sm:w-80 max-w-full">
             <div className="flex flex-col gap-2 h-62">
               <h3 className="text-[1.75rem] h-8 font-bebas">
                 PONTO DE ENCONTRO
