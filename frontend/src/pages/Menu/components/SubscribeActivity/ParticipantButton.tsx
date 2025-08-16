@@ -197,7 +197,7 @@ export default function ParticipantButton({
         isWithinLast30Minutes(activity.scheduledDate) ? (
         <>
           <h3 className="font-bebas text-[28px] h-8">Faça seu check-in</h3>
-          <div className="flex gap-1.5 w-full rounded-[8px]">
+          <div className="flex flex-col sm:flex-row gap-1.5 w-full rounded-[8px]">
             <input
               type="text"
               placeholder="Código de confirmação"
@@ -217,7 +217,7 @@ export default function ParticipantButton({
       ) : confirmedAt ? (
         <>
           <h3 className="font-bebas text-[28px] h-8">Faça seu check-in</h3>
-          <div className="flex gap-1.5 w-full rounded-[8px]">
+          <div className="flex flex-col sm:flex-row gap-1.5 w-full rounded-[8px]">
             <input
               type="text"
               value={confirmationCodeProp ?? ""}
