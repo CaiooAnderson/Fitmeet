@@ -613,7 +613,7 @@ export default function ActivityDetails({
               </div>
 
               {isCheckinTime && (
-                <div className="w-80 h-30 bg-[#f9f9f9] flex flex-col justify-center px-6 py-3 rounded-md gap-2 mt-4">
+                <div className="w-80 h-30 bg-[#f9f9f9] flex flex-col justify-center px-6 py-3 rounded-md gap-2">
                   <div className="flex flex-row items-center gap-1 text-base font-semibold text-[#404040] mb-1">
                     <UserRoundCheck className="text-[var(--primary-600)]" />
                     Código de check-in

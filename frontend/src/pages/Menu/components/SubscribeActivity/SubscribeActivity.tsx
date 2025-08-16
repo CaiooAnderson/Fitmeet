@@ -219,7 +219,6 @@ export default function SubscribeActivity({
     "
       >
         <div className="flex gap-12 flex-col sm:flex-row">
-          {/* Coluna esquerda */}
           <div className="flex flex-col sm:w-96 w-full justify-between h-full overflow-hidden">
             <img
               src={activity.image?.replace("localstack", "localhost")}
@@ -292,7 +291,6 @@ export default function SubscribeActivity({
             )}
           </div>
 
-          {/* Coluna direita */}
           <div className="flex flex-col gap-6 sm:w-80 w-full max-w-full">
             <div className="flex flex-col gap-2 h-62 [@media(max-width:640px)]:h-auto">
               <h3 className="text-[1.75rem] h-8 font-bebas">
