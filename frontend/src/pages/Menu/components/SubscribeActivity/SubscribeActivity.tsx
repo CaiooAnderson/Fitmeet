@@ -210,8 +210,10 @@ export default function SubscribeActivity({
       <AlertDialogContent
         className="
       w-[848px] h-[752px] border-0 p-12
-      sm:rounded-xl
-      overflow-hidden  /* garante que nada vaze no desktop */
+      max-w-full
+      sm:max-w-[848px]
+      sm:h-[752px]
+      sm:overflow-y-auto rounded-none sm:rounded-xl
       [@media(max-width:640px)]:p-6
       [@media(max-width:640px)]:h-auto
       [@media(max-width:640px)]:max-h-[100vh]
@@ -219,7 +221,7 @@ export default function SubscribeActivity({
     "
       >
         <div className="flex gap-12 flex-col sm:flex-row">
-          <div className="flex flex-col sm:w-96 w-full justify-between h-full overflow-hidden">
+          <div className="flex flex-col w-full sm:w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
             <img
               src={activity.image?.replace("localstack", "localhost")}
               className="h-56 w-full object-cover rounded-lg mb-6"
@@ -246,7 +248,9 @@ export default function SubscribeActivity({
 
             <p
               className="text-[1rem] text-gray-700 mb-6 whitespace-normal overflow-y-auto max-h-36"
-              style={{ height: isSmOrLarger ? "9rem" : "auto" }}
+              style={{
+                height: isSmOrLarger ? "9rem" : "auto",
+              }}
             >
               {activity.description}
             </p>
@@ -267,7 +271,7 @@ export default function SubscribeActivity({
             </div>
 
             {userId && (
-              <div className="mt-6">
+              <div className="sm:hidden mt-6 flex justify-center">
                 <ParticipantButton
                   key={confirmedAt + confirmationCode}
                   activity={activity}
@@ -291,7 +295,7 @@ export default function SubscribeActivity({
             )}
           </div>
 
-          <div className="flex flex-col gap-6 sm:w-80 w-full max-w-full">
+          <div className="flex flex-col gap-6 w-full sm:w-80 max-w-full">
             <div className="flex flex-col gap-2 h-62 [@media(max-width:640px)]:h-auto">
               <h3 className="text-[1.75rem] h-8 font-bebas">
                 PONTO DE ENCONTRO
@@ -306,7 +310,14 @@ export default function SubscribeActivity({
               </div>
             </div>
 
-            <div className="flex flex-col gap-2 overflow-hidden h-92 [@media(max-width:640px)]:h-auto [@media(max-width:640px)]:max-h-none [@media(max-width:640px)]:overflow-visible">
+            <div
+              className={`
+            flex flex-col gap-2 overflow-hidden h-92
+            [@media(max-width:640px)]:h-auto
+            [@media(max-width:640px)]:max-h-none
+            [@media(max-width:640px)]:overflow-visible
+          `}
+            >
               <h3 className="text-[1.75rem] h-8 font-bebas">PARTICIPANTES</h3>
               <div className="flex flex-col gap-2.5 h-full overflow-auto pr-1 [@media(max-width:640px)]:h-auto">
                 {participants.map((participant) => (
@@ -374,6 +385,30 @@ export default function SubscribeActivity({
               </div>
             </div>
           </div>
+
+          {userId && (
+            <div className="hidden sm:block mt-10">
+              <ParticipantButton
+                key={confirmedAt + confirmationCode}
+                activity={activity}
+                userId={userId}
+                userSubscriptionStatus={userSubscriptionStatus}
+                confirmedAt={confirmedAt}
+                confirmationCode={confirmationCode}
+                activityCompletedAt={activityCompletedAt}
+                onStatusChange={(status, confirmed, code) => {
+                  setUserSubscriptionStatus(status);
+                  if (confirmed) {
+                    setConfirmedAt(confirmed);
+                    if (code) setConfirmationCode(code);
+                  } else {
+                    fetchParticipants();
+                  }
+                }}
+                onClose={onClose}
+              />
+            </div>
+          )}
         </div>
       </AlertDialogContent>
     </AlertDialog>
