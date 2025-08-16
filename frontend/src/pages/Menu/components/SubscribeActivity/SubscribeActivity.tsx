@@ -271,7 +271,7 @@ export default function SubscribeActivity({
             </div>
 
             {userId && (
-              <div className="sm:hidden mt-6 flex justify-center">
+              <div className="mt-6 flex justify-center">
                 <ParticipantButton
                   key={confirmedAt + confirmationCode}
                   activity={activity}
@@ -385,30 +385,6 @@ export default function SubscribeActivity({
               </div>
             </div>
           </div>
-
-          {userId && (
-            <div className="hidden sm:block mt-10">
-              <ParticipantButton
-                key={confirmedAt + confirmationCode}
-                activity={activity}
-                userId={userId}
-                userSubscriptionStatus={userSubscriptionStatus}
-                confirmedAt={confirmedAt}
-                confirmationCode={confirmationCode}
-                activityCompletedAt={activityCompletedAt}
-                onStatusChange={(status, confirmed, code) => {
-                  setUserSubscriptionStatus(status);
-                  if (confirmed) {
-                    setConfirmedAt(confirmed);
-                    if (code) setConfirmationCode(code);
-                  } else {
-                    fetchParticipants();
-                  }
-                }}
-                onClose={onClose}
-              />
-            </div>
-          )}
         </div>
       </AlertDialogContent>
     </AlertDialog>
