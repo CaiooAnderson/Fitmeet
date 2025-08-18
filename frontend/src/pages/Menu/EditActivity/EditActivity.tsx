@@ -194,7 +194,7 @@ export default function EditActivity({
         className="
       w-full h-full sm:w-[784px] sm:h-[790px] 
       border-0 
-      p-0 sm:p-6 sm:py-12
+      p-0 sm:p-6 sm:py-6
       max-w-full sm:max-w-[784px] 
       overflow-y-auto
     "
