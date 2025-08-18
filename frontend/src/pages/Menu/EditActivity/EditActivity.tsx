@@ -190,7 +190,13 @@ export default function EditActivity({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-[784px] h-[790px] border-0 p-6 max-w-[90%] sm:max-w-[784px] sm:h-[790px]">
+      <AlertDialogContent
+        className="
+      w-[784px] h-[790px] border-0 p-6
+      max-w-[80%] sm:max-w-[784px] sm:h-[790px]
+      overflow-y-auto
+    "
+      >
         <div className="p-6 h-full flex flex-col justify-between gap-10">
           <div>
             <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9 text-center sm:text-left">
