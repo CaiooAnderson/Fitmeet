@@ -202,6 +202,7 @@ export default function EditActivity({
       [@media(max-width:640px)]:h-auto
       [@media(max-width:640px)]:max-h-[100vh]
       [@media(max-width:640px)]:overflow-y-auto
+      [@media(max-width:320px)]:w-4/5
     "
       >
         <div className="h-full flex flex-col justify-between gap-10">
@@ -213,7 +214,7 @@ export default function EditActivity({
 
             <div className="mt-12 h-[522px]">
               <div className="flex justify-evenly gap-12 max-sm:flex-col max-sm:gap-6">
-                <div className="flex flex-col gap-4 w-full">
+                <div className="flex flex-col gap-4 min-w-[320px] w-full">
                   <ImageUpload
                     image={image}
                     previewUrl={previewUrl}
@@ -234,7 +235,7 @@ export default function EditActivity({
                   />
                 </div>
 
-                <div className="flex flex-col gap-6 w-80 max-sm:w-full">
+                <div className="flex flex-col gap-6 min-w-[320px] w-80 max-sm:w-full">
                   <TypesAndLocation
                     activityTypes={activityTypes}
                     activityType={activityTypeId}
