@@ -276,7 +276,7 @@ export default function SubscribeActivity({
             </div>
 
             {userId && (
-              <div className="mt-6 justify-center sm:justify-start">
+              <div className="mt-6 flex justify-center sm:justify-start">
                 <ParticipantButton
                   key={confirmedAt + confirmationCode}
                   activity={activity}
