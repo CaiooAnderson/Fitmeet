@@ -192,29 +192,34 @@ export default function EditActivity({
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent
         className="
-          w-[784px] border-0 p-12
-          max-w-full
-          sm:max-w-[784px]
-          h-auto
-          sm:h-[790px]
-          sm:overflow-visible
-          rounded-none sm:rounded-xl
-          [@media(max-width:640px)]:p-6
-          [@media(max-width:640px)]:max-h-[100vh]
-          [@media(max-width:640px)]:overflow-y-auto
-          [@media(max-width:320px)]:w-4/5
-        "
+      w-full sm:w-[784px] border-0 p-12
+      max-w-full sm:max-w-[784px]
+      h-auto sm:h-[790px]
+      sm:overflow-visible
+      rounded-none sm:rounded-xl
+      [@media(max-width:640px)]:p-6
+      [@media(max-width:640px)]:max-h-[100vh]
+      [@media(max-width:640px)]:overflow-y-auto
+    "
       >
         <div className="h-full flex flex-col justify-between gap-6 sm:gap-10">
           <div>
-            <AlertDialogTitle className="text-xl sm:text-[2rem] font-bebas font-normal h-9">
+            <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9 text-center sm:text-left">
               EDITAR ATIVIDADE
             </AlertDialogTitle>
             <AlertDialogDescription />
 
             <div className="mt-6 sm:mt-12 h-auto sm:h-[522px]">
-              <div className="flex justify-evenly gap-6 sm:gap-12 max-sm:flex-col">
-                <div className="flex flex-col gap-3 sm:gap-4 min-w-[280px] sm:min-w-[320px] w-full">
+              <div className="flex sm:justify-evenly gap-6 sm:gap-12 max-sm:flex-col max-sm:items-center">
+                <div
+                  className="
+                flex flex-col gap-3 sm:gap-4
+                w-full sm:w-auto
+                mx-auto sm:mx-0
+                max-w-[320px]
+                [@media(max-width:320px)]:w-4/5
+              "
+                >
                   <ImageUpload
                     image={image}
                     previewUrl={previewUrl}
@@ -235,7 +240,15 @@ export default function EditActivity({
                   />
                 </div>
 
-                <div className="flex flex-col gap-4 sm:gap-6 min-w-[280px] sm:min-w-[320px] w-full sm:w-80">
+                <div
+                  className="
+                flex flex-col gap-4 sm:gap-6
+                w-full sm:w-80
+                mx-auto sm:mx-0
+                max-w-[320px]
+                [@media(max-width:320px)]:w-4/5
+              "
+                >
                   <TypesAndLocation
                     activityTypes={activityTypes}
                     activityType={activityTypeId}
@@ -252,21 +265,19 @@ export default function EditActivity({
             </div>
           </div>
 
-          <AlertDialogFooter className="w-full flex sm:flex-row flex-col sm:justify-end justify-center">
-            <div className="w-full h-[40px] sm:h-[48px] flex justify-end gap-3 sm:gap-4">
-              <AlertDialogCancel
-                className="w-50 h-full rounded-lg text-[var(--warning)] bg-[#fff] border-1 border-[var(--warning)] hover:text-white text-sm"
-                onClick={handleDeleteActivity}
-              >
-                Deletar
-              </AlertDialogCancel>
-              <AlertDialogAction
-                className="w-50 h-full rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
-                onClick={handleUpdateActivity}
-              >
-                Confirmar
-              </AlertDialogAction>
-            </div>
+          <AlertDialogFooter className="w-full flex flex-col sm:flex-row sm:justify-end items-center gap-3 sm:gap-4">
+            <AlertDialogCancel
+              className="w-full sm:w-50 h-[48px] rounded-lg text-[var(--warning)] bg-[#fff] border-1 border-[var(--warning)] hover:text-white text-sm"
+              onClick={handleDeleteActivity}
+            >
+              Deletar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className="w-full sm:w-50 h-[48px] rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
+              onClick={handleUpdateActivity}
+            >
+              Confirmar
+            </AlertDialogAction>
           </AlertDialogFooter>
         </div>
       </AlertDialogContent>
