@@ -63,8 +63,7 @@ export default function EditActivity({
         const matchedType = typesData.find(
           (type: any) =>
             type.id === activity.typeId ||
-            (activity.type &&
-              type.name.toLowerCase() === activity.type.toLowerCase())
+            (activity.type && type.name.toLowerCase() === activity.type.toLowerCase())
         );
 
         setActivityTypeId(matchedType?.id ?? "");
@@ -190,78 +189,64 @@ export default function EditActivity({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent
-        className="
-      w-full h-full sm:w-[784px] sm:h-[790px] 
-      border-0 
-      p-0 sm:p-6
-      max-w-full sm:max-w-[784px] 
-      overflow-y-auto
-    "
-      >
-        <div className="h-full flex flex-col gap-10 py-4 sm:py-0">
-          <div className="flex flex-col items-center sm:items-start">
-            <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9 text-center sm:text-left">
+      <AlertDialogContent className="w-[784px] h-[790px] border-0 p-6">
+        <div className="p-6 h-full flex flex-col justify-between gap-10">
+          <div>
+            <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9">
               EDITAR ATIVIDADE
             </AlertDialogTitle>
             <AlertDialogDescription />
 
-            <div className="mt-12 h-auto sm:h-[522px] flex justify-center">
-              <div className="w-[80%] sm:w-full flex flex-col sm:flex-row justify-between gap-8 sm:gap-12 mb-6 sm:mb-0">
-                <div className="flex flex-col gap-4 w-full sm:w-auto">
+            <div className="mt-12 h-[522px]">
+              <div className="flex justify-evenly gap-12">
+                <div className="flex flex-col gap-4">
                   <ImageUpload
                     image={image}
                     previewUrl={previewUrl}
                     handleFileChange={setImage}
                     setPreviewUrl={setPreviewUrl}
-                    imageLabelClassName="h-39 w-full"
+                    imageLabelClassName="h-39"
                   />
                   <Inputs
                     title={title}
                     setTitle={setTitle}
                     description={description}
                     setDescription={setDescription}
-                    descriptionClassName="h-[102px] w-full"
+                    descriptionClassName="h-[102px]"
                   />
-                  <div className="w-full">
-                    <Schedule
-                      scheduledDate={scheduledDate}
-                      setScheduledDate={setScheduledDate}
-                    />
-                  </div>
+                  <Schedule
+                    scheduledDate={scheduledDate}
+                    setScheduledDate={setScheduledDate}
+                  />
                 </div>
 
-                <div className="flex flex-col gap-6 w-full sm:w-80">
-                  <div className="w-full">
-                    <TypesAndLocation
-                      activityTypes={activityTypes}
-                      activityType={activityTypeId}
-                      setActivityType={setActivityTypeId}
-                      coordinates={coordinates}
-                      setCoordinates={setCoordinates}
-                    />
-                  </div>
-                  <div className="w-full">
-                    <Approval
-                      approvalRequired={approvalRequired}
-                      setApprovalRequired={setApprovalRequired}
-                    />
-                  </div>
+                <div className="flex flex-col gap-6 w-80">
+                  <TypesAndLocation
+                    activityTypes={activityTypes}
+                    activityType={activityTypeId}
+                    setActivityType={setActivityTypeId}
+                    coordinates={coordinates}
+                    setCoordinates={setCoordinates}
+                  />
+                  <Approval
+                    approvalRequired={approvalRequired}
+                    setApprovalRequired={setApprovalRequired}
+                  />
                 </div>
               </div>
             </div>
           </div>
 
-          <AlertDialogFooter className="w-full mt-6 flex justify-center sm:justify-end">
-            <div className="w-[80%] sm:w-full h-[48px] flex flex-col sm:flex-row justify-end gap-4 mx-auto">
+          <AlertDialogFooter className="w-full flex justify-end">
+            <div className="w-full h-[48px] flex justify-end gap-4">
               <AlertDialogCancel
-                className="w-full sm:w-50 h-full rounded-lg text-[var(--warning)] bg-[#fff] border border-[var(--warning)] hover:text-white text-sm"
+                className="w-50 h-full rounded-lg text-[var(--warning)] bg-[#fff] border-1 border-[var(--warning)] hover:text-white text-sm"
                 onClick={handleDeleteActivity}
               >
                 Deletar
               </AlertDialogCancel>
               <AlertDialogAction
-                className="w-full sm:w-50 h-full rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
+                className="w-50 h-full rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
                 onClick={handleUpdateActivity}
               >
                 Confirmar
