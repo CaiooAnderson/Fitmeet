@@ -207,40 +207,47 @@ export default function EditActivity({
             <AlertDialogDescription />
 
             <div className="mt-12 h-auto sm:h-[522px] flex justify-center">
-              <div className="w-[80%] sm:w-full flex flex-col sm:flex-row justify-evenly gap-8 sm:gap-12">
+              <div className="w-[80%] sm:w-full flex flex-col sm:flex-row justify-evenly gap-8 sm:gap-12 mb-6 sm:mb-0">
                 <div className="flex flex-col gap-4 w-full sm:w-auto">
                   <ImageUpload
                     image={image}
                     previewUrl={previewUrl}
                     handleFileChange={setImage}
                     setPreviewUrl={setPreviewUrl}
-                    imageLabelClassName="h-39"
+                    imageLabelClassName="h-39 w-full"
                   />
                   <Inputs
                     title={title}
                     setTitle={setTitle}
                     description={description}
                     setDescription={setDescription}
-                    descriptionClassName="h-[102px]"
+                    descriptionClassName="h-[102px] w-full"
                   />
-                  <Schedule
-                    scheduledDate={scheduledDate}
-                    setScheduledDate={setScheduledDate}
-                  />
+                  <div className="w-full">
+                    <Schedule
+                      scheduledDate={scheduledDate}
+                      setScheduledDate={setScheduledDate}
+                    />
+                  </div>
                 </div>
 
                 <div className="flex flex-col gap-6 w-full sm:w-80">
-                  <TypesAndLocation
-                    activityTypes={activityTypes}
-                    activityType={activityTypeId}
-                    setActivityType={setActivityTypeId}
-                    coordinates={coordinates}
-                    setCoordinates={setCoordinates}
-                  />
-                  <Approval
-                    approvalRequired={approvalRequired}
-                    setApprovalRequired={setApprovalRequired}
-                  />
+                  <div className="w-full">
+                    <TypesAndLocation
+                      activityTypes={activityTypes}
+                      activityType={activityTypeId}
+                      setActivityType={setActivityTypeId}
+                      coordinates={coordinates}
+                      setCoordinates={setCoordinates}
+                    />
+                  </div>
+
+                  <div className="w-full">
+                    <Approval
+                      approvalRequired={approvalRequired}
+                      setApprovalRequired={setApprovalRequired}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
