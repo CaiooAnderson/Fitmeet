@@ -369,10 +369,10 @@ export default function ActivityDetails({
     [@media(max-width:640px)]:p-6
     [@media(max-width:640px)]:h-auto
     [@media(max-width:640px)]:max-h-[100vh]
-    [@media(max-width:640px)]:overflow-y-auto
+    [@media(max-width:640px)]:overflow-y-auto py-4 sm:py-0
   "
         >
-          <div className="flex gap-12 flex-col sm:flex-row sm:py-4 py-0">
+          <div className="flex gap-12 flex-col sm:flex-row">
             <div className="flex flex-col w-full sm:w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
               <img
                 src={activity.image?.replace("localstack", "localhost")}

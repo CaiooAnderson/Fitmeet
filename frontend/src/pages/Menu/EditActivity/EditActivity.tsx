@@ -196,7 +196,7 @@ export default function EditActivity({
       border-0 
       p-0 sm:p-6
       max-w-full sm:max-w-[784px] 
-      overflow-y-auto
+      overflow-y-auto py-4 sm:py-0
     "
       >
         <div className="h-full flex flex-col gap-10">
