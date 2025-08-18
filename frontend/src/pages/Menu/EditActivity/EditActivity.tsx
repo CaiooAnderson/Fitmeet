@@ -199,7 +199,7 @@ export default function EditActivity({
       overflow-y-auto
     "
       >
-        <div className="h-full flex flex-col justify-between gap-10">
+        <div className="h-full flex flex-col gap-10">
           <div className="flex flex-col items-center sm:items-start">
             <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9 text-center sm:text-left">
               EDITAR ATIVIDADE
@@ -246,7 +246,7 @@ export default function EditActivity({
             </div>
           </div>
 
-          <AlertDialogFooter className="w-full flex justify-end">
+          <AlertDialogFooter className="w-full mt-6 flex justify-center sm:justify-end">
             <div className="w-[80%] sm:w-full h-[48px] flex flex-col sm:flex-row justify-end gap-4 mx-auto">
               <AlertDialogCancel
                 className="w-full sm:w-50 h-full rounded-lg text-[var(--warning)] bg-[#fff] border border-[var(--warning)] hover:text-white text-sm"
