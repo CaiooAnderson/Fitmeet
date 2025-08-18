@@ -190,15 +190,28 @@ export default function EditActivity({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-[784px] h-[790px] border-0 p-0 sm:p-6">
-        <div className="h-full flex flex-col justify-between gap-10 pt-6 pb-6">
+      <AlertDialogContent
+        className="
+      w-[784px] h-[790px] border-0 p-12
+      max-w-full
+      sm:max-w-[784px]
+      sm:h-auto
+      sm:overflow-visible
+      rounded-none sm:rounded-xl
+      [@media(max-width:640px)]:p-6
+      [@media(max-width:640px)]:h-auto
+      [@media(max-width:640px)]:max-h-[100vh]
+      [@media(max-width:640px)]:overflow-y-auto
+    "
+      >
+        <div className="h-full flex flex-col justify-between gap-10">
           <div>
-            <AlertDialogTitle className="px-12 sm:px-6 text-[2rem] font-bebas font-normal h-9">
+            <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9">
               EDITAR ATIVIDADE
             </AlertDialogTitle>
             <AlertDialogDescription />
 
-            <div className="mt-12 h-[522px] px-12 sm:px-6">
+            <div className="mt-12 h-[522px]">
               <div className="flex justify-evenly gap-12 max-sm:flex-col max-sm:gap-6">
                 <div className="flex flex-col gap-4 w-full">
                   <ImageUpload
@@ -238,7 +251,7 @@ export default function EditActivity({
             </div>
           </div>
 
-          <AlertDialogFooter className="w-full flex justify-end px-12 sm:px-6">
+          <AlertDialogFooter className="w-full flex justify-end">
             <div className="w-full h-[48px] flex justify-end gap-4">
               <AlertDialogCancel
                 className="w-50 h-full rounded-lg text-[var(--warning)] bg-[#fff] border-1 border-[var(--warning)] hover:text-white text-sm"
