@@ -252,7 +252,7 @@ export default function EditActivity({
             </div>
           </div>
 
-          <AlertDialogFooter className="w-full flex justify-end">
+          <AlertDialogFooter className="w-full flex sm:justify-end justify-center">
             <div className="w-full h-[48px] flex justify-end gap-4">
               <AlertDialogCancel
                 className="w-50 h-full rounded-lg text-[var(--warning)] bg-[#fff] border-1 border-[var(--warning)] hover:text-white text-sm"
