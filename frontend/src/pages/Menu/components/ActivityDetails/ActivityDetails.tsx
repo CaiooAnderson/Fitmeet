@@ -359,12 +359,18 @@ export default function ActivityDetails({
         <AlertDialogDescription></AlertDialogDescription>
 
         <AlertDialogContent
-          className="w-[848px] h-[752px] border-0 p-12
-               max-w-full
-               sm:max-w-[848px]
-               sm:h-[752px]
-               sm:overflow-y-auto rounded-none sm:rounded-xl
-               [@media(max-width:640px)]:p-6 [@media(max-width:640px)]:h-auto [@media(max-width:640px)]:max-h-[100vh] [@media(max-width:640px)]:overflow-y-auto"
+          className="
+    w-[848px] border-0 p-12
+    max-w-full
+    sm:max-w-[848px]
+    sm:h-auto
+    sm:overflow-visible
+    rounded-none sm:rounded-xl
+    [@media(max-width:640px)]:p-6
+    [@media(max-width:640px)]:h-auto
+    [@media(max-width:640px)]:max-h-[100vh]
+    [@media(max-width:640px)]:overflow-y-auto
+  "
         >
           <div className="flex gap-12 flex-col sm:flex-row sm:py-4 py-0">
             <div className="flex flex-col w-full sm:w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">

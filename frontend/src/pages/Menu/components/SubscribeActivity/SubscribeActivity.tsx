@@ -209,16 +209,17 @@ export default function SubscribeActivity({
 
       <AlertDialogContent
         className="
-      w-[848px] h-[752px] border-0 p-12
-      max-w-full
-      sm:max-w-[848px]
-      sm:h-[752px]
-      sm:overflow-y-auto rounded-none sm:rounded-xl
-      [@media(max-width:640px)]:p-6
-      [@media(max-width:640px)]:h-auto
-      [@media(max-width:640px)]:max-h-[100vh]
-      [@media(max-width:640px)]:overflow-y-auto
-    "
+    w-[848px] border-0 p-12
+    max-w-full
+    sm:max-w-[848px]
+    sm:h-auto
+    sm:overflow-visible
+    rounded-none sm:rounded-xl
+    [@media(max-width:640px)]:p-6
+    [@media(max-width:640px)]:h-auto
+    [@media(max-width:640px)]:max-h-[100vh]
+    [@media(max-width:640px)]:overflow-y-auto
+  "
       >
         <div className="grid grid-cols-1 sm:grid-cols-[24rem_1fr] gap-12 w-full sm:py-4 py-0">
           <div className="flex flex-col justify-between h-full w-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
