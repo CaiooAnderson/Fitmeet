@@ -63,7 +63,8 @@ export default function EditActivity({
         const matchedType = typesData.find(
           (type: any) =>
             type.id === activity.typeId ||
-            (activity.type && type.name.toLowerCase() === activity.type.toLowerCase())
+            (activity.type &&
+              type.name.toLowerCase() === activity.type.toLowerCase())
         );
 
         setActivityTypeId(matchedType?.id ?? "");
@@ -189,17 +190,17 @@ export default function EditActivity({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-[784px] h-[790px] border-0 p-6">
+      <AlertDialogContent className="w-[784px] h-[790px] border-0 p-6 max-w-[90%] sm:max-w-[784px] sm:h-[790px]">
         <div className="p-6 h-full flex flex-col justify-between gap-10">
           <div>
-            <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9">
+            <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9 text-center sm:text-left">
               EDITAR ATIVIDADE
             </AlertDialogTitle>
             <AlertDialogDescription />
 
-            <div className="mt-12 h-[522px]">
-              <div className="flex justify-evenly gap-12">
-                <div className="flex flex-col gap-4">
+            <div className="mt-12 h-auto sm:h-[522px]">
+              <div className="flex flex-col sm:flex-row justify-evenly gap-8 sm:gap-12">
+                <div className="flex flex-col gap-4 w-full sm:w-auto">
                   <ImageUpload
                     image={image}
                     previewUrl={previewUrl}
@@ -220,7 +221,7 @@ export default function EditActivity({
                   />
                 </div>
 
-                <div className="flex flex-col gap-6 w-80">
+                <div className="flex flex-col gap-6 w-full sm:w-80">
                   <TypesAndLocation
                     activityTypes={activityTypes}
                     activityType={activityTypeId}
@@ -238,15 +239,15 @@ export default function EditActivity({
           </div>
 
           <AlertDialogFooter className="w-full flex justify-end">
-            <div className="w-full h-[48px] flex justify-end gap-4">
+            <div className="w-full h-[48px] flex flex-col sm:flex-row justify-end gap-4">
               <AlertDialogCancel
-                className="w-50 h-full rounded-lg text-[var(--warning)] bg-[#fff] border-1 border-[var(--warning)] hover:text-white text-sm"
+                className="w-full sm:w-50 h-full rounded-lg text-[var(--warning)] bg-[#fff] border border-[var(--warning)] hover:text-white text-sm"
                 onClick={handleDeleteActivity}
               >
                 Deletar
               </AlertDialogCancel>
               <AlertDialogAction
-                className="w-50 h-full rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
+                className="w-full sm:w-50 h-full rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
                 onClick={handleUpdateActivity}
               >
                 Confirmar
