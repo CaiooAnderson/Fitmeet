@@ -220,7 +220,7 @@ export default function SubscribeActivity({
       [@media(max-width:640px)]:overflow-y-auto
     "
       >
-        <div className="grid grid-cols-1 sm:grid-cols-[24rem_1fr] gap-12 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-[24rem_1fr] gap-12 w-full py-4">
           <div className="flex flex-col justify-between h-full w-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
             <div>
               <img
