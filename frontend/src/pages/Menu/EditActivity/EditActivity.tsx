@@ -191,7 +191,7 @@ export default function EditActivity({
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className="w-[784px] h-[790px] border-0 p-0 sm:p-6">
-        <div className="h-full flex flex-col justify-between gap-10 sm:px-12 px-6 pt-6 pb-6">
+        <div className="h-full flex flex-col justify-between gap-10 sm:px-6 px-0 pt-6 pb-6">
           <div>
             <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9">
               EDITAR ATIVIDADE
