@@ -194,7 +194,7 @@ export default function EditActivity({
         className="
       w-full h-full sm:w-[784px] sm:h-[790px] 
       border-0 
-      p-0 sm:p-6
+      p-0 sm:p-6 sm:py-12
       max-w-full sm:max-w-[784px] 
       overflow-y-auto
     "
@@ -208,7 +208,7 @@ export default function EditActivity({
 
             <div className="mt-12 h-auto sm:h-[522px] flex justify-center">
               <div className="w-[80%] sm:w-full flex flex-col sm:flex-row justify-between gap-8 sm:gap-12 mb-6 sm:mb-0">
-                <div className="flex flex-col gap-4 w-full sm:w-auto sm:px-12">
+                <div className="flex flex-col gap-4 w-full sm:w-[calc(50%-24px)]">
                   <ImageUpload
                     image={image}
                     previewUrl={previewUrl}
@@ -231,7 +231,7 @@ export default function EditActivity({
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-6 w-full sm:w-auto sm:px-12">
+                <div className="flex flex-col gap-6 w-full sm:w-[calc(50%-24px)]">
                   <div className="w-full">
                     <TypesAndLocation
                       activityTypes={activityTypes}
