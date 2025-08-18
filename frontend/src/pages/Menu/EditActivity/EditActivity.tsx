@@ -190,16 +190,23 @@ export default function EditActivity({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-full h-full sm:w-[784px] sm:h-[790px] border-0 p-6 max-w-full sm:max-w-[784px] sm:rounded-lg overflow-y-auto">
+      <AlertDialogContent
+        className="
+      w-full h-full sm:w-[784px] sm:h-[790px] 
+      border-0 p-6 
+      max-w-full sm:max-w-[784px] 
+      overflow-y-auto
+    "
+      >
         <div className="p-6 h-full flex flex-col justify-between gap-10">
-          <div>
+          <div className="flex flex-col items-center sm:items-start">
             <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9 text-center sm:text-left">
               EDITAR ATIVIDADE
             </AlertDialogTitle>
             <AlertDialogDescription />
 
             <div className="mt-12 h-auto sm:h-[522px] flex justify-center">
-              <div className="flex flex-col sm:flex-row justify-evenly gap-8 sm:gap-12 w-[80%] sm:w-auto">
+              <div className="w-[80%] sm:w-full flex flex-col sm:flex-row justify-evenly gap-8 sm:gap-12">
                 <div className="flex flex-col gap-4 w-full sm:w-auto">
                   <ImageUpload
                     image={image}
@@ -239,7 +246,7 @@ export default function EditActivity({
           </div>
 
           <AlertDialogFooter className="w-full flex justify-end">
-            <div className="w-[80%] sm:w-full h-[48px] flex flex-col sm:flex-row justify-end gap-4">
+            <div className="w-full h-[48px] flex flex-col sm:flex-row justify-end gap-4">
               <AlertDialogCancel
                 className="w-full sm:w-50 h-full rounded-lg text-[var(--warning)] bg-[#fff] border border-[var(--warning)] hover:text-white text-sm"
                 onClick={handleDeleteActivity}
