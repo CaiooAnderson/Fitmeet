@@ -107,7 +107,7 @@ const ActivitiesByTypes = ({
                 {group.activities?.slice(0, limit).map((activity) => (
                   <div
                     key={activity.id}
-                    className="flex gap-3 cursor-pointer"
+                    className="flex gap-2 sm:gap-3 cursor-pointer"
                     onClick={() => handleActivityClick(activity)}
                   >
                     <div className="relative w-22 h-22 flex-shrink-0">
