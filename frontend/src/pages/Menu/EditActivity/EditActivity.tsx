@@ -192,54 +192,62 @@ export default function EditActivity({
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent
         className="
-      w-full h-full sm:w-[784px] sm:h-[790px]
-      border-0
-      p-0 sm:p-12
-      max-w-full sm:max-w-[784px]
+      w-full h-full sm:w-[784px] sm:h-[790px] 
+      border-0 
+      p-0 sm:p-6 sm:py-6
+      max-w-full sm:max-w-[784px] 
       overflow-y-auto
     "
       >
         <div className="h-full flex flex-col gap-10 py-4 sm:py-0">
-          <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9 text-center sm:text-left">
-            EDITAR ATIVIDADE
-          </AlertDialogTitle>
-          <AlertDialogDescription />
+          <div className="flex flex-col items-center sm:items-start">
+            <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9 text-center sm:text-left">
+              EDITAR ATIVIDADE
+            </AlertDialogTitle>
+            <AlertDialogDescription />
 
-          <div className="mt-12 h-auto sm:h-[522px] flex justify-center">
-            <div className="w-[80%] sm:w-full flex flex-col sm:flex-row justify-between gap-8 sm:gap-12 mb-6 sm:mb-0">
-              <div className="flex flex-col gap-4 w-full sm:w-[calc(50%-24px)]">
-                <ImageUpload
-                  image={image}
-                  previewUrl={previewUrl}
-                  handleFileChange={setImage}
-                  setPreviewUrl={setPreviewUrl}
-                  imageLabelClassName="h-39 w-full"
-                />
-                <Inputs
-                  title={title}
-                  setTitle={setTitle}
-                  description={description}
-                  setDescription={setDescription}
-                  descriptionClassName="h-[102px] w-full"
-                />
-                <Schedule
-                  scheduledDate={scheduledDate}
-                  setScheduledDate={setScheduledDate}
-                />
-              </div>
+            <div className="mt-12 h-auto sm:h-[522px] flex justify-center">
+              <div className="w-[80%] sm:w-full flex flex-col sm:flex-row justify-between gap-8 sm:gap-12 mb-6 sm:mb-0">
+                <div className="flex flex-col gap-4 w-full sm:w-[calc(50%-24px)]">
+                  <ImageUpload
+                    image={image}
+                    previewUrl={previewUrl}
+                    handleFileChange={setImage}
+                    setPreviewUrl={setPreviewUrl}
+                    imageLabelClassName="h-39 w-full"
+                  />
+                  <Inputs
+                    title={title}
+                    setTitle={setTitle}
+                    description={description}
+                    setDescription={setDescription}
+                    descriptionClassName="h-[102px] w-full"
+                  />
+                  <div className="w-full">
+                    <Schedule
+                      scheduledDate={scheduledDate}
+                      setScheduledDate={setScheduledDate}
+                    />
+                  </div>
+                </div>
 
-              <div className="flex flex-col gap-6 w-full sm:w-[calc(50%-24px)]">
-                <TypesAndLocation
-                  activityTypes={activityTypes}
-                  activityType={activityTypeId}
-                  setActivityType={setActivityTypeId}
-                  coordinates={coordinates}
-                  setCoordinates={setCoordinates}
-                />
-                <Approval
-                  approvalRequired={approvalRequired}
-                  setApprovalRequired={setApprovalRequired}
-                />
+                <div className="flex flex-col gap-6 w-full sm:w-[calc(50%-24px)]">
+                  <div className="w-full">
+                    <TypesAndLocation
+                      activityTypes={activityTypes}
+                      activityType={activityTypeId}
+                      setActivityType={setActivityTypeId}
+                      coordinates={coordinates}
+                      setCoordinates={setCoordinates}
+                    />
+                  </div>
+                  <div className="w-full">
+                    <Approval
+                      approvalRequired={approvalRequired}
+                      setApprovalRequired={setApprovalRequired}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
