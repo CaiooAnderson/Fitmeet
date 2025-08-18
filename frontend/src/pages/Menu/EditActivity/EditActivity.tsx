@@ -196,10 +196,10 @@ export default function EditActivity({
       border-0 
       p-0 sm:p-6
       max-w-full sm:max-w-[784px] 
-      overflow-y-auto py-4 sm:py-0
+      overflow-y-auto
     "
       >
-        <div className="h-full flex flex-col gap-10">
+        <div className="h-full flex flex-col gap-10 py-4 sm:py-0">
           <div className="flex flex-col items-center sm:items-start">
             <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9 text-center sm:text-left">
               EDITAR ATIVIDADE
