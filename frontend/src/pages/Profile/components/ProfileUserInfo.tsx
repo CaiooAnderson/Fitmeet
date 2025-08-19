@@ -89,12 +89,12 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
         </Avatar>
         <h1
           ref={containerRef}
-          className="relative text-[2rem] font-bebas overflow-hidden w-48 text-center"
+          className="relative text-[2rem] font-bebas overflow-hidden w-48 text-center whitespace-nowrap"
         >
           <span
             ref={textRef}
             className={
-              isOverflowing ? "title-marquee inline-block" : "inline-block"
+              isOverflowing ? "title-marquee inline-block" : "inline-block truncate"
             }
           >
             {user.name}
