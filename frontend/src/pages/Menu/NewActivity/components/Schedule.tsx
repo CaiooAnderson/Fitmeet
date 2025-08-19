@@ -21,13 +21,11 @@ import { useState } from "react";
 interface ScheduleProps {
   scheduledDate: Date | undefined;
   setScheduledDate: (date: Date | undefined) => void;
-  setIsScheduleOpen?: (open: boolean) => void;
 }
 
 export default function Schedule({
   scheduledDate,
   setScheduledDate,
-  setIsScheduleOpen,
 }: ScheduleProps) {
   const [openPopover, setOpenPopover] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
@@ -57,14 +55,7 @@ export default function Schedule({
       <Label className="text-[1rem] font-semibold h-5 text-[var(--text)]">
         Agendar para <span className="text-[var(--warning)] h-5">*</span>
       </Label>
-      <Popover
-        modal
-        open={openPopover}
-        onOpenChange={(open) => {
-          setOpenPopover(open);
-          setIsScheduleOpen?.(open);
-        }}
-      >
+      <Popover modal open={openPopover} onOpenChange={setOpenPopover}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"

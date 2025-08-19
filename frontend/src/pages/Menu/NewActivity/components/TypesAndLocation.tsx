@@ -4,7 +4,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { MapContainer, TileLayer, Marker, useMapEvents, Pane } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 
 interface TypesAndLocationProps {
@@ -13,7 +13,6 @@ interface TypesAndLocationProps {
   setActivityType: (id: string) => void;
   coordinates: { lat: number; lng: number } | null;
   setCoordinates: (pos: { lat: number; lng: number }) => void;
-  isScheduleOpen: boolean;
 }
 
 function LocationMarker({
@@ -35,7 +34,6 @@ export default function TypesAndLocation({
   setActivityType,
   coordinates,
   setCoordinates,
-  isScheduleOpen,
 }: TypesAndLocationProps) {
   const mapCenter: [number, number] = coordinates
     ? [coordinates.lat, coordinates.lng]
@@ -85,7 +83,7 @@ export default function TypesAndLocation({
           Ponto de encontro <span className="text-[var(--warning)] h-5">*</span>
         </Label>
 
-        <div className="h-52 rounded-[0.625rem] overflow-visible relative">
+        <div className="h-52 rounded-[0.625rem] overflow-hidden relative">
           <MapContainer
             center={mapCenter}
             zoom={13}
@@ -109,29 +107,14 @@ export default function TypesAndLocation({
                 })}
               />
             )}
-
-            {coordinates && !isScheduleOpen && (
-              <Pane name="coordinatesOverlay" style={{ zIndex: 650 }}>
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: 8,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    background: "rgba(0,0,0,0.6)",
-                    color: "white",
-                    padding: "2px 8px",
-                    fontSize: "12px",
-                    borderRadius: "4px",
-                    pointerEvents: "none",
-                  }}
-                >
-                  Lat: {coordinates.lat.toFixed(5)}, Lng:{" "}
-                  {coordinates.lng.toFixed(5)}
-                </div>
-              </Pane>
-            )}
           </MapContainer>
+
+          {coordinates && (
+            <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded-md z-[20]">
+              Lat: {coordinates.lat.toFixed(5)}, Lng:{" "}
+              {coordinates.lng.toFixed(5)}
+            </div>
+          )}
         </div>
       </div>
     </>
