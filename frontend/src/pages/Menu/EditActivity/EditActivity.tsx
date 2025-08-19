@@ -200,6 +200,7 @@ export default function EditActivity({
       [@media(max-width:640px)]:p-6
       [@media(max-width:640px)]:max-h-[100vh]
       [@media(max-width:640px)]:overflow-y-auto
+      [@media(max-width:320px)]:p-4
     "
       >
         <div className="h-full flex flex-col justify-between gap-6 sm:gap-10">
@@ -218,6 +219,7 @@ export default function EditActivity({
                 mx-auto sm:mx-0
                 max-w-[320px]
                 [@media(max-width:320px)]:w-4/5
+                [@media(max-width:320px)]:max-w-none
               "
                 >
                   <ImageUpload
@@ -246,6 +248,7 @@ export default function EditActivity({
                 w-full sm:w-80
                 mx-auto sm:mx-0
                 max-w-[320px]
+                [@media(max-width:320px)]:max-w-none
                 [@media(max-width:320px)]:w-4/5
               "
                 >
@@ -271,7 +274,7 @@ export default function EditActivity({
       w-full sm:w-50 h-[48px] rounded-lg
       text-[var(--warning)] bg-[#fff] border-1 border-[var(--warning)]
       hover:text-white text-sm
-      max-w-[320px] [@media(max-width:320px)]:w-4/5
+      max-w-[320px] [@media(max-width:320px)]:w-4/5 [@media(max-width:320px)]:max-w-none
     "
               onClick={handleDeleteActivity}
             >
@@ -282,7 +285,7 @@ export default function EditActivity({
               className="
       w-full sm:w-50 h-[48px] rounded-lg
       bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]
-      max-w-[320px] [@media(max-width:320px)]:w-4/5
+      max-w-[320px] [@media(max-width:320px)]:w-4/5 [@media(max-width:320px)]:max-w-none
     "
               onClick={handleUpdateActivity}
             >
