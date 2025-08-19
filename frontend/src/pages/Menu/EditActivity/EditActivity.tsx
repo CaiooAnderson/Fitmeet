@@ -214,11 +214,16 @@ export default function EditActivity({
 
         <div
           className="mt-6 flex flex-col sm:flex-row gap-6 sm:gap-12 justify-center
-                [@media(max-width:320px)]:px-0
-                [@media(max-width:320px)]:w-[272px]
-                [@media(max-width:320px)]:mx-auto"
+             [@media(max-width:320px)]:px-0
+             [@media(max-width:320px)]:gap-4
+             [@media(max-width:320px)]:justify-start"
         >
-          <div className="flex flex-col gap-4 w-full max-w-[272px] items-center sm:items-start">
+          <div
+            className="flex flex-col gap-4 w-full sm:w-auto items-center sm:items-start
+               [@media(max-width:320px)]:w-[272px]
+               [@media(max-width:320px)]:max-w-[272px]
+               [@media(max-width:320px)]:mx-auto"
+          >
             <div className="w-full flex flex-col items-center sm:items-start">
               <ImageUpload
                 image={image}
@@ -247,7 +252,12 @@ export default function EditActivity({
             </div>
           </div>
 
-          <div className="flex flex-col xs:gap-6 gap-8 w-full max-w-[272px]">
+          <div
+            className="flex flex-col xs:gap-6 gap-8 w-full sm:w-80
+               [@media(max-width:320px)]:w-[272px]
+               [@media(max-width:320px)]:max-w-[272px]
+               [@media(max-width:320px)]:mx-auto"
+          >
             <TypesAndLocation
               activityTypes={activityTypes}
               activityType={activityTypeId}
