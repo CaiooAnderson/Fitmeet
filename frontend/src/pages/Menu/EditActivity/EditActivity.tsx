@@ -214,7 +214,14 @@ export default function EditActivity({
 
         <div className="mt-6 flex flex-col sm:flex-row gap-6 sm:gap-12 justify-center">
           <div className="flex flex-col gap-4 w-full max-w-[320px] items-center sm:items-start xs:max-w-[280px]">
-            <div className="w-80 xs:w-70 flex flex-col items-center sm:items-start">
+            <div
+              className="
+  w-80 xs:w-70 
+  flex flex-col items-center sm:items-start
+  [@media(max-width:360px)]:w-[calc(100vw-48px)]
+  [@media(max-width:320px)]:w-[calc(100vw-48px)]
+"
+            >
               <ImageUpload
                 image={image}
                 previewUrl={previewUrl}
@@ -224,7 +231,13 @@ export default function EditActivity({
               />
             </div>
 
-            <div className="w-80 xs:w-70">
+            <div
+              className="
+  w-80 xs:w-70 
+  [@media(max-width:360px)]:w-[calc(100vw-48px)]
+  [@media(max-width:320px)]:w-[calc(100vw-48px)]
+"
+            >
               <Inputs
                 title={title}
                 setTitle={setTitle}
@@ -234,7 +247,13 @@ export default function EditActivity({
               />
             </div>
 
-            <div className="w-80 xs:w-70">
+            <div
+              className="
+  w-80 xs:w-70 
+  [@media(max-width:360px)]:w-[calc(100vw-48px)]
+  [@media(max-width:320px)]:w-[calc(100vw-48px)]
+"
+            >
               <Schedule
                 scheduledDate={scheduledDate}
                 setScheduledDate={setScheduledDate}
@@ -242,7 +261,14 @@ export default function EditActivity({
             </div>
           </div>
 
-          <div className="flex flex-col xs:gap-6 gap-8 w-full sm:w-80 xs:w-70 max-w-[320px] xs:max-w-[280px]">
+          <div
+            className="
+  flex flex-col xs:gap-6 gap-8 
+  w-full sm:w-80 xs:w-70 max-w-[320px] xs:max-w-[280px]
+  [@media(max-width:360px)]:w-[calc(100vw-48px)]
+  [@media(max-width:320px)]:w-[calc(100vw-48px)]
+"
+          >
             <TypesAndLocation
               activityTypes={activityTypes}
               activityType={activityTypeId}
