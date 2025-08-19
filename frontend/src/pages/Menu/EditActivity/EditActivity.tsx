@@ -200,121 +200,80 @@ export default function EditActivity({
       [@media(max-width:640px)]:p-6
       [@media(max-width:640px)]:max-h-[100vh]
       [@media(max-width:640px)]:overflow-y-auto
-
       [@media(max-width:320px)]:p-0
       [@media(max-width:320px)]:w-screen
+      [@media(max-width:320px)]:min-w-[300px]
     "
       >
-        <div
-          className="h-full flex flex-col justify-between gap-6 sm:gap-10 [@media(max-width:320px)]:w-screen
-    [@media(max-width:320px)]:px-0"
-        >
-          <div>
-            <AlertDialogTitle
-              className="
-            text-[2rem] font-bebas font-normal h-9
-            text-center sm:text-left
-          "
-            >
-              EDITAR ATIVIDADE
-            </AlertDialogTitle>
-            <AlertDialogDescription />
+        <div className="flex-shrink-0">
+          <AlertDialogTitle className="text-[2rem] font-bebas font-normal text-center sm:text-left">
+            EDITAR ATIVIDADE
+          </AlertDialogTitle>
+          <AlertDialogDescription />
+        </div>
 
-            <div className="mt-6 sm:mt-12 h-auto sm:h-[522px]">
-              <div
-                className="
-              flex sm:justify-evenly gap-6 sm:gap-12 max-sm:flex-col max-sm:items-center
-              [@media(max-width:320px)]:gap-4
-            "
-              >
-                <div
-                  className="
-                flex flex-col gap-3 sm:gap-4
-                w-full sm:w-auto
-                mx-auto sm:mx-0
-                [@media(max-width:320px)]:w-[80%]
-                [@media(max-width:320px)]:max-w-none
-                [@media(max-width:320px)]:mx-auto
-              "
-                >
-                  <ImageUpload
-                    image={image}
-                    previewUrl={previewUrl}
-                    handleFileChange={setImage}
-                    setPreviewUrl={setPreviewUrl}
-                    imageLabelClassName="h-39"
-                  />
-                  <Inputs
-                    title={title}
-                    setTitle={setTitle}
-                    description={description}
-                    setDescription={setDescription}
-                    descriptionClassName="h-[102px]"
-                  />
-                  <Schedule
-                    scheduledDate={scheduledDate}
-                    setScheduledDate={setScheduledDate}
-                  />
-                </div>
+        <div className="mt-6 flex flex-col sm:flex-row gap-6 sm:gap-12 justify-center">
+          <div className="flex flex-col gap-4 w-full max-w-[320px] items-center sm:items-start xs:max-w-[280px]">
+            <div className="w-80 xs:w-70 flex flex-col items-center sm:items-start">
+              <ImageUpload
+                image={image}
+                previewUrl={previewUrl}
+                handleFileChange={setImage}
+                setPreviewUrl={setPreviewUrl}
+                imageLabelClassName="h-39"
+              />
+            </div>
 
-                <div
-                  className="
-                flex flex-col gap-4 sm:gap-6
-                w-full sm:w-80
-                mx-auto sm:mx-0
-                [@media(max-width:320px)]:w-[80%]
-                [@media(max-width:320px)]:max-w-none
-                [@media(max-width:320px)]:mx-auto
-              "
-                >
-                  <TypesAndLocation
-                    activityTypes={activityTypes}
-                    activityType={activityTypeId}
-                    setActivityType={setActivityTypeId}
-                    coordinates={coordinates}
-                    setCoordinates={setCoordinates}
-                  />
-                  <Approval
-                    approvalRequired={approvalRequired}
-                    setApprovalRequired={setApprovalRequired}
-                  />
-                </div>
-              </div>
+            <div className="w-80 xs:w-70">
+              <Inputs
+                title={title}
+                setTitle={setTitle}
+                description={description}
+                setDescription={setDescription}
+                descriptionClassName="h-[102px]"
+              />
+            </div>
+
+            <div className="w-80 xs:w-70">
+              <Schedule
+                scheduledDate={scheduledDate}
+                setScheduledDate={setScheduledDate}
+              />
             </div>
           </div>
 
-          <AlertDialogFooter
-            className="
-          w-full flex flex-col sm:flex-row sm:justify-end
-          items-center gap-3 sm:gap-4
-        "
-          >
+          <div className="flex flex-col xs:gap-6 gap-8 w-full sm:w-80 xs:w-70">
+            <TypesAndLocation
+              activityTypes={activityTypes}
+              activityType={activityTypeId}
+              setActivityType={setActivityTypeId}
+              coordinates={coordinates}
+              setCoordinates={setCoordinates}
+            />
+            <Approval
+              approvalRequired={approvalRequired}
+              setApprovalRequired={setApprovalRequired}
+            />
+          </div>
+        </div>
+
+        <AlertDialogFooter className="flex-shrink-0 mt-6 sm:mt-4">
+          <div className="w-full h-[48px] flex flex-row justify-center sm:justify-end gap-3">
             <AlertDialogCancel
-              className="
-            w-full sm:w-50 h-[48px] rounded-lg
-            text-[var(--warning)] bg-[#fff] border-1 border-[var(--warning)]
-            hover:text-white text-sm
-            [@media(max-width:320px)]:w-[80%]
-            [@media(max-width:320px)]:mx-auto
-          "
+              className="flex-1 max-w-[140px] h-full rounded-lg text-white text-sm"
               onClick={handleDeleteActivity}
             >
               Deletar
             </AlertDialogCancel>
 
             <AlertDialogAction
-              className="
-            w-full sm:w-50 h-[48px] rounded-lg
-            bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]
-            [@media(max-width:320px)]:w-[80%]
-            [@media(max-width:320px)]:mx-auto
-          "
+              className="flex-1 max-w-[140px] h-full rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
               onClick={handleUpdateActivity}
             >
               Confirmar
             </AlertDialogAction>
-          </AlertDialogFooter>
-        </div>
+          </div>
+        </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
