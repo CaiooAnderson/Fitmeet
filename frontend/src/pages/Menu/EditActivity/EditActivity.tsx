@@ -242,7 +242,7 @@ export default function EditActivity({
             </div>
           </div>
 
-          <div className="flex flex-col xs:gap-6 gap-8 w-full sm:w-80 xs:w-70">
+          <div className="flex flex-col xs:gap-6 gap-8 w-full sm:w-80 xs:w-70 max-w-[320px] xs:max-w-[280px]">
             <TypesAndLocation
               activityTypes={activityTypes}
               activityType={activityTypeId}
