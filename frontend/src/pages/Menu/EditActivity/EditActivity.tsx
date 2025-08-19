@@ -212,19 +212,9 @@ export default function EditActivity({
           <AlertDialogDescription />
         </div>
 
-        <div
-          className="mt-6 flex flex-col sm:flex-row gap-6 sm:gap-12 justify-center
-             [@media(max-width:320px)]:px-0
-             [@media(max-width:320px)]:gap-4
-             [@media(max-width:320px)]:justify-start"
-        >
-          <div
-            className="flex flex-col gap-4 w-full sm:w-auto items-center sm:items-start
-               [@media(max-width:320px)]:w-[272px]
-               [@media(max-width:320px)]:max-w-[272px]
-               [@media(max-width:320px)]:mx-auto"
-          >
-            <div className="w-full flex flex-col items-center sm:items-start">
+        <div className="mt-6 flex flex-col sm:flex-row gap-6 sm:gap-12 justify-center">
+          <div className="flex flex-col gap-4 w-full max-w-[320px] items-center sm:items-start xs:max-w-[280px]">
+            <div className="w-80 xs:w-70 flex flex-col items-center sm:items-start">
               <ImageUpload
                 image={image}
                 previewUrl={previewUrl}
@@ -234,7 +224,7 @@ export default function EditActivity({
               />
             </div>
 
-            <div className="w-full">
+            <div className="w-80 xs:w-70">
               <Inputs
                 title={title}
                 setTitle={setTitle}
@@ -244,7 +234,7 @@ export default function EditActivity({
               />
             </div>
 
-            <div className="w-full">
+            <div className="w-80 xs:w-70">
               <Schedule
                 scheduledDate={scheduledDate}
                 setScheduledDate={setScheduledDate}
@@ -252,12 +242,7 @@ export default function EditActivity({
             </div>
           </div>
 
-          <div
-            className="flex flex-col xs:gap-6 gap-8 w-full sm:w-80
-               [@media(max-width:320px)]:w-[272px]
-               [@media(max-width:320px)]:max-w-[272px]
-               [@media(max-width:320px)]:mx-auto"
-          >
+          <div className="flex flex-col xs:gap-6 gap-8 w-full sm:w-80 xs:w-70">
             <TypesAndLocation
               activityTypes={activityTypes}
               activityType={activityTypeId}
