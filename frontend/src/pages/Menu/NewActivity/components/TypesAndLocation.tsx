@@ -4,8 +4,9 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from "react-leaflet";
 import L from "leaflet";
+import { useEffect } from "react";
 
 interface TypesAndLocationProps {
   activityTypes: any[];
@@ -26,6 +27,35 @@ function LocationMarker({
       setLatLng(e.latlng);
     },
   });
+  return null;
+}
+
+function CoordinatesOverlay({
+  coordinates,
+  isVisible,
+}: {
+  coordinates: { lat: number; lng: number };
+  isVisible: boolean;
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!map) return;
+
+    const container = map.getContainer();
+    const div = document.createElement("div");
+    div.className =
+      "absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/60 text-white text-xs px-2 py-1 rounded-md pointer-events-none transition-opacity duration-200";
+    div.innerText = `Lat: ${coordinates.lat.toFixed(5)}, Lng: ${coordinates.lng.toFixed(5)}`;
+    div.style.opacity = isVisible ? "1" : "0";
+
+    container.appendChild(div);
+
+    return () => {
+      container.removeChild(div);
+    };
+  }, [coordinates, isVisible, map]);
+
   return null;
 }
 
@@ -64,10 +94,10 @@ export default function TypesAndLocation({
                     <img
                       src={type.image?.replace("localstack", "localhost")}
                       alt={type.name}
-                      className={`w-20 h-20  rounded-full object-cover border-2 box-content transition duration-300
-                  ${isSelected ? "border-primary" : "border-transparent"}
-                  group-hover:brightness-75
-                `}
+                      className={`w-20 h-20 rounded-full object-cover border-2 box-content transition duration-300
+                        ${isSelected ? "border-primary" : "border-transparent"}
+                        group-hover:brightness-75
+                      `}
                     />
                     <p className="text-[1rem] text-center font-semibold h-5 leading-none text-ellipsis overflow-hidden max-w-full">
                       {type.name}
@@ -109,14 +139,14 @@ export default function TypesAndLocation({
                 })}
               />
             )}
-          </MapContainer>
 
-          {!isScheduleOpen && coordinates && (
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/60 text-white text-xs px-2 py-1 rounded-md pointer-events-none">
-              Lat: {coordinates.lat.toFixed(5)}, Lng:{" "}
-              {coordinates.lng.toFixed(5)}
-            </div>
-          )}
+            {coordinates && (
+              <CoordinatesOverlay
+                coordinates={coordinates}
+                isVisible={!isScheduleOpen}
+              />
+            )}
+          </MapContainer>
         </div>
       </div>
     </>
