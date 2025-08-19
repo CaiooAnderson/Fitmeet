@@ -267,13 +267,23 @@ export default function EditActivity({
 
           <AlertDialogFooter className="w-full flex flex-col sm:flex-row sm:justify-end items-center gap-3 sm:gap-4">
             <AlertDialogCancel
-              className="w-full sm:w-50 h-[48px] rounded-lg text-[var(--warning)] bg-[#fff] border-1 border-[var(--warning)] hover:text-white text-sm"
+              className="
+      w-full sm:w-50 h-[48px] rounded-lg
+      text-[var(--warning)] bg-[#fff] border-1 border-[var(--warning)]
+      hover:text-white text-sm
+      max-w-[320px] [@media(max-width:320px)]:w-4/5
+    "
               onClick={handleDeleteActivity}
             >
               Deletar
             </AlertDialogCancel>
+
             <AlertDialogAction
-              className="w-full sm:w-50 h-[48px] rounded-lg bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]"
+              className="
+      w-full sm:w-50 h-[48px] rounded-lg
+      bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]
+      max-w-[320px] [@media(max-width:320px)]:w-4/5
+    "
               onClick={handleUpdateActivity}
             >
               Confirmar
