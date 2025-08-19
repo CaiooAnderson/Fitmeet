@@ -205,7 +205,10 @@ export default function EditActivity({
       [@media(max-width:320px)]:w-screen
     "
       >
-        <div className="h-full flex flex-col justify-between gap-6 sm:gap-10">
+        <div
+          className="h-full flex flex-col justify-between gap-6 sm:gap-10 [@media(max-width:320px)]:w-screen
+    [@media(max-width:320px)]:px-0"
+        >
           <div>
             <AlertDialogTitle
               className="
@@ -259,7 +262,7 @@ export default function EditActivity({
                 flex flex-col gap-4 sm:gap-6
                 w-full sm:w-80
                 mx-auto sm:mx-0
-                [@media(max-width:320px)]:w-[100%]
+                [@media(max-width:320px)]:w-[80%]
                 [@media(max-width:320px)]:max-w-none
                 [@media(max-width:320px)]:mx-auto
               "
