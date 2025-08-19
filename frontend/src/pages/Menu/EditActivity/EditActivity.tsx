@@ -201,6 +201,7 @@ export default function EditActivity({
       [@media(max-width:640px)]:max-h-[100vh]
       [@media(max-width:640px)]:overflow-y-auto
       [@media(max-width:320px)]:p-0
+      [@media(max-width:320px)]:w-full
     "
       >
         <div className="h-full flex flex-col justify-between gap-6 sm:gap-10">
