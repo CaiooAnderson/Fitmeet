@@ -201,10 +201,8 @@ export default function EditActivity({
       [@media(max-width:640px)]:max-h-[100vh]
       [@media(max-width:640px)]:overflow-y-auto
 
-      /* Responsividade para 320px */
       [@media(max-width:320px)]:p-0
       [@media(max-width:320px)]:w-screen
-      [@media(max-width:320px)]:overflow-x-hidden
     "
       >
         <div className="h-full flex flex-col justify-between gap-6 sm:gap-10">
@@ -261,7 +259,6 @@ export default function EditActivity({
                 flex flex-col gap-4 sm:gap-6
                 w-full sm:w-80
                 mx-auto sm:mx-0
-                [@media(max-width:320px)]:w-[80%]
                 [@media(max-width:320px)]:max-w-none
                 [@media(max-width:320px)]:mx-auto
               "
