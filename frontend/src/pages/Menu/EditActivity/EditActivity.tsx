@@ -259,6 +259,7 @@ export default function EditActivity({
                 flex flex-col gap-4 sm:gap-6
                 w-full sm:w-80
                 mx-auto sm:mx-0
+                [@media(max-width:320px)]:w-[100%]
                 [@media(max-width:320px)]:max-w-none
                 [@media(max-width:320px)]:mx-auto
               "
