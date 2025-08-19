@@ -217,14 +217,13 @@ export default function EditActivity({
             <AlertDialogDescription />
 
             <div className="mt-6 sm:mt-12 h-auto sm:h-[522px]">
-              <div className="flex sm:justify-evenly gap-6 sm:gap-12 max-sm:flex-col max-sm:items-center">
+              <div className="flex sm:justify-evenly gap-6 sm:gap-12 max-sm:flex-col max-sm:items-center [@media(max-width:320px)]:gap-0">
                 <div
                   className="
                 flex flex-col gap-3 sm:gap-4
                 w-full sm:w-auto
                 mx-auto sm:mx-0
                 max-w-[320px]
-                [@media(max-width:320px)]:max-w-none
                 [@media(max-width:320px)]:w-4/5
                 [@media(max-width:320px)]:mx-auto
               "
@@ -255,7 +254,6 @@ export default function EditActivity({
                 w-full sm:w-80
                 mx-auto sm:mx-0
                 max-w-[320px]
-                [@media(max-width:320px)]:max-w-none
                 [@media(max-width:320px)]:w-4/5
                 [@media(max-width:320px)]:mx-auto
               "
