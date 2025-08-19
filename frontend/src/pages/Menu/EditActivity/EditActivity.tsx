@@ -200,8 +200,11 @@ export default function EditActivity({
       [@media(max-width:640px)]:p-6
       [@media(max-width:640px)]:max-h-[100vh]
       [@media(max-width:640px)]:overflow-y-auto
+
+      /* Responsividade para 320px */
       [@media(max-width:320px)]:p-0
-      [@media(max-width:320px)]:w-full
+      [@media(max-width:320px)]:w-screen
+      [@media(max-width:320px)]:overflow-x-hidden
     "
       >
         <div className="h-full flex flex-col justify-between gap-6 sm:gap-10">
@@ -217,14 +220,19 @@ export default function EditActivity({
             <AlertDialogDescription />
 
             <div className="mt-6 sm:mt-12 h-auto sm:h-[522px]">
-              <div className="flex sm:justify-evenly gap-6 sm:gap-12 max-sm:flex-col max-sm:items-center [@media(max-width:320px)]:gap-0">
+              <div
+                className="
+              flex sm:justify-evenly gap-6 sm:gap-12 max-sm:flex-col max-sm:items-center
+              [@media(max-width:320px)]:gap-4
+            "
+              >
                 <div
                   className="
                 flex flex-col gap-3 sm:gap-4
                 w-full sm:w-auto
                 mx-auto sm:mx-0
-                max-w-[320px]
-                [@media(max-width:320px)]:w-4/5
+                [@media(max-width:320px)]:w-[80%]
+                [@media(max-width:320px)]:max-w-none
                 [@media(max-width:320px)]:mx-auto
               "
                 >
@@ -253,8 +261,8 @@ export default function EditActivity({
                 flex flex-col gap-4 sm:gap-6
                 w-full sm:w-80
                 mx-auto sm:mx-0
-                max-w-[320px]
-                [@media(max-width:320px)]:w-4/5
+                [@media(max-width:320px)]:w-[80%]
+                [@media(max-width:320px)]:max-w-none
                 [@media(max-width:320px)]:mx-auto
               "
                 >
@@ -285,9 +293,7 @@ export default function EditActivity({
             w-full sm:w-50 h-[48px] rounded-lg
             text-[var(--warning)] bg-[#fff] border-1 border-[var(--warning)]
             hover:text-white text-sm
-            max-w-[320px]
-            [@media(max-width:320px)]:max-w-none
-            [@media(max-width:320px)]:w-4/5
+            [@media(max-width:320px)]:w-[80%]
             [@media(max-width:320px)]:mx-auto
           "
               onClick={handleDeleteActivity}
@@ -299,9 +305,7 @@ export default function EditActivity({
               className="
             w-full sm:w-50 h-[48px] rounded-lg
             bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]
-            max-w-[320px]
-            [@media(max-width:320px)]:max-w-none
-            [@media(max-width:320px)]:w-4/5
+            [@media(max-width:320px)]:w-[80%]
             [@media(max-width:320px)]:mx-auto
           "
               onClick={handleUpdateActivity}
