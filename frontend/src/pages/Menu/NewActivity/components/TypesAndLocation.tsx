@@ -13,6 +13,7 @@ interface TypesAndLocationProps {
   setActivityType: (id: string) => void;
   coordinates: { lat: number; lng: number } | null;
   setCoordinates: (pos: { lat: number; lng: number }) => void;
+  isScheduleOpen: boolean;
 }
 
 function LocationMarker({
@@ -34,6 +35,7 @@ export default function TypesAndLocation({
   setActivityType,
   coordinates,
   setCoordinates,
+  isScheduleOpen,
 }: TypesAndLocationProps) {
   const mapCenter: [number, number] = coordinates
     ? [coordinates.lat, coordinates.lng]
@@ -83,7 +85,7 @@ export default function TypesAndLocation({
           Ponto de encontro <span className="text-[var(--warning)] h-5">*</span>
         </Label>
 
-        <div className="h-52 rounded-[0.625rem] overflow-hidden relative">
+        <div className="h-52 rounded-[0.625rem] overflow-visible relative">
           <MapContainer
             center={mapCenter}
             zoom={13}
@@ -109,7 +111,7 @@ export default function TypesAndLocation({
             )}
           </MapContainer>
 
-          {coordinates && (
+          {!isScheduleOpen && coordinates && (
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/60 text-white text-xs px-2 py-1 rounded-md pointer-events-none">
               Lat: {coordinates.lat.toFixed(5)}, Lng:{" "}
               {coordinates.lng.toFixed(5)}

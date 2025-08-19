@@ -39,6 +39,7 @@ export default function EditActivity({
     lng: number;
   } | null>(null);
   const [approvalRequired, setApprovalRequired] = useState<boolean>(false);
+  const [isScheduleOpen, setIsScheduleOpen] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -251,6 +252,7 @@ export default function EditActivity({
               <Schedule
                 scheduledDate={scheduledDate}
                 setScheduledDate={setScheduledDate}
+                setIsScheduleOpen={setIsScheduleOpen}
               />
             </div>
           </div>
@@ -268,6 +270,7 @@ export default function EditActivity({
               setActivityType={setActivityTypeId}
               coordinates={coordinates}
               setCoordinates={setCoordinates}
+              isScheduleOpen={isScheduleOpen}
             />
             <Approval
               approvalRequired={approvalRequired}

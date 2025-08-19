@@ -35,6 +35,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
     lng: number;
   } | null>(null);
   const [approvalRequired, setApprovalRequired] = useState<boolean>(false);
+  const [isScheduleOpen, setIsScheduleOpen] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -191,6 +192,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
               <Schedule
                 scheduledDate={scheduledDate}
                 setScheduledDate={setScheduledDate}
+                setIsScheduleOpen={setIsScheduleOpen}
               />
             </div>
           </div>
@@ -202,6 +204,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
               setActivityType={setActivityTypeId}
               coordinates={coordinates}
               setCoordinates={setCoordinates}
+              isScheduleOpen={isScheduleOpen}
             />
             <Approval
               approvalRequired={approvalRequired}
