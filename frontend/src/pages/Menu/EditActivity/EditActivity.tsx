@@ -219,7 +219,6 @@ export default function EditActivity({
   w-80 xs:w-70 
   flex flex-col items-center sm:items-start
   [@media(max-width:360px)]:w-[calc(100vw-48px)]
-  [@media(max-width:320px)]:w-[calc(100vw-48px)]
 "
             >
               <ImageUpload
@@ -235,7 +234,6 @@ export default function EditActivity({
               className="
   w-80 xs:w-70 
   [@media(max-width:360px)]:w-[calc(100vw-48px)]
-  [@media(max-width:320px)]:w-[calc(100vw-48px)]
 "
             >
               <Inputs
@@ -251,7 +249,6 @@ export default function EditActivity({
               className="
   w-80 xs:w-70 
   [@media(max-width:360px)]:w-[calc(100vw-48px)]
-  [@media(max-width:320px)]:w-[calc(100vw-48px)]
 "
             >
               <Schedule
@@ -266,7 +263,6 @@ export default function EditActivity({
   flex flex-col xs:gap-6 gap-8 
   w-full sm:w-80 xs:w-70 max-w-[320px] xs:max-w-[280px]
   [@media(max-width:360px)]:w-[calc(100vw-48px)]
-  [@media(max-width:320px)]:w-[calc(100vw-48px)]
 "
           >
             <TypesAndLocation
