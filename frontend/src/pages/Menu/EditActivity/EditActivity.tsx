@@ -200,12 +200,17 @@ export default function EditActivity({
       [@media(max-width:640px)]:p-6
       [@media(max-width:640px)]:max-h-[100vh]
       [@media(max-width:640px)]:overflow-y-auto
-      [@media(max-width:320px)]:p-4
+      [@media(max-width:320px)]:p-0
     "
       >
         <div className="h-full flex flex-col justify-between gap-6 sm:gap-10">
           <div>
-            <AlertDialogTitle className="text-[2rem] font-bebas font-normal h-9 text-center sm:text-left">
+            <AlertDialogTitle
+              className="
+            text-[2rem] font-bebas font-normal h-9
+            text-center sm:text-left
+          "
+            >
               EDITAR ATIVIDADE
             </AlertDialogTitle>
             <AlertDialogDescription />
@@ -218,8 +223,9 @@ export default function EditActivity({
                 w-full sm:w-auto
                 mx-auto sm:mx-0
                 max-w-[320px]
-                [@media(max-width:320px)]:w-4/5
                 [@media(max-width:320px)]:max-w-none
+                [@media(max-width:320px)]:w-4/5
+                [@media(max-width:320px)]:mx-auto
               "
                 >
                   <ImageUpload
@@ -250,6 +256,7 @@ export default function EditActivity({
                 max-w-[320px]
                 [@media(max-width:320px)]:max-w-none
                 [@media(max-width:320px)]:w-4/5
+                [@media(max-width:320px)]:mx-auto
               "
                 >
                   <TypesAndLocation
@@ -268,14 +275,22 @@ export default function EditActivity({
             </div>
           </div>
 
-          <AlertDialogFooter className="w-full flex flex-col sm:flex-row sm:justify-end items-center gap-3 sm:gap-4">
+          <AlertDialogFooter
+            className="
+          w-full flex flex-col sm:flex-row sm:justify-end
+          items-center gap-3 sm:gap-4
+        "
+          >
             <AlertDialogCancel
               className="
-      w-full sm:w-50 h-[48px] rounded-lg
-      text-[var(--warning)] bg-[#fff] border-1 border-[var(--warning)]
-      hover:text-white text-sm
-      max-w-[320px] [@media(max-width:320px)]:w-4/5 [@media(max-width:320px)]:max-w-none
-    "
+            w-full sm:w-50 h-[48px] rounded-lg
+            text-[var(--warning)] bg-[#fff] border-1 border-[var(--warning)]
+            hover:text-white text-sm
+            max-w-[320px]
+            [@media(max-width:320px)]:max-w-none
+            [@media(max-width:320px)]:w-4/5
+            [@media(max-width:320px)]:mx-auto
+          "
               onClick={handleDeleteActivity}
             >
               Deletar
@@ -283,10 +298,13 @@ export default function EditActivity({
 
             <AlertDialogAction
               className="
-      w-full sm:w-50 h-[48px] rounded-lg
-      bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]
-      max-w-[320px] [@media(max-width:320px)]:w-4/5 [@media(max-width:320px)]:max-w-none
-    "
+            w-full sm:w-50 h-[48px] rounded-lg
+            bg-[var(--primary)] text-white text-sm hover:bg-[var(--primary-600)]
+            max-w-[320px]
+            [@media(max-width:320px)]:max-w-none
+            [@media(max-width:320px)]:w-4/5
+            [@media(max-width:320px)]:mx-auto
+          "
               onClick={handleUpdateActivity}
             >
               Confirmar
