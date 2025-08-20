@@ -15,6 +15,7 @@ import {
   X,
   Flag,
   UserRoundCheck,
+  ChevronLeft,
 } from "lucide-react";
 import { format } from "date-fns";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -372,6 +373,12 @@ export default function ActivityDetails({
     [@media(max-width:640px)]:overflow-y-auto
   "
         >
+          <button
+            onClick={onClose}
+            className="sm:hidden absolute top-5 left-5 p-2 rounded-full bg-white shadow-md"
+          >
+            <ChevronLeft className="h-6 w-6 text-primary-600 bg-muted" />
+          </button>
           <div className="flex gap-12 flex-col sm:flex-row py-4 sm:py-0">
             <div className="flex flex-col w-full sm:w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
               <img

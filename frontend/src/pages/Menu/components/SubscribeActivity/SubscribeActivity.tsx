@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import PreviewMap from "@/components/PreviewMap/PreviewMap";
 import ParticipantButton from "./ParticipantButton";
+import { ChevronLeft } from "lucide-react";
 
 interface SubscribeActivityProps {
   isOpen: boolean;
@@ -221,6 +222,12 @@ export default function SubscribeActivity({
     [@media(max-width:640px)]:overflow-y-auto
   "
       >
+        <button
+          onClick={onClose}
+          className="sm:hidden absolute top-5 left-5 p-2 rounded-full bg-white shadow-md"
+        >
+          <ChevronLeft className="h-6 w-6 text-primary-600 bg-muted" />
+        </button>
         <div className="grid grid-cols-1 sm:grid-cols-[24rem_1fr] gap-12 w-full py-4 sm:py-0">
           <div className="flex flex-col justify-between h-full w-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
             <div>
