@@ -117,43 +117,43 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
       <div className="flex flex-col sm:flex-row gap-3 items-center sm:items-start mt-10 w-full max-w-[850px] justify-center">
         <div
           className="
-    flex flex-col gap-8 bg-[#f5f5f5] rounded-lg px-8 py-8.5 
-    w-full sm:w-[420px] h-52
-    [@media(max-width:320px)]:gap-3 
-    [@media(max-width:320px)]:h-auto
-    [@media(max-width:320px)]:items-center
-  "
+            flex flex-col gap-8 bg-[#f5f5f5] rounded-lg px-8 py-8.5 
+            w-full sm:w-[420px] h-52
+            [@media(max-width:320px)]:gap-3 
+            [@media(max-width:320px)]:h-auto
+            [@media(max-width:320px)]:items-center
+          "
         >
           <img
             src="/Level.png"
             alt="Ícone de nível"
             className="
-      hidden [@media(max-width:320px)]:block
-      w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain
-      mb-2
-    "
+              hidden [@media(max-width:320px)]:block
+              w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain
+              mb-2
+            "
           />
 
           <div className="flex justify-between items-start sm:items-center w-full">
             <div
               className="
-        flex flex-col gap-2
-        [@media(max-width:320px)]:items-center
-      "
+                flex flex-col gap-2
+                [@media(max-width:320px)]:items-center
+              "
             >
               <span
                 className="
-          text-[0.75rem] h-[15px] font-semibold text-[var(--text)] 
-          [@media(max-width:320px)]:h-fit
-        "
+                  text-[0.75rem] h-[15px] font-semibold text-[var(--text)] 
+                  [@media(max-width:320px)]:h-fit
+                "
               >
                 Seu nível é
               </span>
               <span
                 className="
-          text-[1.5rem] h-7.5 font-bold text-[var(--title)]
-          [@media(max-width:320px)]:text-[1.25rem]
-        "
+                  text-[1.5rem] h-7.5 font-bold text-[var(--title)]
+                  [@media(max-width:320px)]:text-[1.25rem]
+                "
               >
                 {user.level}
               </span>
@@ -163,22 +163,35 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
               src="/Level.png"
               alt="Ícone de nível"
               className="
-        w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain
-        mt-1 sm:mt-0
-        [@media(max-width:320px)]:hidden
-      "
+                w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain
+                mt-1 sm:mt-0
+                [@media(max-width:320px)]:hidden
+              "
             />
           </div>
 
-          <div className="w-full flex flex-col gap-2 [@media(max-width:320px)]:items-center">
-            <span className="text-xs text-[var(--text)] font-medium">
-              Pontos para próximo nível
-            </span>
-
-            <span className="text-[1rem] font-bold">
-              {xpNoNivelAtual}/{xpParaProximoNivel}
-              <span className="text-[0.75rem] font-bold"> pts</span>
-            </span>
+          <div
+            className="
+              w-full flex flex-col gap-2
+              [@media(max-width:320px)]:items-center
+            "
+          >
+            <div
+              className="
+                flex justify-between items-center w-full
+                [@media(max-width:320px)]:flex-col
+                [@media(max-width:320px)]:gap-1
+                [@media(max-width:320px)]:items-center
+              "
+            >
+              <span className="text-xs text-[var(--text)] font-medium">
+                Pontos para próximo nível
+              </span>
+              <span className="text-[1rem] font-bold">
+                {xpNoNivelAtual}/{xpParaProximoNivel}
+                <span className="text-[0.75rem] font-bold"> pts</span>
+              </span>
+            </div>
 
             <Progress value={progressPercent} className="h-2 w-full" />
           </div>
