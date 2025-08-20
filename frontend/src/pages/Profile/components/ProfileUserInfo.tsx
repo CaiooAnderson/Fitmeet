@@ -124,24 +124,17 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
     [@media(max-width:320px)]:items-center
   "
         >
-          <div
+          <img
+            src="/Level.png"
+            alt="Ícone de nível"
             className="
-      flex justify-between items-start sm:items-center w-full
-      [@media(max-width:320px)]:flex-col
-      [@media(max-width:320px)]:items-center
-      [@media(max-width:320px)]:gap-2
+      hidden [@media(max-width:320px)]:block
+      w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain
+      mb-2
     "
-          >
-            <img
-              src="/Level.png"
-              alt="Ícone de nível"
-              className="
-        w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain
-        mt-1 sm:mt-0
-        [@media(max-width:320px)]:order-first
-      "
-            />
+          />
 
+          <div className="flex justify-between items-start sm:items-center w-full">
             <div
               className="
         flex flex-col gap-2
@@ -165,14 +158,19 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                 {user.level}
               </span>
             </div>
+
+            <img
+              src="/Level.png"
+              alt="Ícone de nível"
+              className="
+        w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain
+        mt-1 sm:mt-0
+        [@media(max-width:320px)]:hidden
+      "
+            />
           </div>
 
-          <div
-            className="
-      w-full flex flex-col gap-2
-      [@media(max-width:320px)]:items-center
-    "
-          >
+          <div className="w-full flex flex-col gap-2 [@media(max-width:320px)]:items-center">
             <span className="text-xs text-[var(--text)] font-medium">
               Pontos para próximo nível
             </span>
