@@ -134,7 +134,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
             "
           />
 
-          <div className="flex justify-between items-start sm:items-center w-full">
+          <div className="flex justify-between items-start sm:items-center">
             <div
               className="
                 flex flex-col gap-2
@@ -184,7 +184,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                 [@media(max-width:320px)]:gap-1
               "
             >
-              <span className="text-xs text-[var(--text)] font-medium">
+              <span className="text-xs text-[var(--text)] font-medium [@media(max-width:320px)]:text-center">
                 Pontos para próximo nível
               </span>
               <span className="text-[1rem] font-bold">
