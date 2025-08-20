@@ -115,64 +115,44 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3 items-center sm:items-start mt-10 w-full max-w-[850px] justify-center">
-        <div className="flex flex-col gap-8 bg-[#f5f5f5] rounded-lg px-8 py-8.5 w-full sm:w-[420px] h-52 [@media(max-width:320px)]:gap-4 [@media(max-width:320px)]:h-fit">
-          <div className="hidden [@media(min-width:321px)]:flex flex-col justify-between h-full">
-            <div className="flex justify-between items-start sm:items-center">
-              <div className="flex flex-col gap-2">
-                <span className="text-[0.75rem] h-[15px] font-semibold text-[var(--text)]">
-                  Seu nível é
-                </span>
-                <span className="text-[1.5rem] h-7.5 font-bold text-[var(--title)]">
-                  {user.level}
-                </span>
-              </div>
-              <img
-                src="/Level.png"
-                alt="Ícone de nível"
-                className="w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain mt-1 sm:mt-0"
-              />
-            </div>
-
-            <div className="w-full flex flex-col gap-2">
-              <div className="flex flex-row justify-between items-center">
-                <span className="text-xs text-[var(--text)] font-medium">
-                  Pontos para próximo nível
-                </span>
-                <span className="text-[1rem] font-bold">
-                  {xpNoNivelAtual}/{xpParaProximoNivel}
-                  <span className="text-[0.75rem] font-bold"> pts</span>
-                </span>
-              </div>
-              <Progress value={progressPercent} className="h-2" />
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center gap-3 [@media(min-width:321px)]:hidden">
-            <img
-              src="/Level.png"
-              alt="Ícone de nível"
-              className="w-[100px] h-[50px] object-contain"
-            />
-
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-[0.75rem] font-semibold text-[var(--text)]">
+        <div className="flex flex-col gap-8 bg-[#f5f5f5] rounded-lg px-8 py-8.5 w-full sm:w-[420px] h-52 [@media(max-width:320px)]:gap-4 [@media(max-width:320px)]:h-56">
+          <div
+            className="flex justify-between items-start sm:items-center [@media(max-width:320px)]:flex-col
+    [@media(max-width:320px)]:items-center
+    [@media(max-width:320px)]:gap-2"
+          >
+            <div
+              className="flex flex-col gap-2 [@media(max-width:320px)]:flex-row
+      [@media(max-width:320px)]:gap-1
+      [@media(max-width:320px)]:items-center"
+            >
+              <span className="text-[0.75rem] h-[15px] font-semibold text-[var(--text)] [@media(max-width:320px)]:h-fit">
                 Seu nível é
               </span>
-              <span className="text-[1.25rem] font-bold text-[var(--title)]">
+              <span className="text-[1.5rem] h-7.5 font-bold text-[var(--title)] [@media(max-width:320px)]:text-[1.25rem]">
                 {user.level}
               </span>
             </div>
+            <img
+              src="/Level.png"
+              alt="Ícone de nível"
+              className="w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain mt-1 sm:mt-0 [@media(max-width:320px)]:mt-0
+      [@media(max-width:320px)]:mb-2
+      [@media(max-width:320px)]:order-first"
+            />
+          </div>
 
-            <span className="text-xs text-[var(--text)] font-medium">
-              Pontos para próximo nível
-            </span>
-
-            <span className="text-[1rem] font-bold">
-              {xpNoNivelAtual}/{xpParaProximoNivel}
-              <span className="text-[0.75rem] font-bold"> pts</span>
-            </span>
-
-            <Progress value={progressPercent} className="h-2 w-full" />
+          <div className="w-full flex flex-col gap-2">
+            <div className="flex flex-row justify-between items-center">
+              <span className="text-xs text-[var(--text)] font-medium">
+                Pontos para próximo nível
+              </span>
+              <span className="text-[1rem] font-bold [@media(max-width:320px)]:text-lg">
+                {xpNoNivelAtual}/{xpParaProximoNivel}
+                <span className="text-[0.75rem] font-bold"> pts</span>
+              </span>
+            </div>
+            <Progress value={progressPercent} className="h-2" />
           </div>
         </div>
 
