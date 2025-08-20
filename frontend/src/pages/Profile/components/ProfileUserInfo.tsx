@@ -139,6 +139,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
               className="
                 flex flex-col gap-2
                 [@media(max-width:320px)]:items-center
+                [@media(max-width:320px)]:text-center
               "
             >
               <span
@@ -181,7 +182,6 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                 flex justify-between items-center w-full
                 [@media(max-width:320px)]:flex-col
                 [@media(max-width:320px)]:gap-1
-                [@media(max-width:320px)]:items-center
               "
             >
               <span className="text-xs text-[var(--text)] font-medium">
