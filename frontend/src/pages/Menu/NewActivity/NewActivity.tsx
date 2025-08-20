@@ -149,6 +149,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
       overflow-y-auto
       rounded-none sm:rounded-xl
       [@media(max-width:320px)]:min-w-[300px]
+      [@media(max-width:640px)]:py-6
     "
       >
         <div className="flex-shrink-0">
