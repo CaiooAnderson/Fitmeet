@@ -118,46 +118,53 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
         <div
           className="
     flex flex-col gap-8 bg-[#f5f5f5] rounded-lg px-8 py-8.5 
-    w-full sm:w-[420px] h-52 
+    w-full sm:w-[420px] h-52
     [@media(max-width:320px)]:gap-3 
     [@media(max-width:320px)]:h-auto
     [@media(max-width:320px)]:items-center
   "
         >
-          <img
-            src="/Level.png"
-            alt="Ícone de nível"
-            className="
-      w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain 
-      sm:mt-0
-      [@media(max-width:320px)]:order-first
-    "
-          />
-
           <div
             className="
       flex justify-between items-start sm:items-center w-full
-      [@media(max-width:320px)]:flex-col 
-      [@media(max-width:320px)]:items-center 
-      [@media(max-width:320px)]:gap-1
+      [@media(max-width:320px)]:flex-col
+      [@media(max-width:320px)]:items-center
+      [@media(max-width:320px)]:gap-2
     "
           >
-            <span
+            <img
+              src="/Level.png"
+              alt="Ícone de nível"
               className="
-        text-[0.75rem] h-[15px] font-semibold text-[var(--text)] 
-        [@media(max-width:320px)]:h-fit
+        w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-contain
+        mt-1 sm:mt-0
+        [@media(max-width:320px)]:order-first
+      "
+            />
+
+            <div
+              className="
+        flex flex-col gap-2
+        [@media(max-width:320px)]:items-center
       "
             >
-              Seu nível é
-            </span>
-            <span
-              className="
-        text-[1.5rem] h-7.5 font-bold text-[var(--title)] 
-        [@media(max-width:320px)]:text-[1.25rem]
-      "
-            >
-              {user.level}
-            </span>
+              <span
+                className="
+          text-[0.75rem] h-[15px] font-semibold text-[var(--text)] 
+          [@media(max-width:320px)]:h-fit
+        "
+              >
+                Seu nível é
+              </span>
+              <span
+                className="
+          text-[1.5rem] h-7.5 font-bold text-[var(--title)]
+          [@media(max-width:320px)]:text-[1.25rem]
+        "
+              >
+                {user.level}
+              </span>
+            </div>
           </div>
 
           <div
