@@ -54,7 +54,9 @@ export default function EditProfile() {
 
       const selectedIds = prefsData
         .map((item: any) => item?.id)
-        .filter((id: string | undefined): id is string => typeof id === 'string');
+        .filter(
+          (id: string | undefined): id is string => typeof id === "string"
+        );
 
       setUser(userData);
       setPreviewUrl(userData.avatar);
@@ -98,14 +100,17 @@ export default function EditProfile() {
       };
       if (password) body.password = password;
 
-      const resUpdate = await fetch(`${import.meta.env.VITE_API_URL}/user/update`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
+      const resUpdate = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/update`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      );
 
       if (!resUpdate.ok) throw new Error("Erro ao atualizar dados do usuário");
 
@@ -115,7 +120,7 @@ export default function EditProfile() {
       }
 
       const cleanPreferences = selectedPreferences.filter(
-      (id): id is string => typeof id === "string" && id.trim() !== ""
+        (id): id is string => typeof id === "string" && id.trim() !== ""
       );
 
       const resPrefs = await fetch(
@@ -131,10 +136,10 @@ export default function EditProfile() {
       );
 
       if (!resPrefs.ok) {
-      const errorData = await resPrefs.json();
-      console.error("Erro do servidor:", errorData);
-      throw new Error("Erro ao salvar preferências");
-    }
+        const errorData = await resPrefs.json();
+        console.error("Erro do servidor:", errorData);
+        throw new Error("Erro ao salvar preferências");
+      }
 
       toast.success("Perfil atualizado com sucesso!");
       navigate("/profile");
@@ -147,8 +152,8 @@ export default function EditProfile() {
   };
 
   return (
-    <div className="py-6 w-full flex flex-col items-center">
-      <div className="w-full max-w-[76.25rem]">
+    <div className="py-6 w-full sm:px-10 px-5 flex flex-col items-center">
+      <div className="flex flex-col gap-14 w-full max-w-[76.25rem]">
         <MenuHeader
           avatar={user.avatar ?? ""}
           level={user.level ?? 1}
@@ -160,7 +165,7 @@ export default function EditProfile() {
           onCreateActivity={() => setIsNewActivityOpen(true)}
         />
 
-        <div className="mt-14 w-80 mx-auto flex flex-col items-start gap-10">
+        <div className="mt-14 w-full flex flex-col items-start gap-10">
           <Return />
 
           <div className="flex flex-col items-center w-full gap-10">
@@ -189,7 +194,8 @@ export default function EditProfile() {
             />
           </div>
         </div>
-        <div className="mx-auto w-80 flex flex-col gap-6 mt-6">
+
+        <div className="w-full flex flex-col gap-6 mt-6">
           <div className="grid grid-cols-2 gap-1.5 w-full">
             <Button className="h-12 w-full" onClick={handleUpdateUser}>
               {isLoading ? "Salvando..." : "Editar"}
@@ -205,6 +211,7 @@ export default function EditProfile() {
           <DeactivateUser />
         </div>
       </div>
+
       <NewActivity
         isOpen={isNewActivityOpen}
         onClose={() => setIsNewActivityOpen(false)}
