@@ -226,7 +226,7 @@ export default function SubscribeActivity({
           onClick={onClose}
           className="sm:hidden absolute top-6 left-6 p-2 rounded-full bg-white/90 shadow-md"
         >
-          <ChevronLeft className="h-6 w-6 text-primary-600 bg-muted rounded-full" />
+          <ChevronLeft className="h-6 w-6 text-primary-600 bg-white/90 rounded-full" />
         </button>
         <div className="grid grid-cols-1 sm:grid-cols-[24rem_1fr] gap-12 w-full py-4 sm:py-0">
           <div className="flex flex-col justify-between h-full w-full overflow-hidden text-ellipsis whitespace-nowrap break-words">

@@ -157,7 +157,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
           onClick={onClose}
           className="sm:hidden absolute top-6 left-6 p-2 rounded-full bg-white/90 shadow-md"
         >
-          <ChevronLeft className="h-6 w-6 text-primary-600 bg-muted rounded-full" />
+          <ChevronLeft className="h-6 w-6 text-primary-600 bg-white/90 rounded-full" />
         </button>
         <div className="flex-shrink-0">
           <AlertDialogTitle className="text-[2rem] font-bebas font-normal">
