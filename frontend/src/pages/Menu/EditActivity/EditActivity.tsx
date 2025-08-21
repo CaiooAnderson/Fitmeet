@@ -207,22 +207,20 @@ export default function EditActivity({
       [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+2rem)]
     "
       >
-        <button
-          onClick={onClose}
-          className="
-        absolute top-6 left-6 sm:top-12 sm:left-12
-        p-2 rounded-full bg-white/90 shadow-md
-      "
-        >
-          <ChevronLeft className="h-6 w-6 text-primary-600 bg-white/80 rounded-full" />
-        </button>
+        <div className="relative flex items-center justify-center flex-shrink-0">
+          <button
+            onClick={onClose}
+            className="sm:hidden absolute left-6 p-2 rounded-full bg-white/90 shadow-md"
+          >
+            <ChevronLeft className="h-6 w-6 text-primary-600 bg-white/80 rounded-full" />
+          </button>
 
-        <div className="flex-shrink-0">
-          <AlertDialogTitle className="text-[2rem] font-bebas font-normal text-center sm:text-left">
+          <AlertDialogTitle className="text-[2rem] font-bebas font-normal text-center">
             EDITAR ATIVIDADE
           </AlertDialogTitle>
-          <AlertDialogDescription />
         </div>
+
+        <AlertDialogDescription />
 
         <div className="mt-6 flex flex-col sm:flex-row gap-6 sm:gap-12 justify-center">
           <div className="flex flex-col gap-4 w-full max-w-[320px] items-center sm:items-start xs:max-w-[280px] [@media(max-width:360px)]:w-[calc(100vw-48px)]">
@@ -254,13 +252,7 @@ export default function EditActivity({
             </div>
           </div>
 
-          <div
-            className="
-          flex flex-col xs:gap-6 gap-8 
-          w-full sm:w-80 xs:w-70 max-w-[320px] xs:max-w-[280px]
-          [@media(max-width:360px)]:w-[calc(100vw-48px)]
-        "
-          >
+          <div className="flex flex-col xs:gap-6 gap-8 w-full sm:w-80 xs:w-70 max-w-[320px] xs:max-w-[280px] [@media(max-width:360px)]:w-[calc(100vw-48px)]">
             <TypesAndLocation
               activityTypes={activityTypes}
               activityType={activityTypeId}
@@ -275,7 +267,7 @@ export default function EditActivity({
           </div>
         </div>
 
-        <AlertDialogFooter className="flex-shrink-0 mt-6 sm:mt-4">
+        <AlertDialogFooter className="flex-shrink-0 mt-6 sm:mt-4 [@media(max-width:640px)]:mb-4">
           <div className="w-full h-[48px] flex flex-row justify-center sm:justify-end gap-3">
             <AlertDialogCancel
               className="flex-1 max-w-[140px] h-full rounded-lg text-white text-sm"
