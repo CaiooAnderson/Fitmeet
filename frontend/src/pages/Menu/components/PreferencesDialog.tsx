@@ -155,7 +155,7 @@ export default function PreferencesDialog({
                 onClick={() => toggle(item.id)}
                 className="
               flex flex-col items-center gap-1 cursor-pointer w-30
-              [@media(max-width:640px)]:w-[calc(50%-12px)]
+              [@media(max-width:640px)]:w-full
             "
               >
                 <div className="relative w-16 h-16">
