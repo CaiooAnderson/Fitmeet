@@ -150,7 +150,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
       overflow-y-auto
       rounded-none sm:rounded-xl
       [@media(max-width:320px)]:min-w-[300px]
-      [@media(max-width:640px)]:py-6
+      [@media(max-width:640px)]:py-12
     "
       >
         <button
