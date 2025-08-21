@@ -15,6 +15,7 @@ import Inputs from "./components/Inputs";
 import Schedule from "./components/Schedule";
 import TypesAndLocation from "./components/TypesAndLocation";
 import Approval from "./components/Approval";
+import { ChevronLeft } from "lucide-react";
 
 interface NewActivityProps {
   isOpen: boolean;
@@ -150,9 +151,16 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
       rounded-none sm:rounded-xl
       [@media(max-width:320px)]:min-w-[300px]
       [@media(max-width:640px)]:py-6
+      [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+1rem)]
     "
       >
-        <div className="flex-shrink-0">
+        <button
+          onClick={onClose}
+          className="sm:hidden absolute top-6 left-6 p-2 rounded-full bg-white/90 shadow-md mt-6"
+        >
+          <ChevronLeft className="h-6 w-6 text-primary-600 bg-white/80 rounded-full" />
+        </button>
+        <div className="flex-shrink-0 [@media(max-width:640px)]:mt-4">
           <AlertDialogTitle className="text-[2rem] font-bebas font-normal">
             NOVA ATIVIDADE
           </AlertDialogTitle>
@@ -211,7 +219,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
           </div>
         </div>
 
-        <AlertDialogFooter className="flex-shrink-0 mt-6 sm:mt-4">
+        <AlertDialogFooter className="flex-shrink-0 mt-6 sm:mt-4 [@media(max-width:640px)]:mb-4">
           <div className="w-full h-[48px] flex flex-row justify-center sm:justify-end gap-3">
             <AlertDialogCancel className="flex-1 max-w-[140px] h-full rounded-lg text-white text-sm">
               Cancelar

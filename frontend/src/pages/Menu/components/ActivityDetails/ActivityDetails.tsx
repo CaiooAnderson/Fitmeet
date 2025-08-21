@@ -378,7 +378,7 @@ export default function ActivityDetails({
             onClick={onClose}
             className="sm:hidden absolute top-6 left-6 p-2 rounded-full bg-white/90 shadow-md mt-6"
           >
-            <ChevronLeft className="h-6 w-6 text-primary-600 bg-white/80 rounded-full" />
+            <ChevronLeft className="h-6 w-6 text-primary-600 bg-white/60 rounded-full" />
           </button>
           <div className="flex gap-12 flex-col sm:flex-row py-4 sm:py-0 [@media(max-width:640px)]:my-4">
             <div className="flex flex-col w-full sm:w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
