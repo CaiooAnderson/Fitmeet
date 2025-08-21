@@ -180,7 +180,7 @@ export default function PreferencesDialog({
         <AlertDialogFooter
           className="
         flex w-full gap-2
-        [@media(max-width:640px)]:flex-row
+        [@media(max-width:320px)]:flex-row
       "
         >
           <AlertDialogAction
