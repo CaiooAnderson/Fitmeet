@@ -43,15 +43,15 @@ export default function PreferencesDialog({
 
       const stored = sessionStorage.getItem(`preferences-values-${token}`);
       if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed)) {
-          setSelected(parsed);
+        try {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed)) {
+            setSelected(parsed);
+          }
+        } catch (err) {
+          console.error("Erro ao recuperar preferências salvas:", err);
         }
-      } catch (err) {
-        console.error("Erro ao recuperar preferências salvas:", err);
       }
-    }
 
       setIsOpen(true);
       hasFetched.current = true;
@@ -62,9 +62,12 @@ export default function PreferencesDialog({
 
   const fetchActivityTypes = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/activities/types`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/activities/types`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const data = await res.json();
       setActivityTypes(data);
     } catch {
@@ -74,7 +77,9 @@ export default function PreferencesDialog({
 
   const handleConfirm = async () => {
     try {
-      const payload = selected.filter((id): id is string => typeof id === "string");
+      const payload = selected.filter(
+        (id): id is string => typeof id === "string"
+      );
 
       await fetch(`${import.meta.env.VITE_API_URL}/user/preferences/define`, {
         method: "POST",
@@ -103,29 +108,53 @@ export default function PreferencesDialog({
 
   const toggle = (id: string) => {
     setSelected((prev) => {
-      const newSelected = prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id];
+      const newSelected = prev.includes(id)
+        ? prev.filter((item) => item !== id)
+        : [...prev, id];
       return newSelected;
     });
   };
 
   return (
     <AlertDialog open={isOpen}>
-      <AlertDialogContent className="md:max-w-xl md:p-12 border-0">
+      <AlertDialogContent
+        className="
+      md:max-w-xl md:p-12 border-0
+      [@media(max-width:640px)]:p-6
+      [@media(max-width:640px)]:pt-12
+    "
+      >
         <AlertDialogHeader>
-          <AlertDialogTitle className="flex text-center text-[2rem] font-bebas font-normal px-1 h-8 items-center justify-center text-[var(--title)]">
+          <AlertDialogTitle
+            className="
+          flex text-center font-bebas font-normal text-[2rem] px-1 h-8 items-center justify-center text-[var(--title)]
+          [@media(max-width:640px)]:text-[1.5rem]
+          [@media(max-width:640px)]:mb-6
+        "
+          >
             SELECIONE AS SUAS ATIVIDADES PREFERIDAS
           </AlertDialogTitle>
           <AlertDialogDescription></AlertDialogDescription>
         </AlertDialogHeader>
 
-        <div className="w-fit mx-auto grid grid-cols-3 gap-8 py-8">
+        <div
+          className="
+        w-fit mx-auto grid grid-cols-3 gap-8 py-8
+        [@media(max-width:640px)]:grid-cols-2
+        [@media(max-width:640px)]:gap-6
+        [@media(max-width:640px)]:justify-center
+      "
+        >
           {activityTypes.map((item) => {
             const isSelected = selected.includes(item.id);
             return (
               <div
                 key={item.id}
                 onClick={() => toggle(item.id)}
-                className="flex flex-col items-center gap-1 cursor-pointer w-30"
+                className="
+              flex flex-col items-center gap-1 cursor-pointer w-30
+              [@media(max-width:640px)]:w-36
+            "
               >
                 <div className="relative w-16 h-16">
                   <img
@@ -148,7 +177,12 @@ export default function PreferencesDialog({
           })}
         </div>
 
-        <AlertDialogFooter className="flex w-full gap-2">
+        <AlertDialogFooter
+          className="
+        flex w-full gap-2
+        [@media(max-width:640px)]:flex-row
+      "
+        >
           <AlertDialogAction
             onClick={handleConfirm}
             className="bg-[var(--primary)] text-white flex-1 hover:bg-[var(--primary-600)]"
