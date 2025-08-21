@@ -151,6 +151,7 @@ export default function NewActivity({ isOpen, onClose }: NewActivityProps) {
       rounded-none sm:rounded-xl
       [@media(max-width:320px)]:min-w-[300px]
       [@media(max-width:640px)]:py-12
+      [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+1rem)]
     "
       >
         <button

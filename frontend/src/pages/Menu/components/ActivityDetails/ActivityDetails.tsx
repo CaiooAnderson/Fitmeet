@@ -371,6 +371,7 @@ export default function ActivityDetails({
     [@media(max-width:640px)]:h-auto
     [@media(max-width:640px)]:max-h-[100vh]
     [@media(max-width:640px)]:overflow-y-auto
+    [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+1rem)]
   "
         >
           <button
