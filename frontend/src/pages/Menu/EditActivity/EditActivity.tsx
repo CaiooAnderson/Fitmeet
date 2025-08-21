@@ -15,6 +15,7 @@ import Inputs from "../NewActivity/components/Inputs";
 import Schedule from "../NewActivity/components/Schedule";
 import TypesAndLocation from "../NewActivity/components/TypesAndLocation";
 import Approval from "../NewActivity/components/Approval";
+import { ChevronLeft } from "lucide-react";
 
 interface EditActivityProps {
   isOpen: boolean;
@@ -192,19 +193,29 @@ export default function EditActivity({
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent
         className="
-          w-full sm:w-[784px] border-0 p-12
-          max-w-full sm:max-w-[784px]
-          h-auto sm:h-[790px]
-          sm:overflow-visible
-          rounded-none sm:rounded-xl
-          [@media(max-width:640px)]:p-6
-          [@media(max-width:640px)]:max-h-[100vh]
-          [@media(max-width:640px)]:overflow-y-auto
-          [@media(max-width:320px)]:p-0
-          [@media(max-width:320px)]:w-screen
-          [@media(max-width:320px)]:min-w-[300px]
-        "
+      w-full sm:w-[784px] border-0 p-12
+      max-w-full sm:max-w-[784px]
+      h-auto sm:h-[790px]
+      sm:overflow-visible
+      rounded-none sm:rounded-xl
+      [@media(max-width:640px)]:p-6
+      [@media(max-width:640px)]:max-h-[100vh]
+      [@media(max-width:640px)]:overflow-y-auto
+      [@media(max-width:320px)]:p-0
+      [@media(max-width:320px)]:w-screen
+      [@media(max-width:320px)]:min-w-[300px]
+    "
       >
+        <button
+          onClick={onClose}
+          className="
+        absolute top-6 left-6 sm:top-12 sm:left-12
+        p-2 rounded-full bg-white/90 shadow-md
+      "
+        >
+          <ChevronLeft className="h-6 w-6 text-primary-600 bg-white/80 rounded-full" />
+        </button>
+
         <div className="flex-shrink-0">
           <AlertDialogTitle className="text-[2rem] font-bebas font-normal text-center sm:text-left">
             EDITAR ATIVIDADE
@@ -214,12 +225,7 @@ export default function EditActivity({
 
         <div className="mt-6 flex flex-col sm:flex-row gap-6 sm:gap-12 justify-center">
           <div className="flex flex-col gap-4 w-full max-w-[320px] items-center sm:items-start xs:max-w-[280px] [@media(max-width:360px)]:w-[calc(100vw-48px)]">
-            <div
-              className="
-                w-80 xs:w-70 
-                flex flex-col items-center sm:items-start
-              "
-            >
+            <div className="w-80 xs:w-70 flex flex-col items-center sm:items-start">
               <ImageUpload
                 image={image}
                 previewUrl={previewUrl}
@@ -229,11 +235,7 @@ export default function EditActivity({
               />
             </div>
 
-            <div
-              className="
-                w-80 xs:w-70 
-              "
-            >
+            <div className="w-80 xs:w-70">
               <Inputs
                 title={title}
                 setTitle={setTitle}
@@ -243,11 +245,7 @@ export default function EditActivity({
               />
             </div>
 
-            <div
-              className="
-                w-80 xs:w-70 
-              "
-            >
+            <div className="w-80 xs:w-70">
               <Schedule
                 scheduledDate={scheduledDate}
                 setScheduledDate={setScheduledDate}
@@ -257,10 +255,10 @@ export default function EditActivity({
 
           <div
             className="
-              flex flex-col xs:gap-6 gap-8 
-              w-full sm:w-80 xs:w-70 max-w-[320px] xs:max-w-[280px]
-              [@media(max-width:360px)]:w-[calc(100vw-48px)]
-            "
+          flex flex-col xs:gap-6 gap-8 
+          w-full sm:w-80 xs:w-70 max-w-[320px] xs:max-w-[280px]
+          [@media(max-width:360px)]:w-[calc(100vw-48px)]
+        "
           >
             <TypesAndLocation
               activityTypes={activityTypes}
