@@ -181,20 +181,27 @@ export default function PreferencesDialog({
 
         <AlertDialogFooter
           className="
-        flex w-full gap-2
-        [@media(max-width:640px)]:flex-row
-        [@media(max-width:320px)]:flex-col [@media(max-width:320px)]:items-center [@media(max-width:320px)]:gap-2
-      "
+    flex w-full gap-2
+    justify-center
+    [@media(max-width:640px)]:flex-row
+    [@media(max-width:320px)]:flex-col [@media(max-width:320px)]:items-center [@media(max-width:320px)]:gap-2
+  "
         >
           <AlertDialogAction
             onClick={handleConfirm}
-            className="bg-[var(--primary)] text-white flex-1 max-w-[140px] hover:bg-[var(--primary-600)]"
+            className="
+      bg-[var(--primary)] text-white flex-1 max-w-[140px] hover:bg-[var(--primary-600)]
+      [@media(max-width:320px)]:w-full
+    "
           >
             Confirmar
           </AlertDialogAction>
           <AlertDialogSkip
             onClick={handleSkip}
-            className="flex-1 max-w-[140px] border border-[#009966] text-[#009966] bg-white hover:bg-[#f4f4f4]"
+            className="
+      flex-1 max-w-[140px] border border-[#009966] text-[#009966] bg-white hover:bg-[#f4f4f4]
+      [@media(max-width:320px)]:w-full
+    "
           >
             Pular
           </AlertDialogSkip>
