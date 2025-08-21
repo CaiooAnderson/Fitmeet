@@ -121,7 +121,7 @@ export default function PreferencesDialog({
         className="
       md:max-w-xl md:p-12 border-0
       [@media(max-width:640px)]:p-6
-      [@media(max-width:640px)]:pt-12
+      [@media(max-width:640px)]:pt-8
     "
       >
         <AlertDialogHeader>
@@ -129,7 +129,7 @@ export default function PreferencesDialog({
             className="
           flex text-center font-bebas font-normal text-[2rem] px-1 h-8 items-center justify-center text-[var(--title)]
           [@media(max-width:640px)]:text-[1.5rem]
-          [@media(max-width:640px)]:mb-6
+          [@media(max-width:640px)]:mb-2
         "
           >
             SELECIONE AS SUAS ATIVIDADES PREFERIDAS
@@ -139,7 +139,7 @@ export default function PreferencesDialog({
 
         <div
           className="
-        w-fit mx-auto grid grid-cols-3 gap-8 py-8
+        w-fit mx-auto grid grid-cols-3 gap-8 sm:py-8 py-0
         [@media(max-width:640px)]:grid-cols-2
         [@media(max-width:640px)]:gap-6
         [@media(max-width:640px)]:justify-center
