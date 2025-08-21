@@ -139,8 +139,9 @@ export default function PreferencesDialog({
 
         <div
           className="
-        w-full max-w-[calc(100vw-32px)] mx-auto
-        grid grid-cols-3 gap-8 sm:py-8 py-0
+        w-fit mx-auto grid grid-cols-3 gap-8 sm:py-8 py-0
+        [@media(max-width:640px)]:w-full
+        [@media(max-width:640px)]:max-w-[calc(100vw-32px)]
         [@media(max-width:640px)]:grid-cols-2
         [@media(max-width:640px)]:gap-6
         [@media(max-width:640px)]:justify-center
@@ -153,14 +154,16 @@ export default function PreferencesDialog({
                 key={item.id}
                 onClick={() => toggle(item.id)}
                 className="
-              flex flex-col items-center gap-1 cursor-pointer
-              w-30 [@media(max-width:640px)]:w-[calc(50%-12px)]
+              flex flex-col items-center gap-1 cursor-pointer w-30
+              [@media(max-width:640px)]:w-[calc(50%-12px)]
             "
               >
                 <div className="relative w-16 h-16">
                   <img
                     src={item.image?.replace("localstack", "localhost")}
-                    className={`w-full h-full rounded-full object-cover transition-all ${isSelected ? "brightness-30" : ""}`}
+                    className={`w-full h-full rounded-full object-cover transition-all ${
+                      isSelected ? "brightness-30" : ""
+                    }`}
                   />
                   {isSelected && (
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -179,7 +182,8 @@ export default function PreferencesDialog({
         <AlertDialogFooter
           className="
         flex w-full gap-2
-        [@media(max-width:640px)]:flex-row [@media(max-width:320px)]:flex-col [@media(max-width:320px)]:items-center [@media(max-width:320px)]:gap-2
+        [@media(max-width:640px)]:flex-row
+        [@media(max-width:320px)]:flex-col [@media(max-width:320px)]:items-center [@media(max-width:320px)]:gap-2
       "
         >
           <AlertDialogAction
