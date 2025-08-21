@@ -376,7 +376,7 @@ export default function ActivityDetails({
         >
           <button
             onClick={onClose}
-            className="sm:hidden absolute top-6 left-6 p-2 rounded-full bg-white/90 shadow-md mt-2"
+            className="sm:hidden absolute top-6 left-6 p-2 rounded-full bg-white/90 shadow-md mt-6"
           >
             <ChevronLeft className="h-6 w-6 text-primary-600 bg-white/80 rounded-full" />
           </button>
