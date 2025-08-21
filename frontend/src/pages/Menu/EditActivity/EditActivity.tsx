@@ -208,11 +208,8 @@ export default function EditActivity({
     "
       >
         <div className="relative flex items-center justify-center flex-shrink-0">
-          <button
-            onClick={onClose}
-            className="sm:hidden absolute left-0 p-2 rounded-full bg-white/90 shadow-md"
-          >
-            <ChevronLeft className="h-6 w-6 text-primary-600 bg-white/80 rounded-full" />
+          <button onClick={onClose} className="sm:hidden absolute left-0">
+            <ChevronLeft className="h-8 w-8 text-primary-600" />
           </button>
 
           <AlertDialogTitle className="text-[2rem] font-bebas font-normal text-center">
