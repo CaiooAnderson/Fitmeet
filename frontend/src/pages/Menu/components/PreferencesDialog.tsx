@@ -182,8 +182,8 @@ export default function PreferencesDialog({
         <AlertDialogFooter
           className="
             flex w-full gap-2
-            [@media(max-width:640px)]:justify-center [@media(max-width:640px)]:flex-row
-            [@media(max-width:320px)]:flex-col [@media(max-width:320px)]:items-center [@media(max-width:320px)]:gap-2
+            [@media(max-width:640px)]:justify-center [@media(max-width:640px)]:flex-row [@media(max-width:640px)]:gap-6
+            [@media(max-width:320px)]:flex-col [@media(max-width:320px)]:items-center
           "
         >
           <AlertDialogAction
