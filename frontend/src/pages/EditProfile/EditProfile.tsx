@@ -16,7 +16,7 @@ export default function EditProfile() {
   const [user, setUser] = useState({
     name: "",
     avatar: "",
-    level: 0,
+    level: 1,
     email: "",
     cpf: "",
     preferences: [],
