@@ -189,7 +189,7 @@ export default function PreferencesDialog({
           <AlertDialogAction
             onClick={handleConfirm}
             className="
-              bg-[var(--primary)] text-white flex-1 max-w-[140px] hover:bg-[var(--primary-600)]
+              bg-[var(--primary)] text-white flex-1 hover:bg-[var(--primary-600)]
               [@media(max-width:320px)]:w-[calc(100%-32px)]
             "
           >
@@ -198,7 +198,7 @@ export default function PreferencesDialog({
           <AlertDialogSkip
             onClick={handleSkip}
             className="
-              flex-1 max-w-[140px] border border-[#009966] text-[#009966] bg-white hover:bg-[#f4f4f4]
+              flex-1 border border-[#009966] text-[#009966] bg-white hover:bg-[#f4f4f4]
               [@media(max-width:320px)]:w-[calc(100%-32px)]
             "
           >
