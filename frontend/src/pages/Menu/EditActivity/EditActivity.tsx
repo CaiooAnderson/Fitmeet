@@ -204,6 +204,7 @@ export default function EditActivity({
       [@media(max-width:320px)]:p-0
       [@media(max-width:320px)]:w-screen
       [@media(max-width:320px)]:min-w-[300px]
+      [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+2rem)]
     "
       >
         <button
