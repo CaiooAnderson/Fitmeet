@@ -119,18 +119,18 @@ export default function PreferencesDialog({
     <AlertDialog open={isOpen}>
       <AlertDialogContent
         className="
-      md:max-w-xl md:p-12 border-0
-      [@media(max-width:640px)]:p-6
-      [@media(max-width:640px)]:pt-8
-    "
+          md:max-w-xl md:p-12 border-0
+          [@media(max-width:640px)]:p-6
+          [@media(max-width:640px)]:pt-8
+        "
       >
         <AlertDialogHeader>
           <AlertDialogTitle
             className="
-          flex text-center font-bebas font-normal text-[2rem] px-1 h-8 items-center justify-center text-[var(--title)]
-          [@media(max-width:640px)]:text-[1.5rem]
-          [@media(max-width:640px)]:mb-2
-        "
+              flex text-center font-bebas font-normal text-[2rem] px-1 h-8 items-center justify-center text-[var(--title)]
+              [@media(max-width:640px)]:text-[1.5rem]
+              [@media(max-width:640px)]:mb-2
+            "
           >
             SELECIONE AS SUAS ATIVIDADES PREFERIDAS
           </AlertDialogTitle>
@@ -139,13 +139,13 @@ export default function PreferencesDialog({
 
         <div
           className="
-        w-fit mx-auto grid grid-cols-3 gap-8 sm:py-8 py-0
-        [@media(max-width:640px)]:w-full
-        [@media(max-width:640px)]:max-w-[calc(100vw-32px)]
-        [@media(max-width:640px)]:grid-cols-2
-        [@media(max-width:640px)]:gap-6
-        [@media(max-width:640px)]:justify-center
-      "
+            w-fit mx-auto grid grid-cols-3 gap-8 sm:py-8 py-0
+            [@media(max-width:640px)]:w-full
+            [@media(max-width:640px)]:max-w-[calc(100vw-32px)]
+            [@media(max-width:640px)]:grid-cols-2
+            [@media(max-width:640px)]:gap-6
+            [@media(max-width:640px)]:justify-center
+          "
         >
           {activityTypes.map((item) => {
             const isSelected = selected.includes(item.id);
@@ -154,9 +154,9 @@ export default function PreferencesDialog({
                 key={item.id}
                 onClick={() => toggle(item.id)}
                 className="
-              flex flex-col items-center gap-1 cursor-pointer w-30
-              [@media(max-width:640px)]:w-full
-            "
+                  flex flex-col items-center gap-1 cursor-pointer w-30
+                  [@media(max-width:640px)]:w-full
+                "
               >
                 <div className="relative w-16 h-16">
                   <img
@@ -181,27 +181,28 @@ export default function PreferencesDialog({
 
         <AlertDialogFooter
           className="
-    flex w-full gap-2
-    justify-center
-    [@media(max-width:640px)]:flex-row
-    [@media(max-width:320px)]:flex-col [@media(max-width:320px)]:items-center [@media(max-width:320px)]:gap-2
-  "
+            flex w-full gap-2
+            md:justify-end       /* Para telas grandes mantém alinhamento original */
+            [@media(max-width:640px)]:justify-center
+            [@media(max-width:640px)]:flex-row
+            [@media(max-width:320px)]:flex-col [@media(max-width:320px)]:items-center [@media(max-width:320px)]:gap-2
+          "
         >
           <AlertDialogAction
             onClick={handleConfirm}
             className="
-      bg-[var(--primary)] text-white flex-1 max-w-[140px] hover:bg-[var(--primary-600)]
-      [@media(max-width:320px)]:w-full
-    "
+              bg-[var(--primary)] text-white flex-1 max-w-[140px] hover:bg-[var(--primary-600)]
+              [@media(max-width:320px)]:w-full
+            "
           >
             Confirmar
           </AlertDialogAction>
           <AlertDialogSkip
             onClick={handleSkip}
             className="
-      flex-1 max-w-[140px] border border-[#009966] text-[#009966] bg-white hover:bg-[#f4f4f4]
-      [@media(max-width:320px)]:w-full
-    "
+              flex-1 max-w-[140px] border border-[#009966] text-[#009966] bg-white hover:bg-[#f4f4f4]
+              [@media(max-width:320px)]:w-full
+            "
           >
             Pular
           </AlertDialogSkip>
