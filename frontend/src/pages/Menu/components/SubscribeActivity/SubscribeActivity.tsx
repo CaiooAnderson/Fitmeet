@@ -222,7 +222,10 @@ export default function SubscribeActivity({
           [@media(max-width:640px)]:overflow-y-auto
         "
       >
-        <div className="fixed top-2 right-2 w-full z-50 flex justify-end px-6 mt-[calc(env(safe-area-inset-top)+1.75rem)]">
+        <div className="sm:hidden fixed top-2 right-2 w-full z-50 flex justify-end px-6 py-2 mt-[calc(env(safe-area-inset-top)+1rem)]">
+          <AlertDialogClose />
+        </div>
+        <div className="hidden sm:flex absolute top-4 right-4">
           <AlertDialogClose />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-[24rem_1fr] gap-12 w-full py-4 sm:py-0 [@media(max-width:640px)]:my-4">
