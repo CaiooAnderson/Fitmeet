@@ -222,10 +222,10 @@ export default function SubscribeActivity({
           [@media(max-width:640px)]:overflow-y-auto
         "
       >
-        <div className="sm:hidden fixed top-0 left-0 w-full z-50 flex justify-end px-6 pt-[calc(env(safe-area-inset-top)+0.75rem)]">
+        <div className="sm:hidden fixed top-0 left-0 w-full z-50 flex justify-end px-6 mt-[calc(env(safe-area-inset-top)+0.75rem)]">
           <AlertDialogClose />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-[24rem_1fr] gap-12 w-full py-4 sm:py-0 [@media(max-width:640px)]:my-4 [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+4rem)]">
+        <div className="grid grid-cols-1 sm:grid-cols-[24rem_1fr] gap-12 w-full py-4 sm:py-0 [@media(max-width:640px)]:my-4">
           <div className="flex flex-col justify-between h-full w-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
             <div>
               <img
