@@ -289,17 +289,12 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                   );
                 })}
               </CarouselContent>
-              <div className="relative w-full">
+              <div className="w-full flex flex-col items-center">
                 <CarouselDots />
 
                 <Dialog>
                   <DialogTrigger asChild>
-                    <button
-                      className="
-                        absolute bottom-0 left-1/2 -translate-x-1/2
-                        hover:scale-110 transition
-                      "
-                    >
+                    <button className="mt-2 hover:scale-110 transition">
                       <HelpCircle className="w-6 h-6 text-green-600" />
                     </button>
                   </DialogTrigger>
