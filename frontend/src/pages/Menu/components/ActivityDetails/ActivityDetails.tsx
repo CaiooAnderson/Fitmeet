@@ -5,6 +5,7 @@ import {
   AlertDialogAction,
   AlertDialogTitle,
   AlertDialogDescription,
+  AlertDialogClose,
 } from "@/components/ui/alert-dialog";
 import {
   Calendar,
@@ -15,7 +16,6 @@ import {
   X,
   Flag,
   UserRoundCheck,
-  ChevronLeft,
 } from "lucide-react";
 import { format } from "date-fns";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -361,25 +361,20 @@ export default function ActivityDetails({
 
         <AlertDialogContent
           className="
-    w-[848px] border-0 p-12
-    max-w-full
-    sm:max-w-[848px]
-    sm:h-auto
-    sm:overflow-visible
-    rounded-none sm:rounded-xl
-    [@media(max-width:640px)]:p-6
-    [@media(max-width:640px)]:h-auto
-    [@media(max-width:640px)]:max-h-[100vh]
-    [@media(max-width:640px)]:overflow-y-auto
-    [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+1rem)]
-  "
+            w-[848px] border-0 p-12
+            max-w-full
+            sm:max-w-[848px]
+            sm:h-auto
+            sm:overflow-visible
+            rounded-none sm:rounded-xl
+            [@media(max-width:640px)]:p-6
+            [@media(max-width:640px)]:h-auto
+            [@media(max-width:640px)]:max-h-[100vh]
+            [@media(max-width:640px)]:overflow-y-auto
+            [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+1rem)]
+          "
         >
-          <button
-            onClick={onClose}
-            className="sm:hidden absolute top-6 left-6 p-1 rounded-full bg-white/90 shadow-md mt-6"
-          >
-            <ChevronLeft className="h-8 w-8 text-primary-600" />
-          </button>
+          <AlertDialogClose />
           <div className="flex gap-12 flex-col sm:flex-row py-4 sm:py-0 [@media(max-width:640px)]:my-4">
             <div className="flex flex-col w-full sm:w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
               <img

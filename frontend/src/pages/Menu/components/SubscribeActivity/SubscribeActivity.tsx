@@ -4,13 +4,13 @@ import {
   AlertDialogContent,
   AlertDialogTitle,
   AlertDialogDescription,
+  AlertDialogClose,
 } from "@/components/ui/alert-dialog";
 import { Calendar, Users, Lock } from "lucide-react";
 import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import PreviewMap from "@/components/PreviewMap/PreviewMap";
 import ParticipantButton from "./ParticipantButton";
-import { ChevronLeft } from "lucide-react";
 
 interface SubscribeActivityProps {
   isOpen: boolean;
@@ -210,25 +210,20 @@ export default function SubscribeActivity({
 
       <AlertDialogContent
         className="
-    w-[848px] border-0 p-12
-    max-w-full
-    sm:max-w-[848px]
-    sm:h-auto
-    sm:overflow-visible
-    rounded-none sm:rounded-xl
-    [@media(max-width:640px)]:p-6
-    [@media(max-width:640px)]:h-auto
-    [@media(max-width:640px)]:max-h-[100vh]
-    [@media(max-width:640px)]:overflow-y-auto
-    [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+1rem)]
-  "
+          w-[848px] border-0 p-12
+          max-w-full
+          sm:max-w-[848px]
+          sm:h-auto
+          sm:overflow-visible
+          rounded-none sm:rounded-xl
+          [@media(max-width:640px)]:p-6
+          [@media(max-width:640px)]:h-auto
+          [@media(max-width:640px)]:max-h-[100vh]
+          [@media(max-width:640px)]:overflow-y-auto
+          [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+1rem)]
+        "
       >
-        <button
-          onClick={onClose}
-          className="sm:hidden absolute top-6 left-6 p-1 rounded-full bg-white/90 shadow-md mt-6"
-        >
-          <ChevronLeft className="h-8 w-8 text-primary-600" />
-        </button>
+        <AlertDialogClose />
         <div className="grid grid-cols-1 sm:grid-cols-[24rem_1fr] gap-12 w-full py-4 sm:py-0 [@media(max-width:640px)]:my-4">
           <div className="flex flex-col justify-between h-full w-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
             <div>
