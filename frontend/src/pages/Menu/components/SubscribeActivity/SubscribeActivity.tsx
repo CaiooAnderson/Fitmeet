@@ -223,7 +223,7 @@ export default function SubscribeActivity({
         "
       >
         <AlertDialogClose />
-        <div className="grid grid-cols-1 sm:grid-cols-[24rem_1fr] gap-12 w-full py-4 sm:py-0 [@media(max-width:640px)]:my-4 [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+1rem)]">
+        <div className="grid grid-cols-1 sm:grid-cols-[24rem_1fr] gap-12 w-full py-4 sm:py-0 [@media(max-width:640px)]:my-4 [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+4rem)]">
           <div className="flex flex-col justify-between h-full w-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
             <div>
               <img

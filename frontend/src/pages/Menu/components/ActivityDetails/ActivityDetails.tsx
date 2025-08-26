@@ -374,7 +374,7 @@ export default function ActivityDetails({
           "
         >
           <AlertDialogClose />
-          <div className="flex gap-12 flex-col sm:flex-row py-4 sm:py-0 [@media(max-width:640px)]:my-4 [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+1rem)]">
+          <div className="flex gap-12 flex-col sm:flex-row py-4 sm:py-0 [@media(max-width:640px)]:my-4 [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+4rem)]">
             <div className="flex flex-col w-full sm:w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
               <img
                 src={activity.image?.replace("localstack", "localhost")}
