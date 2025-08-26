@@ -216,7 +216,8 @@ export default function SubscribeActivity({
           sm:h-auto
           sm:overflow-visible
           rounded-none sm:rounded-xl
-          [@media(max-width:640px)]:p-6
+          [@media(max-width:640px)]:px-6
+          [@media(max-width:640px)]:py-6
           [@media(max-width:640px)]:h-auto
           [@media(max-width:640px)]:max-h-[100vh]
           [@media(max-width:640px)]:overflow-y-auto
