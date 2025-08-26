@@ -298,7 +298,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
 
           <Dialog>
             <DialogTrigger asChild>
-              <button className="absolute bottom-4 right-4 hover:scale-110 transition">
+              <button className="absolute bottom-4 right-4 hover:scale-110 cursor-pointer transition">
                 <HelpCircle className="w-6 h-6 text-green-600" />
               </button>
             </DialogTrigger>
