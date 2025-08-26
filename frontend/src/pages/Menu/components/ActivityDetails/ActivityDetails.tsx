@@ -372,10 +372,11 @@ export default function ActivityDetails({
             [@media(max-width:640px)]:h-auto
             [@media(max-width:640px)]:max-h-[100vh]
             [@media(max-width:640px)]:overflow-y-auto
-            [@media(max-width:640px)]:mt-[calc(env(safe-area-inset-top)+2rem)]
+            [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+1rem)]
+            relative
           "
         >
-          <AlertDialogClose />
+          <AlertDialogClose className="absolute top-[calc(env(safe-area-inset-top)+1rem)] right-6" />
           <div className="flex gap-12 flex-col sm:flex-row py-4 sm:py-0 [@media(max-width:640px)]:my-4">
             <div className="flex flex-col w-full sm:w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
               <img
