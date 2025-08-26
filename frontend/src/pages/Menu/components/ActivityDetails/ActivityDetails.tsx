@@ -370,11 +370,13 @@ export default function ActivityDetails({
             [@media(max-width:640px)]:px-6
             [@media(max-width:640px)]:h-auto
             [@media(max-width:640px)]:max-h-[100vh]
-            [@media(max-width:640px)]:overflow-y-auto            
+            [@media(max-width:640px)]:overflow-visible           
           "
         >
-          <AlertDialogClose />
-          <div className="flex gap-12 flex-col sm:flex-row py-4 sm:py-0 [@media(max-width:640px)]:my-4 [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+4rem)]">
+          <div className="sm:hidden fixed top-0 left-0 w-full z-50 flex justify-end px-6 pt-[calc(env(safe-area-inset-top)+0.75rem)]">
+            <AlertDialogClose />
+          </div>
+          <div className="flex gap-12 flex-col sm:flex-row py-4 sm:py-0 [@media(max-width:640px)]:my-4 [@media(max-width:640px)]:pt-[calc(env(safe-area-inset-top)+1rem)]">
             <div className="flex flex-col w-full sm:w-96 justify-between h-full overflow-hidden text-ellipsis whitespace-nowrap break-words">
               <img
                 src={activity.image?.replace("localstack", "localhost")}
