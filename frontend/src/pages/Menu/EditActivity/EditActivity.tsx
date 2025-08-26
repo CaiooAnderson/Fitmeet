@@ -7,6 +7,7 @@ import {
   AlertDialogAction,
   AlertDialogTitle,
   AlertDialogDescription,
+  AlertDialogClose,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 
@@ -15,7 +16,6 @@ import Inputs from "../NewActivity/components/Inputs";
 import Schedule from "../NewActivity/components/Schedule";
 import TypesAndLocation from "../NewActivity/components/TypesAndLocation";
 import Approval from "../NewActivity/components/Approval";
-import { ChevronLeft } from "lucide-react";
 
 interface EditActivityProps {
   isOpen: boolean;
@@ -208,9 +208,12 @@ export default function EditActivity({
     "
       >
         <div className="relative flex items-center justify-center flex-shrink-0">
-          <button onClick={onClose} className="sm:hidden absolute left-0">
-            <ChevronLeft className="h-8 w-8 text-primary-600" />
-          </button>
+          <div className="sm:hidden fixed top-2 right-2 w-full z-50 flex justify-end px-6 py-2 mt-[calc(env(safe-area-inset-top)+1rem)]">
+            <AlertDialogClose />
+          </div>
+          <div className="hidden sm:flex absolute top-2 right-2">
+            <AlertDialogClose />
+          </div>
 
           <AlertDialogTitle className="text-[2rem] font-bebas font-normal text-center">
             EDITAR ATIVIDADE
