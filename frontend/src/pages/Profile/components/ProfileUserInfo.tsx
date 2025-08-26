@@ -7,8 +7,15 @@ import {
   CarouselDots,
   CarouselItem,
 } from "@/components/ui/carousel";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
-import { Pen } from "lucide-react";
+import { Pen, HelpCircle } from "lucide-react";
 import { useNavigate } from "react-router";
 
 interface Achievement {
@@ -282,7 +289,45 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                   );
                 })}
               </CarouselContent>
-              <CarouselDots />
+              <div className="relative w-full">
+                <CarouselDots />
+
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button
+                      className="
+                        absolute bottom-0 right-0 
+                        p-2 rounded-full bg-white shadow-md 
+                        hover:bg-gray-100 transition
+                      "
+                    >
+                      <HelpCircle className="w-5 h-5 text-primary" />
+                    </button>
+                  </DialogTrigger>
+
+                  <DialogContent className="sm:max-w-md rounded-2xl shadow-lg bg-gradient-to-b from-white to-gray-50">
+                    <DialogHeader>
+                      <DialogTitle className="text-xl font-bold text-primary text-center">
+                        Como obter conquistas?
+                      </DialogTitle>
+                    </DialogHeader>
+
+                    <div className="mt-4 flex flex-col gap-4">
+                      <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm text-[var(--text)]">
+                        Criando uma atividade
+                      </div>
+
+                      <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm text-[var(--text)]">
+                        Participando de uma atividade
+                      </div>
+
+                      <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm text-[var(--text)]">
+                        Concluindo uma atividade
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
             </Carousel>
           )}
         </div>
