@@ -204,7 +204,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
           </div>
         </div>
 
-        <div className="bg-[#f5f5f5] rounded-lg w-full sm:w-[390px] h-52 px-8 pt-8 pb-14 flex flex-col items-center justify-between [@media(max-width:320px)]:h-56">
+        <div className="bg-[#f5f5f5] relative rounded-lg w-full sm:w-[390px] h-52 px-8 pt-8 pb-14 flex flex-col items-center justify-between [@media(max-width:320px)]:h-56">
           {user.achievements.length === 0 ? (
             <span className="text-sm text-[var(--text)] font-bold text-center">
               Você ainda não possui conquistas
@@ -289,12 +289,12 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                   );
                 })}
               </CarouselContent>
-              <div className="w-full flex flex-col items-center">
+              <div className="w-full flex justify-center">
                 <CarouselDots />
 
                 <Dialog>
                   <DialogTrigger asChild>
-                    <button className="mt-2 hover:scale-110 transition">
+                    <button className="absolute bottom-2 right-2 hover:scale-110 transition">
                       <HelpCircle className="w-6 h-6 text-green-600" />
                     </button>
                   </DialogTrigger>
