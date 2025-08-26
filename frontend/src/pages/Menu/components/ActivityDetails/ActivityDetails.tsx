@@ -373,7 +373,10 @@ export default function ActivityDetails({
             [@media(max-width:640px)]:overflow-y-auto        
           "
         >
-          <div className="sm:hidden fixed top-0 left-0 w-full z-50 flex justify-end px-6 mt-[calc(env(safe-area-inset-top)+0.75rem)]">
+          <div className="sm:hidden fixed top-2 right-2 w-full z-50 flex justify-end px-6 py-2 mt-[calc(env(safe-area-inset-top)+1rem)]">
+            <AlertDialogClose />
+          </div>
+          <div className="hidden sm:flex absolute top-2 right-2">
             <AlertDialogClose />
           </div>
           <div className="flex gap-12 flex-col sm:flex-row py-4 sm:py-0 [@media(max-width:640px)]:my-4">
