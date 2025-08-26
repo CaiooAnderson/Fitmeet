@@ -289,41 +289,42 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                   );
                 })}
               </CarouselContent>
+
               <div className="w-full flex justify-center">
                 <CarouselDots />
-
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <button className="absolute bottom-4 right-4 hover:scale-110 transition">
-                      <HelpCircle className="w-6 h-6 text-green-600" />
-                    </button>
-                  </DialogTrigger>
-
-                  <DialogContent className="sm:max-w-md rounded-2xl shadow-lg bg-gradient-to-b from-white to-gray-50">
-                    <DialogHeader>
-                      <DialogTitle className="text-xl font-bold text-primary text-center">
-                        Como obter conquistas?
-                      </DialogTitle>
-                    </DialogHeader>
-
-                    <div className="mt-4 flex flex-col gap-4">
-                      <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm text-[var(--text)]">
-                        Criando uma atividade
-                      </div>
-
-                      <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm text-[var(--text)]">
-                        Participando de uma atividade
-                      </div>
-
-                      <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm text-[var(--text)]">
-                        Concluindo uma atividade
-                      </div>
-                    </div>
-                  </DialogContent>
-                </Dialog>
               </div>
             </Carousel>
           )}
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <button className="absolute bottom-4 right-4 hover:scale-110 transition">
+                <HelpCircle className="w-6 h-6 text-green-600" />
+              </button>
+            </DialogTrigger>
+
+            <DialogContent className="sm:max-w-md rounded-2xl shadow-lg bg-gradient-to-b from-white to-gray-50">
+              <DialogHeader>
+                <DialogTitle className="text-xl font-bold text-primary text-center">
+                  Como obter conquistas?
+                </DialogTitle>
+              </DialogHeader>
+
+              <div className="mt-4 flex flex-col gap-4">
+                <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm text-[var(--text)]">
+                  Criando uma atividade
+                </div>
+
+                <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm text-[var(--text)]">
+                  Participando de uma atividade
+                </div>
+
+                <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm text-[var(--text)]">
+                  Concluindo uma atividade
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </div>
