@@ -370,7 +370,6 @@ export default function ActivityDetails({
             [@media(max-width:640px)]:px-6
             [@media(max-width:640px)]:h-auto
             [@media(max-width:640px)]:max-h-[100vh]
-            [@media(max-width:640px)]:overflow-y-auto           
           "
         >
           <div className="sm:hidden fixed top-0 left-0 w-full z-50 flex justify-end px-6 pt-[calc(env(safe-area-inset-top)+0.75rem)]">
