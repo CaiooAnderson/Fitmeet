@@ -311,15 +311,15 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
               </DialogHeader>
 
               <div className="mt-4 flex flex-col gap-4">
-                <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm text-[var(--text)]">
+                <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm hover:shadow-lg text-[var(--text)]">
                   Criando uma atividade
                 </div>
 
-                <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm text-[var(--text)]">
+                <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm hover:shadow-lg text-[var(--text)]">
                   Participando de uma atividade
                 </div>
 
-                <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm text-[var(--text)]">
+                <div className="p-3 rounded-lg bg-[#f5f5f5] shadow-sm hover:shadow-lg text-[var(--text)]">
                   Concluindo uma atividade
                 </div>
               </div>
