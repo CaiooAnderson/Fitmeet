@@ -296,12 +296,11 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
                   <DialogTrigger asChild>
                     <button
                       className="
-                        absolute bottom-0 right-0 
-                        p-2 rounded-full bg-white shadow-md 
-                        hover:bg-gray-100 transition
+                        absolute bottom-0 left-1/2 -translate-x-1/2
+                        hover:scale-110 transition
                       "
                     >
-                      <HelpCircle className="w-5 h-5 text-primary" />
+                      <HelpCircle className="w-6 h-6 text-green-600" />
                     </button>
                   </DialogTrigger>
 
