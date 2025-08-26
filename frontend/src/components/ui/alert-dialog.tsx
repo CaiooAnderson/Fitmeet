@@ -3,11 +3,31 @@ import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import { X } from "lucide-react";
 
 function AlertDialog({
   ...props
 }: React.ComponentProps<typeof AlertDialogPrimitive.Root>) {
   return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />;
+}
+
+function AlertDialogClose({
+  className,
+  ...props
+}: React.ComponentProps<typeof AlertDialogPrimitive.Cancel>) {
+  return (
+    <AlertDialogPrimitive.Cancel
+      data-slot="alert-dialog-close"
+      className={cn(
+        "ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 cursor-pointer",
+        className
+      )}
+      {...props}
+    >
+      <X />
+      <span className="sr-only">Close</span>
+    </AlertDialogPrimitive.Cancel>
+  );
 }
 
 function AlertDialogTrigger({
@@ -154,6 +174,7 @@ function AlertDialogSkip({
 
 export {
   AlertDialog,
+  AlertDialogClose,
   AlertDialogPortal,
   AlertDialogOverlay,
   AlertDialogTrigger,
