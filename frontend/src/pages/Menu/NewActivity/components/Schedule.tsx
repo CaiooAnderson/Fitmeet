@@ -1,17 +1,8 @@
 import { Calendar } from "@/components/ui/calendar";
 import { Calendar as CalendarIcon } from "lucide-react";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Dialog, DialogContent } from "@/components/ui/dialog"; // importar Dialog
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { addDays, format, isBefore, setHours, setMinutes } from "date-fns";
@@ -23,14 +14,9 @@ interface ScheduleProps {
   setScheduledDate: (date: Date | undefined) => void;
 }
 
-export default function Schedule({
-  scheduledDate,
-  setScheduledDate,
-}: ScheduleProps) {
+export default function Schedule({ scheduledDate, setScheduledDate }: ScheduleProps) {
   const [openPopover, setOpenPopover] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    scheduledDate
-  );
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(scheduledDate);
   const [hour, setHour] = useState<number | null>(null);
   const [minute, setMinute] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -50,18 +36,84 @@ export default function Schedule({
     setOpenPopover(false);
   };
 
+  const PopoverContentInner = (
+    <div className="w-80 sm:w-auto max-h-[90vh] overflow-auto rounded-xl bg-white p-3 flex flex-col gap-3">
+      <Select
+        onValueChange={(value) => {
+          const baseDate = addDays(new Date(), parseInt(value));
+          setSelectedDate(baseDate);
+        }}
+      >
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Escolha um preset" />
+        </SelectTrigger>
+        <SelectContent position="popper">
+          <SelectItem value="0" className="h-8 text-sm">Hoje</SelectItem>
+          <SelectItem value="1" className="h-8 text-sm">Amanhã</SelectItem>
+          <SelectItem value="3" className="h-8 text-sm">Daqui a 3 dias</SelectItem>
+          <SelectItem value="7" className="h-8 text-sm">Daqui a 1 semana</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <div className="rounded-lg border max-h-[250px] overflow-auto">
+        <Calendar
+          mode="single"
+          selected={selectedDate}
+          onSelect={(date) => date && setSelectedDate(date)}
+          className="text-[var(--text)]"
+        />
+      </div>
+
+      <div className="flex gap-3">
+        <div className="flex flex-col gap-1">
+          <Label className="text-xs text-[var(--text)]">Hora</Label>
+          <Select onValueChange={(val) => setHour(parseInt(val))}>
+            <SelectTrigger className="w-[80px] h-9 text-sm">
+              <SelectValue placeholder="HH" />
+            </SelectTrigger>
+            <SelectContent className="max-h-48">
+              {Array.from({ length: 24 }, (_, i) => (
+                <SelectItem key={i} value={String(i).padStart(2, "0")} className="h-8 text-sm">
+                  {String(i).padStart(2, "0")}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Label className="text-xs text-[var(--text)]">Minuto</Label>
+          <Select onValueChange={(val) => setMinute(parseInt(val))}>
+            <SelectTrigger className="w-[80px] h-9 text-sm">
+              <SelectValue placeholder="MM" />
+            </SelectTrigger>
+            <SelectContent className="max-h-48">
+              {Array.from({ length: 60 }, (_, i) => (
+                <SelectItem key={i} value={String(i).padStart(2, "0")} className="h-8 text-sm">
+                  {String(i).padStart(2, "0")}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <Button className="mt-2 w-full" onClick={handleConfirm}>Confirmar</Button>
+      {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
+    </div>
+  );
+
   return (
     <div className="flex flex-col gap-1.5 w-80 [@media(max-width:320px)]:w-4/5 [@media(max-width:320px)]:mx-auto">
       <Label className="text-[1rem] font-semibold h-5 text-[var(--text)]">
         Agendar para <span className="text-[var(--warning)] h-5">*</span>
       </Label>
+
       <Popover modal open={openPopover} onOpenChange={setOpenPopover}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className={cn(
-              "w-full justify-between font-normal !px-5 !py-4 h-14 border-[var(--input-border)] rounded-lg text-[var(--text)]"
-            )}
+            className={cn("w-full justify-between font-normal !px-5 !py-4 h-14 border-[var(--input-border)] rounded-lg text-[var(--text)]")}
             onClick={() => setOpenPopover(true)}
           >
             {scheduledDate ? (
@@ -76,188 +128,19 @@ export default function Schedule({
             <CalendarIcon className="h-5 w-5" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="hidden sm:flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50">
-          <Select
-            onValueChange={(value) => {
-              const baseDate = addDays(new Date(), parseInt(value));
-              setSelectedDate(baseDate);
-            }}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Escolha um preset" />
-            </SelectTrigger>
-            <SelectContent position="popper">
-              <SelectItem value="0" className="h-8 text-sm">
-                Hoje
-              </SelectItem>
-              <SelectItem value="1" className="h-8 text-sm">
-                Amanhã
-              </SelectItem>
-              <SelectItem value="3" className="h-8 text-sm">
-                Daqui a 3 dias
-              </SelectItem>
-              <SelectItem value="7" className="h-8 text-sm">
-                Daqui a 1 semana
-              </SelectItem>
-            </SelectContent>
-          </Select>
 
-          <div className="rounded-lg border [@media(max-width:640px)]:max-h-[250px] [@media(max-width:640px)]:overflow-auto">
-            <Calendar
-              mode="single"
-              selected={selectedDate}
-              onSelect={(date) => {
-                if (date) {
-                  setSelectedDate(date);
-                }
-              }}
-              className="text-[var(--text)]"
-            />
-          </div>
-
-          <div className="flex gap-3">
-            <div className="flex flex-col gap-1">
-              <Label className="text-xs text-[var(--text)]">Hora</Label>
-              <Select onValueChange={(val) => setHour(parseInt(val))}>
-                <SelectTrigger className="w-[80px] h-9 text-sm">
-                  <SelectValue placeholder="HH" />
-                </SelectTrigger>
-                <SelectContent className="max-h-48">
-                  {Array.from({ length: 24 }, (_, i) => (
-                    <SelectItem
-                      key={i}
-                      value={String(i).padStart(2, "0")}
-                      className="h-8 text-sm"
-                    >
-                      {String(i).padStart(2, "0")}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <Label className="text-xs text-[var(--text)]">Minuto</Label>
-              <Select onValueChange={(val) => setMinute(parseInt(val))}>
-                <SelectTrigger className="w-[80px] h-9 text-sm">
-                  <SelectValue placeholder="MM" />
-                </SelectTrigger>
-                <SelectContent className="max-h-48">
-                  {Array.from({ length: 60 }, (_, i) => (
-                    <SelectItem
-                      key={i}
-                      value={String(i).padStart(2, "0")}
-                      className="h-8 text-sm"
-                    >
-                      {String(i).padStart(2, "0")}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <Button className="mt-2 w-full" onClick={handleConfirm}>
-            Confirmar
-          </Button>
-
-          {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
-        </PopoverContent>
-
-        <PopoverContent
-          className="sm:hidden fixed inset-0 z-50 flex items-center justify-center p-0"
-          side="bottom"
-          align="center"
-          avoidCollisions={false}
-        >
-          <div className="w-80 sm:w-auto [@media(max-width:320px)]:w-4/5 h-auto max-h-[90vh] overflow-auto bg-white rounded-xl p-3 flex flex-col gap-3">
-            {/* Repete aqui o mesmo conteúdo do PopoverContent original */}
-            <Select
-              onValueChange={(value) => {
-                const baseDate = addDays(new Date(), parseInt(value));
-                setSelectedDate(baseDate);
-              }}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Escolha um preset" />
-              </SelectTrigger>
-              <SelectContent position="popper">
-                <SelectItem value="0" className="h-8 text-sm">
-                  Hoje
-                </SelectItem>
-                <SelectItem value="1" className="h-8 text-sm">
-                  Amanhã
-                </SelectItem>
-                <SelectItem value="3" className="h-8 text-sm">
-                  Daqui a 3 dias
-                </SelectItem>
-                <SelectItem value="7" className="h-8 text-sm">
-                  Daqui a 1 semana
-                </SelectItem>
-              </SelectContent>
-            </Select>
-
-            <div className="rounded-lg border max-h-[250px] overflow-auto">
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                onSelect={(date) => date && setSelectedDate(date)}
-                className="text-[var(--text)]"
-              />
-            </div>
-
-            <div className="flex gap-3">
-              <div className="flex flex-col gap-1">
-                <Label className="text-xs text-[var(--text)]">Hora</Label>
-                <Select onValueChange={(val) => setHour(parseInt(val))}>
-                  <SelectTrigger className="w-[80px] h-9 text-sm">
-                    <SelectValue placeholder="HH" />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-48">
-                    {Array.from({ length: 24 }, (_, i) => (
-                      <SelectItem
-                        key={i}
-                        value={String(i).padStart(2, "0")}
-                        className="h-8 text-sm"
-                      >
-                        {String(i).padStart(2, "0")}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <Label className="text-xs text-[var(--text)]">Minuto</Label>
-                <Select onValueChange={(val) => setMinute(parseInt(val))}>
-                  <SelectTrigger className="w-[80px] h-9 text-sm">
-                    <SelectValue placeholder="MM" />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-48">
-                    {Array.from({ length: 60 }, (_, i) => (
-                      <SelectItem
-                        key={i}
-                        value={String(i).padStart(2, "0")}
-                        className="h-8 text-sm"
-                      >
-                        {String(i).padStart(2, "0")}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <Button className="mt-2 w-full" onClick={handleConfirm}>
-              Confirmar
-            </Button>
-
-            {error && (
-              <span className="text-red-500 text-sm mt-1">{error}</span>
-            )}
-          </div>
+        <PopoverContent className="hidden sm:flex flex-col space-y-3 p-3 text-[var(--text)] z-50">
+          {PopoverContentInner}
         </PopoverContent>
       </Popover>
+
+      {openPopover && (
+        <Dialog open={openPopover} onOpenChange={setOpenPopover}>
+          <DialogContent className="sm:hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+            {PopoverContentInner}
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
