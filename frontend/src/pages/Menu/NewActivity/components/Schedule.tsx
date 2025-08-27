@@ -111,7 +111,7 @@ export default function Schedule({
                   setSelectedDate(date);
                 }
               }}
-              className="text-[var(--text)] [@media(max-width:640px)]:touch-action-pan-y"
+              className="text-[var(--text)]"
             />
           </div>
 

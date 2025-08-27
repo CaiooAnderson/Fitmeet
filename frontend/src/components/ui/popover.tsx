@@ -54,7 +54,14 @@ function PopoverContent({
             "z-50 w-72 rounded-md border p-4 shadow-md outline-none",
           className
         )}
-        style={isMobile ? { pointerEvents: "auto" } : undefined}
+        style={
+          isMobile
+            ? {
+                pointerEvents: "auto",
+                touchAction: "pan-y",
+              }
+            : undefined
+        }
         {...props}
       />
     </PopoverPrimitive.Portal>
