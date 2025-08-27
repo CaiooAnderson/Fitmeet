@@ -61,6 +61,7 @@ function PopoverContent({
                 touchAction: "pan-y",
                 maxHeight: "80vh",
                 overflowY: "auto",
+                WebkitOverflowScrolling: "touch",
               }
             : undefined
         }
