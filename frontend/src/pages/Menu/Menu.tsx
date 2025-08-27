@@ -167,7 +167,7 @@ function Menu() {
       <div className="flex flex-col gap-14 w-full max-w-[76.25rem]">
         <MenuHeader
           avatar={user.avatar ?? ""}
-          level={user.level ?? 0}
+          level={user.level ?? 1}
           name={user.name ?? ""}
           onLogout={() => {
             sessionStorage.removeItem("token");
