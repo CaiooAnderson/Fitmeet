@@ -156,7 +156,11 @@ export default function Schedule({
         Agendar para <span className="text-[var(--warning)] h-5">*</span>
       </Label>
 
-      <Popover modal open={openPopover} onOpenChange={setOpenPopover}>
+      <Popover
+        open={openPopover}
+        onOpenChange={setOpenPopover}
+        modal={!isMobile}
+      >
         <PopoverTrigger asChild>
           <Button
             ref={triggerRef}
@@ -179,29 +183,32 @@ export default function Schedule({
           </Button>
         </PopoverTrigger>
 
-        {isMobile && openPopover && mounted
-          ? createPortal(
-              <>
+        {!isMobile && (
+          <PopoverContent className="flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50 [@media(max-width:640px)]:max-h-[60vh] [@media(max-width:640px)]:overflow-auto">
+            {PopContent}
+          </PopoverContent>
+        )}
+
+        {isMobile &&
+          openPopover &&
+          mounted &&
+          createPortal(
+            <>
+              <div
+                className="fixed inset-0 z-[1000] bg-black/40"
+                onClick={() => setOpenPopover(false)}
+              />
+              <div className="fixed inset-0 z-[1001] flex items-center justify-center p-4">
                 <div
-                  className="fixed inset-0 z-[1000] bg-black/40"
-                  onClick={() => setOpenPopover(false)}
-                />
-                <div className="fixed inset-0 z-[1001] flex items-center justify-center p-4">
-                  <div
-                    role="dialog"
-                    aria-modal="true"
-                    className="w-full max-w-[95vw] max-h-[calc(100vh-40px)] overflow-y-auto rounded-xl bg-white dark:bg-slate-900 shadow-lg"
-                  >
-                    {PopContent}
-                  </div>
+                  role="dialog"
+                  aria-modal="true"
+                  className="w-full max-w-[95vw] max-h-[calc(100vh-40px)] overflow-y-auto rounded-xl bg-white dark:bg-slate-900 shadow-lg"
+                >
+                  {PopContent}
                 </div>
-              </>,
-              document.body
-            )
-          : (
-            <PopoverContent className="flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50 [@media(max-width:640px)]:max-h-[60vh] [@media(max-width:640px)]:overflow-auto">
-              {PopContent}
-            </PopoverContent>
+              </div>
+            </>,
+            document.body
           )}
       </Popover>
     </div>
