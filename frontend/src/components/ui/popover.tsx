@@ -59,6 +59,8 @@ function PopoverContent({
             ? {
                 pointerEvents: "auto",
                 touchAction: "pan-y",
+                maxHeight: "80vh",
+                overflowY: "auto",
               }
             : undefined
         }
