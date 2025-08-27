@@ -1,25 +1,53 @@
 import { Calendar } from "@/components/ui/calendar";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
-import { Dialog, DialogContent } from "@/components/ui/dialog"; // importar Dialog
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { addDays, format, isBefore, setHours, setMinutes } from "date-fns";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface ScheduleProps {
   scheduledDate: Date | undefined;
   setScheduledDate: (date: Date | undefined) => void;
 }
 
-export default function Schedule({ scheduledDate, setScheduledDate }: ScheduleProps) {
+export default function Schedule({
+  scheduledDate,
+  setScheduledDate,
+}: ScheduleProps) {
   const [openPopover, setOpenPopover] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(scheduledDate);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+    scheduledDate
+  );
   const [hour, setHour] = useState<number | null>(null);
   const [minute, setMinute] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const onResize = () => setIsMobile(window.innerWidth <= 640);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   const handleConfirm = () => {
     if (!selectedDate || hour === null || minute === null) return;
@@ -36,8 +64,8 @@ export default function Schedule({ scheduledDate, setScheduledDate }: SchedulePr
     setOpenPopover(false);
   };
 
-  const PopoverContentInner = (
-    <div className="w-80 sm:w-auto max-h-[90vh] overflow-auto rounded-xl bg-white p-3 flex flex-col gap-3">
+  const PopContent = (
+    <div className="flex w-full flex-col space-y-3 p-3 text-[var(--text)]">
       <Select
         onValueChange={(value) => {
           const baseDate = addDays(new Date(), parseInt(value));
@@ -48,18 +76,30 @@ export default function Schedule({ scheduledDate, setScheduledDate }: SchedulePr
           <SelectValue placeholder="Escolha um preset" />
         </SelectTrigger>
         <SelectContent position="popper">
-          <SelectItem value="0" className="h-8 text-sm">Hoje</SelectItem>
-          <SelectItem value="1" className="h-8 text-sm">Amanhã</SelectItem>
-          <SelectItem value="3" className="h-8 text-sm">Daqui a 3 dias</SelectItem>
-          <SelectItem value="7" className="h-8 text-sm">Daqui a 1 semana</SelectItem>
+          <SelectItem value="0" className="h-8 text-sm">
+            Hoje
+          </SelectItem>
+          <SelectItem value="1" className="h-8 text-sm">
+            Amanhã
+          </SelectItem>
+          <SelectItem value="3" className="h-8 text-sm">
+            Daqui a 3 dias
+          </SelectItem>
+          <SelectItem value="7" className="h-8 text-sm">
+            Daqui a 1 semana
+          </SelectItem>
         </SelectContent>
       </Select>
 
-      <div className="rounded-lg border max-h-[250px] overflow-auto">
+      <div className="rounded-lg border [@media(max-width:640px)]:max-h-[250px] [@media(max-width:640px)]:overflow-auto">
         <Calendar
           mode="single"
           selected={selectedDate}
-          onSelect={(date) => date && setSelectedDate(date)}
+          onSelect={(date) => {
+            if (date) {
+              setSelectedDate(date);
+            }
+          }}
           className="text-[var(--text)]"
         />
       </div>
@@ -73,7 +113,11 @@ export default function Schedule({ scheduledDate, setScheduledDate }: SchedulePr
             </SelectTrigger>
             <SelectContent className="max-h-48">
               {Array.from({ length: 24 }, (_, i) => (
-                <SelectItem key={i} value={String(i).padStart(2, "0")} className="h-8 text-sm">
+                <SelectItem
+                  key={i}
+                  value={String(i).padStart(2, "0")}
+                  className="h-8 text-sm"
+                >
                   {String(i).padStart(2, "0")}
                 </SelectItem>
               ))}
@@ -89,7 +133,11 @@ export default function Schedule({ scheduledDate, setScheduledDate }: SchedulePr
             </SelectTrigger>
             <SelectContent className="max-h-48">
               {Array.from({ length: 60 }, (_, i) => (
-                <SelectItem key={i} value={String(i).padStart(2, "0")} className="h-8 text-sm">
+                <SelectItem
+                  key={i}
+                  value={String(i).padStart(2, "0")}
+                  className="h-8 text-sm"
+                >
                   {String(i).padStart(2, "0")}
                 </SelectItem>
               ))}
@@ -98,7 +146,10 @@ export default function Schedule({ scheduledDate, setScheduledDate }: SchedulePr
         </div>
       </div>
 
-      <Button className="mt-2 w-full" onClick={handleConfirm}>Confirmar</Button>
+      <Button className="mt-2 w-full" onClick={handleConfirm}>
+        Confirmar
+      </Button>
+
       {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
     </div>
   );
@@ -112,8 +163,11 @@ export default function Schedule({ scheduledDate, setScheduledDate }: SchedulePr
       <Popover modal open={openPopover} onOpenChange={setOpenPopover}>
         <PopoverTrigger asChild>
           <Button
+            ref={triggerRef}
             variant="outline"
-            className={cn("w-full justify-between font-normal !px-5 !py-4 h-14 border-[var(--input-border)] rounded-lg text-[var(--text)]")}
+            className={cn(
+              "w-full justify-between font-normal !px-5 !py-4 h-14 border-[var(--input-border)] rounded-lg text-[var(--text)]"
+            )}
             onClick={() => setOpenPopover(true)}
           >
             {scheduledDate ? (
@@ -129,18 +183,31 @@ export default function Schedule({ scheduledDate, setScheduledDate }: SchedulePr
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent className="hidden sm:flex flex-col space-y-3 p-3 text-[var(--text)] z-50">
-          {PopoverContentInner}
-        </PopoverContent>
+        {isMobile && openPopover && mounted
+          ? createPortal(
+              <>
+                <div
+                  className="fixed inset-0 z-[1000] bg-black/40"
+                  onClick={() => setOpenPopover(false)}
+                />
+                <div className="fixed inset-0 z-[1001] flex items-center justify-center p-4">
+                  <div
+                    role="dialog"
+                    aria-modal="true"
+                    className="w-full max-w-[95vw] max-h-[calc(100vh-40px)] overflow-y-auto rounded-xl bg-white dark:bg-slate-900 shadow-lg"
+                  >
+                    {PopContent}
+                  </div>
+                </div>
+              </>,
+              document.body
+            )
+          : (
+            <PopoverContent className="flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50 [@media(max-width:640px)]:max-h-[60vh] [@media(max-width:640px)]:overflow-auto">
+              {PopContent}
+            </PopoverContent>
+          )}
       </Popover>
-
-      {openPopover && (
-        <Dialog open={openPopover} onOpenChange={setOpenPopover}>
-          <DialogContent className="sm:hidden fixed inset-0 z-50 flex items-center justify-center p-4">
-            {PopoverContentInner}
-          </DialogContent>
-        </Dialog>
-      )}
     </div>
   );
 }
