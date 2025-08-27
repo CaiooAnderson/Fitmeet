@@ -76,7 +76,7 @@ export default function Schedule({
             <CalendarIcon className="h-5 w-5" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="hidden sm:flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50">
+        <PopoverContent className="flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50">
           <Select
             onValueChange={(value) => {
               const baseDate = addDays(new Date(), parseInt(value));
@@ -165,13 +165,12 @@ export default function Schedule({
         </PopoverContent>
 
         <PopoverContent
+          className="sm:hidden fixed inset-0 z-50 flex items-center justify-center p-4"
           side="bottom"
           align="center"
           avoidCollisions={false}
-          className="sm:hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40"
         >
-          <div className="w-full max-w-sm max-h-[80vh] overflow-y-auto rounded-xl bg-white shadow-lg p-4 space-y-3 text-[var(--text)]">
-            {/* Aqui dentro fica o MESMO conteúdo do Popover */}
+          <div className="w-full max-w-sm max-h-[80vh] overflow-y-auto rounded-xl bg-white shadow-lg p-4 flex flex-col gap-3">
             <Select
               onValueChange={(value) => {
                 const baseDate = addDays(new Date(), parseInt(value));
