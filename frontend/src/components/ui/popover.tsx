@@ -4,9 +4,19 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { cn } from "@/lib/utils";
 
 function Popover({
+  modal,
   ...props
 }: React.ComponentProps<typeof PopoverPrimitive.Root>) {
-  return <PopoverPrimitive.Root modal={false} data-slot="popover" {...props} />;
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 640);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  return <PopoverPrimitive.Root modal={isMobile ? false : modal} {...props} />;
 }
 
 function PopoverTrigger({
@@ -20,26 +30,20 @@ function PopoverContent({
   align = "center",
   sideOffset = 4,
   ...props
-}: React.ComponentProps<typeof PopoverPrimitive.Content> & {
-  isMobile?: boolean;
-}) {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 640 : false;
-
+}: React.ComponentProps<typeof PopoverPrimitive.Content>) {
   return (
-    <PopoverPrimitive.Content
-      data-slot="popover-content"
-      align={align}
-      sideOffset={sideOffset}
-      className={cn(
-        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out z-50 rounded-md border p-4 shadow-md outline-none",
-        className
-      )}
-      {...(isMobile
-        ? { asChild: true }
-        : {})}
-      {...props}
-    />
+    <PopoverPrimitive.Portal>
+      <PopoverPrimitive.Content
+        data-slot="popover-content"
+        align={align}
+        sideOffset={sideOffset}
+        className={cn(
+          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-72 rounded-md border p-4 shadow-md outline-none",
+          className
+        )}
+        {...props}
+      />
+    </PopoverPrimitive.Portal>
   );
 }
 
