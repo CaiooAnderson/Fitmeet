@@ -54,17 +54,7 @@ function PopoverContent({
             "z-50 w-72 rounded-md border p-4 shadow-md outline-none",
           className
         )}
-        style={
-          isMobile
-            ? {
-                pointerEvents: "auto",
-                touchAction: "pan-y",
-                maxHeight: "80vh",
-                overflowY: "auto",
-                WebkitOverflowScrolling: "touch",
-              }
-            : undefined
-        }
+        style={isMobile ? { pointerEvents: "auto" } : undefined}
         {...props}
       />
     </PopoverPrimitive.Portal>
