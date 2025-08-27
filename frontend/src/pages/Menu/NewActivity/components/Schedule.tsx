@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { addDays, format, isBefore, setHours, setMinutes } from "date-fns";
 import { cn } from "@/lib/utils";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 interface ScheduleProps {
@@ -145,7 +145,6 @@ export default function Schedule({
       <Button className="mt-2 w-full" onClick={handleConfirm}>
         Confirmar
       </Button>
-
       {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
     </div>
   );
@@ -156,11 +155,7 @@ export default function Schedule({
         Agendar para <span className="text-[var(--warning)] h-5">*</span>
       </Label>
 
-      <Popover
-        open={openPopover}
-        onOpenChange={setOpenPopover}
-        modal={!isMobile}
-      >
+      <Popover open={openPopover} onOpenChange={setOpenPopover}>
         <PopoverTrigger asChild>
           <Button
             ref={triggerRef}
@@ -183,12 +178,14 @@ export default function Schedule({
           </Button>
         </PopoverTrigger>
 
+        {/* Desktop PopoverContent */}
         {!isMobile && (
-          <PopoverContent className="flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50 [@media(max-width:640px)]:max-h-[60vh] [@media(max-width:640px)]:overflow-auto">
+          <PopoverContent className="flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50">
             {PopContent}
           </PopoverContent>
         )}
 
+        {/* Mobile portal PopoverContent */}
         {isMobile &&
           openPopover &&
           mounted &&
