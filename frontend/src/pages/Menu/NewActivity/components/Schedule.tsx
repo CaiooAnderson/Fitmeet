@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { addDays, format, isBefore, setHours, setMinutes } from "date-fns";
 import { cn } from "@/lib/utils";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 
 interface ScheduleProps {
@@ -36,8 +36,10 @@ export default function Schedule({
   const [minute, setMinute] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -46,8 +48,6 @@ export default function Schedule({
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
-
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   const handleConfirm = () => {
     if (!selectedDate || hour === null || minute === null) return;
@@ -95,11 +95,7 @@ export default function Schedule({
         <Calendar
           mode="single"
           selected={selectedDate}
-          onSelect={(date) => {
-            if (date) {
-              setSelectedDate(date);
-            }
-          }}
+          onSelect={(date) => date && setSelectedDate(date)}
           className="text-[var(--text)]"
         />
       </div>
