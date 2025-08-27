@@ -79,7 +79,10 @@ export default function Schedule({
         <PopoverContent
           sideOffset={8}
           collisionPadding={16}
-          className="flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50 [@media(max-width:640px)]:max-h-[60vh] [@media(max-width:640px)]:overflow-auto"
+          className={cn(
+            "flex w-auto max-h-[70vh] flex-col space-y-3 p-3 text-[var(--text)] z-50 overflow-y-auto",
+            "[@media(max-width:640px)]:fixed [@media(max-width:640px)]:inset-0 [@media(max-width:640px)]:m-auto [@media(max-width:640px)]:max-w-[95vw] [@media(max-width:640px)]:max-h-[80vh] [@media(max-width:640px)]:rounded-xl [@media(max-width:640px)]:shadow-lg"
+          )}
         >
           <Select
             onValueChange={(value) => {
