@@ -15,6 +15,7 @@ function Popover({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Força modal=false em mobile, mantém prop modal original em desktop
   return <PopoverPrimitive.Root modal={isMobile ? false : modal} {...props} />;
 }
 
