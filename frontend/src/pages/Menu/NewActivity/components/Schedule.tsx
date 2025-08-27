@@ -102,7 +102,13 @@ export default function Schedule({
             </SelectContent>
           </Select>
 
-          <div className="rounded-lg border [@media(max-width:640px)]:max-h-[250px] [@media(max-width:640px)]:overflow-auto">
+          <div
+            className="rounded-lg border [@media(max-width:640px)]:max-h-[250px] [@media(max-width:640px)]:overflow-auto"
+            style={{
+              WebkitOverflowScrolling: "touch",
+              touchAction: "pan-y",
+            }}
+          >
             <Calendar
               mode="single"
               selected={selectedDate}
