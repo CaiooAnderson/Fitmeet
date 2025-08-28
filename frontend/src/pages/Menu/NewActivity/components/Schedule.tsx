@@ -103,7 +103,7 @@ export default function Schedule({
           </Select>
 
           <div
-            className="rounded-lg border [@media(max-width:640px)]:max-h-[20vh] w-full"
+            className="rounded-lg border w-full"
           >
             <Calendar
               mode="single"
