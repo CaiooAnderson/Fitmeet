@@ -83,7 +83,7 @@ export default function TypesAndLocation({
           Ponto de encontro <span className="text-[var(--warning)] h-5">*</span>
         </Label>
 
-        <div className="h-52 rounded-[0.625rem] overflow-hidden relative">
+        <div className="h-52 rounded-[0.625rem] relative overflow-hidden">
           <MapContainer
             center={mapCenter}
             zoom={13}
