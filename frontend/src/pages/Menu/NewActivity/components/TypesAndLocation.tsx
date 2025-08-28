@@ -110,7 +110,7 @@ export default function TypesAndLocation({
           </MapContainer>
 
           {coordinates && (
-            <div className="absolute bottom-2 left-2 z-[9999] bg-black/60 text-white text-xs px-2 py-1 rounded-md pointer-events-none">
+            <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded-md">
               Lat: {coordinates.lat.toFixed(5)}, Lng:{" "}
               {coordinates.lng.toFixed(5)}
             </div>
