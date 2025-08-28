@@ -76,7 +76,7 @@ export default function Schedule({
             <CalendarIcon className="h-5 w-5" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50 [@media(max-width:640px)]:max-h-[80vh] [@media(max-width:640px)]:overflow-auto">
+        <PopoverContent className="flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50 [@media(max-width:640px)]:max-h-[60vh] [@media(max-width:640px)]:overflow-y-auto">
           <Select
             onValueChange={(value) => {
               const baseDate = addDays(new Date(), parseInt(value));
@@ -103,9 +103,7 @@ export default function Schedule({
           </Select>
 
           <div
-            className="rounded-lg border w-full 
-            [@media(max-width:640px)]:max-h-[60vh] 
-            [@media(max-width:640px)]:overflow-y-auto"
+            className="rounded-lg border w-full [@media(max-width:640px)]:max-h-[200px] [@media(max-width:640px)]:overflow-y-auto"
           >
             <Calendar
               mode="single"
