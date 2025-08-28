@@ -15,7 +15,7 @@ function Popover({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  return <PopoverPrimitive.Root modal={isMobile ? false : modal} {...props} />;
+  return <PopoverPrimitive.Root modal={isMobile ? true : modal} {...props} />;
 }
 
 function PopoverTrigger({
