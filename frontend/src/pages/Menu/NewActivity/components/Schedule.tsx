@@ -76,7 +76,7 @@ export default function Schedule({
             <CalendarIcon className="h-5 w-5" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50 [@media(max-width:640px)]:max-h-[60vh]">
+        <PopoverContent className="flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50 [@media(max-width:640px)]:max-h-[60vh] [@media(max-width:640px)]:overflow-auto">
           <Select
             onValueChange={(value) => {
               const baseDate = addDays(new Date(), parseInt(value));
@@ -102,14 +102,7 @@ export default function Schedule({
             </SelectContent>
           </Select>
 
-          <div
-            className="rounded-lg border min-h-0 [@media(max-width:640px)]:max-h-[250px] [@media(max-width:640px)]:overflow-y-auto"
-            style={{
-              WebkitOverflowScrolling: "touch",
-              overscrollBehavior: "contain",
-              touchAction: "pan-y",
-            }}
-          >
+          <div className="rounded-lg border [@media(max-width:640px)]:max-h-none [@media(max-width:640px)]:overflow-auto">
             <Calendar
               mode="single"
               selected={selectedDate}
@@ -118,7 +111,7 @@ export default function Schedule({
                   setSelectedDate(date);
                 }
               }}
-              className="text-[var(--text)] min-h-0 min-w-0"
+              className="text-[var(--text)]"
             />
           </div>
 
