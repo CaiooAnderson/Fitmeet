@@ -111,7 +111,7 @@ export default function Schedule({
                   setSelectedDate(date);
                 }
               }}
-              className="text-[var(--text)]"
+              className="text-[var(--text)] w-full h-full"
             />
           </div>
 
