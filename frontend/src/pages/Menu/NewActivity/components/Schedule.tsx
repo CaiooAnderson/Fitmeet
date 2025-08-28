@@ -76,7 +76,32 @@ export default function Schedule({
             <CalendarIcon className="h-5 w-5" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50 [@media(max-width:640px)]:max-h-[60vh] [@media(max-width:640px)]:overflow-y-auto">
+        <PopoverContent
+          className="flex w-auto flex-col space-y-3 p-3 text-[var(--text)] z-50 [@media(max-width:640px)]:max-h-[60vh] [@media(max-width:640px)]:overflow-y-auto"
+          onWheel={(e) => {
+            const el = e.currentTarget;
+            const delta = e.deltaY;
+            const atTop = el.scrollTop === 0;
+            const atBottom = el.scrollHeight - el.scrollTop === el.clientHeight;
+
+            if ((atTop && delta < 0) || (atBottom && delta > 0)) {
+              return;
+            }
+            e.stopPropagation();
+          }}
+          onTouchMove={(e) => {
+            const el = e.currentTarget;
+            const atTop = el.scrollTop === 0;
+            const atBottom = el.scrollHeight - el.scrollTop === el.clientHeight;
+
+            if (
+              !(atTop && e.touches[0].clientY > 0) &&
+              !(atBottom && e.touches[0].clientY < 0)
+            ) {
+              e.stopPropagation();
+            }
+          }}
+        >
           <Select
             onValueChange={(value) => {
               const baseDate = addDays(new Date(), parseInt(value));
@@ -102,9 +127,7 @@ export default function Schedule({
             </SelectContent>
           </Select>
 
-          <div
-            className="rounded-lg border w-full"
-          >
+          <div className="rounded-lg border w-full">
             <Calendar
               mode="single"
               selected={selectedDate}
