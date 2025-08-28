@@ -102,7 +102,7 @@ export default function Schedule({
             </SelectContent>
           </Select>
 
-          <div className="rounded-lg border w-full [@media(max-width:640px)]:overflow-y-auto">
+          <div className="rounded-lg border w-full [@media(max-width:640px)]:overflow-y-auto h-max">
             <Calendar
               mode="single"
               selected={selectedDate}
