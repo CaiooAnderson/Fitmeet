@@ -102,16 +102,18 @@ export default function Schedule({
             </SelectContent>
           </Select>
 
-          <div className="rounded-lg border w-full">
+          <div
+            className="rounded-lg border w-full 
+            [@media(max-width:640px)]:max-h-[60vh] 
+            [@media(max-width:640px)]:overflow-y-auto"
+          >
             <Calendar
               mode="single"
               selected={selectedDate}
               onSelect={(date) => {
-                if (date) {
-                  setSelectedDate(date);
-                }
+                if (date) setSelectedDate(date);
               }}
-              className="text-[var(--text)] w-full"
+              className="text-[var(--text)] w-full h-full"
               showOutsideDays={true}
             />
           </div>
