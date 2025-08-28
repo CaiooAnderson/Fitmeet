@@ -111,7 +111,7 @@ export default function Schedule({
               onSelect={(date) => {
                 if (date) setSelectedDate(date);
               }}
-              className="text-[var(--text)] w-full h-full"
+              className="text-[var(--text)] w-full"
               showOutsideDays={true}
             />
           </div>
