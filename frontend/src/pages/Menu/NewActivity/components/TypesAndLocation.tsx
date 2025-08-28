@@ -83,13 +83,13 @@ export default function TypesAndLocation({
           Ponto de encontro <span className="text-[var(--warning)] h-5">*</span>
         </Label>
 
-        <div className="h-52 rounded-[0.625rem] relative overflow-hidden">
+        <div className="h-52 rounded-[0.625rem] overflow-hidden relative">
           <MapContainer
             center={mapCenter}
             zoom={13}
             scrollWheelZoom={false}
             attributionControl={false}
-            className="h-full w-full"
+            style={{ height: "100%", width: "100%" }}
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -110,7 +110,7 @@ export default function TypesAndLocation({
           </MapContainer>
 
           {coordinates && (
-            <div className="absolute bottom-2 left-2 z-10 bg-black/60 text-white text-xs px-2 py-1 rounded-md pointer-events-none">
+            <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded-md z-[9999]">
               Lat: {coordinates.lat.toFixed(5)}, Lng:{" "}
               {coordinates.lng.toFixed(5)}
             </div>
