@@ -3,6 +3,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Camera } from "lucide-react";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
+import { Button } from "@/components/ui/button";
 
 interface EditAvatarProps {
   previewUrl: string;
@@ -75,18 +76,19 @@ export default function EditAvatar({
           </div>
 
           <div className="flex gap-2 mt-4">
-            <button
+            <Button
               className="px-4 py-2 bg-primary text-white rounded hover:bg-primary-600 transition"
               onClick={handleCropConfirm}
             >
               Confirmar
-            </button>
-            <button
+            </Button>
+            <Button
               className="px-4 py-2 rounded hover:bg-muted transition"
+              variant="outline"
               onClick={handleCropCancel}
             >
               Cancelar
-            </button>
+            </Button>
           </div>
         </div>
       ) : (
