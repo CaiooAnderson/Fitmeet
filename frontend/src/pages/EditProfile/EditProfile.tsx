@@ -173,6 +173,7 @@ export default function EditProfile() {
               previewUrl={previewUrl}
               setNewAvatar={setNewAvatar}
               setPreviewUrl={setPreviewUrl}
+              originalAvatarUrl={user.avatar}
             />
           </div>
 

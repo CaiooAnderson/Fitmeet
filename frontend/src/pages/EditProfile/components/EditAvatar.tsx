@@ -8,21 +8,26 @@ interface EditAvatarProps {
   previewUrl: string;
   setNewAvatar: (file: File) => void;
   setPreviewUrl: (url: string) => void;
+  originalAvatarUrl: string;
 }
 
 export default function EditAvatar({
   previewUrl,
   setNewAvatar,
   setPreviewUrl,
+  originalAvatarUrl,
 }: EditAvatarProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const cropperRef = useRef<ReactCropperElement>(null);
   const [isCropping, setIsCropping] = useState(false);
+  const [tempPreview, setTempPreview] = useState<string>(previewUrl);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setPreviewUrl(URL.createObjectURL(file));
+    const objectUrl = URL.createObjectURL(file);
+    setTempPreview(objectUrl);
+    setPreviewUrl(objectUrl);
     setIsCropping(true);
   };
 
@@ -41,16 +46,17 @@ export default function EditAvatar({
 
   const handleCropCancel = () => {
     setIsCropping(false);
+    setPreviewUrl(originalAvatarUrl);
   };
 
   return (
     <div className="w-48">
       {isCropping ? (
         <div className="flex flex-col items-center">
-          <div className="w-48 h-48">
+          <div className="w-48 h-48 rounded-full overflow-hidden border">
             <Cropper
-              src={previewUrl}
-              style={{ height: "100%", width: "100%" }}
+              src={tempPreview}
+              style={{ width: "100%", height: "100%" }}
               initialAspectRatio={1}
               aspectRatio={1}
               guides={true}
@@ -63,16 +69,15 @@ export default function EditAvatar({
             />
           </div>
 
-          {/* Botões centralizados abaixo do cropper */}
           <div className="flex gap-2 mt-4">
             <button
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+              className="px-4 py-2 bg-primary text-white rounded hover:bg-primary-600 transition"
               onClick={handleCropConfirm}
             >
               Confirmar
             </button>
             <button
-              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition"
+              className="px-4 py-2 bg-muted rounded hover:bg-muted/90 transition"
               onClick={handleCropCancel}
             >
               Cancelar
