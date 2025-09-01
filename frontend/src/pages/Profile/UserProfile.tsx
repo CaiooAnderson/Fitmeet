@@ -14,7 +14,7 @@ function Menu() {
   const [user, setUser] = useState({
     name: "",
     avatar: "",
-    level: 1,
+    level: 0,
     xp: 0,
     achievements: [],
   });
