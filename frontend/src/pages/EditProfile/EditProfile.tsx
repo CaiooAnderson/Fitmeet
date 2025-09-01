@@ -25,6 +25,7 @@ export default function EditProfile() {
   const [selectedPreferences, setSelectedPreferences] = useState<string[]>([]);
   const [password, setPassword] = useState("");
   const [newAvatar, setNewAvatar] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isNewActivityOpen, setIsNewActivityOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -58,6 +59,7 @@ export default function EditProfile() {
         );
 
       setUser(userData);
+      setPreviewUrl(userData.avatar);
       setSelectedPreferences(selectedIds);
       setActivityTypes(typesData);
 
@@ -89,6 +91,7 @@ export default function EditProfile() {
         const data = await res.json();
         const updatedAvatar = data.avatar;
         setUser((prev) => ({ ...prev, avatar: updatedAvatar }));
+        setPreviewUrl(updatedAvatar);
       }
 
       const body: any = {
@@ -167,8 +170,10 @@ export default function EditProfile() {
 
           <div className="flex flex-col items-center w-full gap-10">
             <EditAvatar
-              originalAvatarUrl={user.avatar}
-              onAvatarChange={setNewAvatar}
+              previewUrl={previewUrl}
+              setNewAvatar={setNewAvatar}
+              setPreviewUrl={setPreviewUrl}
+              // originalAvatarUrl={user.avatar}
             />
           </div>
 

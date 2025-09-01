@@ -1,131 +1,61 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Camera } from "lucide-react";
-import Cropper, { ReactCropperElement } from "react-cropper";
-import "cropperjs/dist/cropper.css";
-import { Button } from "@/components/ui/button";
 
 interface EditAvatarProps {
-  originalAvatarUrl: string;
-  onAvatarChange: (file: File) => void;
+  previewUrl: string;
+  setNewAvatar: (file: File) => void;
+  setPreviewUrl: (url: string) => void;
 }
 
 export default function EditAvatar({
-  originalAvatarUrl,
-  onAvatarChange,
+  previewUrl,
+  setNewAvatar,
+  setPreviewUrl,
 }: EditAvatarProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const cropperRef = useRef<ReactCropperElement>(null);
-
-  const [previewUrl, setPreviewUrl] = useState(originalAvatarUrl);
-  const [isCropping, setIsCropping] = useState(false);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setPreviewUrl(URL.createObjectURL(file));
-    setIsCropping(true);
-  };
-
-  const handleCropConfirm = () => {
-    const cropper = cropperRef.current?.cropper;
-    if (!cropper) return;
-
-    const canvas = cropper.getCroppedCanvas({
-      width: 200,
-      height: 200,
-      imageSmoothingQuality: "high",
-    });
-
-    canvas.toBlob((blob) => {
-      if (!blob) return;
-      const croppedFile = new File([blob], "avatar.png", { type: "image/png" });
-      setPreviewUrl(URL.createObjectURL(croppedFile));
-      setIsCropping(false);
-      onAvatarChange(croppedFile);
-    });
-  };
-
-  // Cancela o crop
-  const handleCropCancel = () => {
-    setPreviewUrl(originalAvatarUrl);
-    setIsCropping(false);
-  };
 
   return (
-    <div className="w-48">
-      {isCropping ? (
-        <div className="flex flex-col items-center">
-          <div className="w-48 h-48 relative border">
-            <Cropper
-              src={previewUrl}
-              style={{ height: "100%", width: "100%" }}
-              aspectRatio={1}
-              guides={true}
-              viewMode={2}
-              background={false}
-              responsive={true}
-              autoCropArea={0.5}
-              checkOrientation={false}
-              cropBoxResizable={true}
-              dragMode="crop"
-              ref={cropperRef}
-            />
-          </div>
+    <div
+      className="relative w-48 h-48 cursor-pointer group"
+      onClick={() => fileInputRef.current?.click()}
+    >
+      <Avatar className="w-full h-full rounded-full overflow-hidden relative">
+        <AvatarImage
+          src={previewUrl}
+          alt="Avatar"
+          className="object-cover w-full h-full transition brightness-100 group-hover:brightness-75"
+        />
+        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity" />
+      </Avatar>
 
-          <div className="flex gap-2 mt-4">
-            <Button
-              className="px-4 py-2 bg-primary text-white rounded hover:bg-primary-600 transition"
-              onClick={handleCropConfirm}
-            >
-              Confirmar
-            </Button>
-            <Button
-              className="px-4 py-2 rounded hover:bg-muted transition"
-              variant="outline"
-              onClick={handleCropCancel}
-            >
-              Cancelar
-            </Button>
-          </div>
-        </div>
-      ) : (
-        <div
-          className="relative w-48 h-48 cursor-pointer group"
-          onClick={() => fileInputRef.current?.click()}
-        >
-          <Avatar className="w-full h-full rounded-full overflow-hidden relative">
-            <AvatarImage
-              src={previewUrl}
-              alt="Avatar"
-              className="object-cover w-full h-full transition brightness-100 group-hover:brightness-75"
-            />
-            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity" />
-          </Avatar>
+      <div
+        className="
+          absolute bottom-2 right-2 bg-white p-3 rounded-full shadow-md
+          flex items-center justify-center
+          transition-transform duration-300
+          group-hover:scale-110
+          group-hover:rotate-12
+          z-10
+        "
+        aria-label="Alterar avatar"
+      >
+        <Camera className="w-6 h-6 text-[var(--text)]" />
+      </div>
 
-          <div
-            className="
-              absolute bottom-2 right-2 bg-white p-3 rounded-full shadow-md
-              flex items-center justify-center
-              transition-transform duration-300
-              group-hover:scale-110
-              group-hover:rotate-12
-              z-10
-            "
-            aria-label="Alterar avatar"
-          >
-            <Camera className="w-6 h-6 text-[var(--text)]" />
-          </div>
-
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-        </div>
-      )}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) {
+            setNewAvatar(file);
+            setPreviewUrl(URL.createObjectURL(file));
+          }
+        }}
+      />
     </div>
   );
 }
