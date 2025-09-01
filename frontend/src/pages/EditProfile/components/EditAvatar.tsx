@@ -64,13 +64,13 @@ export default function EditAvatar({
               style={{ height: "100%", width: "100%" }}
               aspectRatio={1}
               guides={true}
-              viewMode={1}
+              viewMode={2}
               background={false}
               responsive={true}
               autoCropArea={0.5}
               checkOrientation={false}
-              cropBoxResizable={true}
-              dragMode="move"
+              cropBoxResizable={true} 
+              dragMode="crop"
               ref={cropperRef}
             />
           </div>
