@@ -63,52 +63,47 @@ export default function SubscribeActivity({
     const token = sessionStorage.getItem("token");
     if (!activity?.id || !token) return;
 
-    try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/activities/${activity.id}/participants`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      const data = await res.json();
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/activities/${activity.id}/participants`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    const data = await res.json();
 
-      const me = data.find((p: any) => p.userId === userId);
-      if (!me) {
-        setUserSubscriptionStatus(undefined);
-        setConfirmedAt(null);
-      } else {
-        setUserSubscriptionStatus(me.subscriptionStatus ?? undefined);
-        setConfirmedAt(me.confirmedAt || null);
-        setConfirmationCode(me.confirmationCode || "");
-      }
+    const me = data.find((p: any) => p.userId === userId);
 
-      const approvedOnly = data
-        .filter((p: any) => p.subscriptionStatus === "APPROVED")
-        .map((p: any) => ({ ...p }));
-
-      const creator = {
-        id: "creator-static-id",
-        userId: activity.creator?.id,
-        name: activity.creator?.name,
-        avatar: activity.creator?.avatar,
-        subscriptionStatus: "APPROVED",
-      };
-
-      const alreadyInList = approvedOnly.some(
-        (p: any) => p.userId === creator.userId
-      );
-      const fullList = alreadyInList
-        ? approvedOnly
-        : [creator, ...approvedOnly];
-
-      setParticipants(fullList);
-
-      const onlyParticipants = fullList.filter(
-        (p: any) => p.userId !== activity.creator?.id
-      );
-      setParticipantCount(onlyParticipants.length);
-    } catch (err) {
-      console.error("Erro ao buscar participantes:", err);
-      setParticipants([]);
+    if (!me) {
+      setUserSubscriptionStatus(undefined);
+      setConfirmedAt(null);
+    } else {
+      setUserSubscriptionStatus(me.subscriptionStatus ?? undefined);
+      setConfirmedAt(me.confirmedAt || null);
+      setConfirmationCode(me.confirmationCode || "");
     }
+
+    const approvedOnly = data.filter(
+      (p: any) => p.subscriptionStatus === "APPROVED"
+    );
+
+    const creator = {
+      userId: activity.creator?.id,
+      name: activity.creator?.name,
+      avatar: activity.creator?.avatar,
+      subscriptionStatus: "APPROVED",
+      id: "creator",
+    };
+
+    const alreadyInList = approvedOnly.some(
+      (p: any) => p.userId === creator.userId
+    );
+
+    const fullList = alreadyInList ? approvedOnly : [creator, ...approvedOnly];
+
+    setParticipants(fullList);
+
+    const onlyParticipants = fullList.filter(
+      (p: any) => p.userId !== activity.creator?.id
+    );
+    setParticipantCount(onlyParticipants.length);
   };
 
   const handleOpenUserDialog = async (userId: string) => {
@@ -396,8 +391,11 @@ export default function SubscribeActivity({
                       <div className="w-11 h-11 rounded-full bg-emerald-500 p-1">
                         <Avatar className="w-full h-full">
                           <AvatarImage
-                            key={participant.userId}
-                            src={participant.avatarUrl}
+                            src={
+                              participant.avatar
+                                ? participant.avatar
+                                : import.meta.env.VITE_DEFAULT_AVATAR_URL
+                            }
                             alt={`${participant.name || "Usuário"} avatar`}
                             onClick={() =>
                               handleOpenUserDialog(participant.userId)

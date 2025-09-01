@@ -60,21 +60,25 @@ export default function ActivityDetails({
     try {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/activities/${activity.id}/participants`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
+
       const data = await res.json();
 
       const now = new Date();
       const scheduledDate = new Date(activity.scheduledDate);
       const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
 
-      const filtered = data
-        .filter((p: any) => p.subscriptionStatus !== "REJECTED")
-        .filter(
-          (p: any) =>
-            !(p.subscriptionStatus === "WAITING" && now >= checkinStart)
-        )
-        .map((p: any) => ({ ...p }));
+      const filtered = data.filter((p: any) => {
+        if (p.subscriptionStatus === "REJECTED") return false;
+
+        if (p.subscriptionStatus === "WAITING" && now >= checkinStart)
+          return false;
+
+        return true;
+      });
 
       const creator = {
         id: "creator-static-id",
@@ -95,8 +99,7 @@ export default function ActivityDetails({
         (p: any) => p.userId !== activity.creator?.id
       );
       setParticipantCount(onlyParticipants.length);
-    } catch (err) {
-      console.error("Erro ao buscar participantes:", err);
+    } catch {
       setParticipants([]);
     }
   };
@@ -501,10 +504,11 @@ export default function ActivityDetails({
                 <h3 className="text-[1.75rem] h-8 font-bebas">PARTICIPANTES</h3>
                 <div className="flex flex-col gap-2 h-full overflow-auto pr-1 [@media(max-width:640px)]:h-auto">
                   {participants.map((participant) => {
+                    const avatarUrl = participant.avatar;
 
                     return (
                       <div
-                        key={participant.userId}
+                        key={participant.id}
                         className="flex items-center justify-between h-13"
                         data-userid={participant.userId}
                       >
@@ -512,8 +516,10 @@ export default function ActivityDetails({
                           <div className="w-11 h-11 rounded-full bg-emerald-500 p-1">
                             <Avatar className="w-full h-full">
                               <AvatarImage
-                                key={participant.userId}
-                                src={participant.avatarUrl}
+                                src={
+                                  avatarUrl ||
+                                  import.meta.env.VITE_DEFAULT_AVATAR_URL
+                                }
                                 alt={`${participant.name || "Usuário"} avatar`}
                                 onClick={() =>
                                   handleOpenUserDialog(participant.userId)
