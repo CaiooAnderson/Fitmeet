@@ -57,7 +57,7 @@ export default function EditAvatar({
     <div className="w-48">
       {isCropping ? (
         <div className="flex flex-col items-center">
-          <div className="w-48 h-48 rounded-full overflow-hidden border">
+          <div className="w-48 h-48 border relative">
             <Cropper
               src={previewUrl}
               style={{ height: "100%", width: "100%" }}
@@ -72,6 +72,10 @@ export default function EditAvatar({
               dragMode="move"
               ref={cropperRef}
             />
+
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute inset-0 bg-black/40 rounded-full m-[5%] border border-white" />
+            </div>
           </div>
 
           <div className="flex gap-2 mt-4">
@@ -82,7 +86,7 @@ export default function EditAvatar({
               Confirmar
             </button>
             <button
-              className="px-4 py-2 bg-muted rounded hover:bg-muted/90 transition"
+              className="px-4 py-2 rounded hover:bg-muted transition"
               onClick={handleCropCancel}
             >
               Cancelar
