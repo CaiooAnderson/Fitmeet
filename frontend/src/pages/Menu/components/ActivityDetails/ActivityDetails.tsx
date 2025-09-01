@@ -659,9 +659,7 @@ export default function ActivityDetails({
       </AlertDialog>
 
       <AlertDialog open={isUserDialogOpen} onOpenChange={setIsUserDialogOpen}>
-        <AlertDialogTitle className="text-lg font-bold text-center mb-4">
-          Informações sobre o usuário
-        </AlertDialogTitle>
+        <AlertDialogTitle />
         <AlertDialogDescription />
         <AlertDialogContent className="max-w-md w-full border-0 rounded-2xl p-6">
           <div className="sm:hidden fixed top-2 right-2 w-full z-50 flex justify-end px-6 py-2 mt-[calc(env(safe-area-inset-top)+1rem)]">
