@@ -120,7 +120,7 @@ export default function SubscribeActivity({
           name: activity.creator.name,
           avatar: activity.creator.avatar,
           subscriptionStatus: "APPROVED",
-          confirmedAt: null,
+          confirmedAt: activity.createdAt,
         });
         return;
       }

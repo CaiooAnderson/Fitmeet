@@ -191,8 +191,10 @@ export default function ActivityDetails({
       name: participant.name,
       avatar: participant.avatar,
       subscriptionStatus: participant.subscriptionStatus,
-      confirmedAt: participant.confirmedAt,
-      achievements: participant.achievements ?? [],
+      confirmedAt:
+        participant.userId === activity.creator?.id
+          ? activity.createdAt
+          : participant.confirmedAt,
     });
 
     setIsUserDialogOpen(true);
