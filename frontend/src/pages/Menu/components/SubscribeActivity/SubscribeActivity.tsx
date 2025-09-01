@@ -492,17 +492,28 @@ export default function SubscribeActivity({
 
               <div className="text-sm text-gray-700 w-full text-center">
                 <p>
-                  <span className="font-medium">Status de Inscrição:</span>{" "}
+                  <span className="font-semibold text-gray-900">
+                    Status de Inscrição:
+                  </span>{" "}
                   {selectedUserData.subscriptionStatus ?? "—"}
                 </p>
               </div>
 
               <div className="text-sm text-gray-700 w-full text-center">
                 <p>
-                  <span className="font-medium">Confirmado em:</span>{" "}
+                  <span className="font-semibold text-gray-900">
+                    Confirmado em:
+                  </span>{" "}
                   {selectedUserData.confirmedAt
-                    ? new Date(selectedUserData.confirmedAt).toLocaleDateString(
-                        "pt-BR"
+                    ? new Date(selectedUserData.confirmedAt).toLocaleString(
+                        "pt-BR",
+                        {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
                       )
                     : "Ainda não fez o Check-in"}
                 </p>
