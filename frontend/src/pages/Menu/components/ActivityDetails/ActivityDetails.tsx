@@ -676,26 +676,6 @@ export default function ActivityDetails({
                 {selectedUserData.name}
               </h2>
 
-              <div className="w-full">
-                <h3 className="font-medium mb-2 text-center">Conquistas</h3>
-                {selectedUserData.achievements?.length ? (
-                  <ul className="flex flex-wrap justify-center gap-2 text-sm text-gray-700">
-                    {selectedUserData.achievements.map((ach: any) => (
-                      <li
-                        key={ach.id}
-                        className="bg-gray-100 px-3 py-1 rounded-lg shadow-sm"
-                      >
-                        {ach.title}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-gray-500 text-sm text-center">
-                    Nenhuma conquista
-                  </p>
-                )}
-              </div>
-
               <div className="text-sm text-gray-700 w-full text-center">
                 <p>
                   <span className="font-medium">Status de Inscrição:</span>{" "}
@@ -703,14 +683,16 @@ export default function ActivityDetails({
                 </p>
               </div>
 
-              {selectedUserData.confirmedAt && (
-                <div className="text-sm text-gray-700 w-full text-center">
-                  <p>
-                    <span className="font-medium">Confirmado em:</span>{" "}
-                    {new Date(selectedUserData.confirmedAt).toLocaleString()}
-                  </p>
-                </div>
-              )}
+              <div className="text-sm text-gray-700 w-full text-center">
+                <p>
+                  <span className="font-medium">Confirmado em:</span>{" "}
+                  {selectedUserData.confirmedAt
+                    ? new Date(selectedUserData.confirmedAt).toLocaleDateString(
+                        "pt-BR"
+                      )
+                    : "??/??/????"}
+                </p>
+              </div>
             </div>
           ) : (
             <p className="text-gray-500">
