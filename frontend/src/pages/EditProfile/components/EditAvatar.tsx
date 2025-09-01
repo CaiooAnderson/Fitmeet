@@ -57,24 +57,24 @@ export default function EditAvatar({
     <div className="w-48">
       {isCropping ? (
         <div className="flex flex-col items-center">
-          <div className="w-48 h-48 border relative overflow-hidden">
+          <div className="w-48 h-48 relative overflow-hidden border">
             <Cropper
               src={previewUrl}
               style={{ height: "100%", width: "100%" }}
               aspectRatio={1}
-              guides={true}
+              guides={false}
               viewMode={1}
               background={false}
               responsive={true}
               autoCropArea={1}
               checkOrientation={false}
-              cropBoxResizable={true}
+              cropBoxResizable={false}
               dragMode="move"
               ref={cropperRef}
             />
 
             <div className="absolute inset-0 pointer-events-none flex justify-center items-center">
-              <div className="w-[90%] h-[90%] rounded-full border-2 border-white" />
+              <div className="w-full h-full rounded-full border-4 border-white" />
             </div>
           </div>
 
