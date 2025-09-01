@@ -16,8 +16,8 @@ export default function EditAvatar({
   setPreviewUrl,
 }: EditAvatarProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [isCropping, setIsCropping] = useState(false);
   const cropperRef = useRef<ReactCropperElement>(null);
+  const [isCropping, setIsCropping] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -30,7 +30,7 @@ export default function EditAvatar({
     const cropper = cropperRef.current?.cropper;
     if (!cropper) return;
 
-    cropper.getCroppedCanvas().toBlob((blob: Blob | null) => {
+    cropper.getCroppedCanvas().toBlob((blob) => {
       if (!blob) return;
       const croppedFile = new File([blob], "avatar.png", { type: "image/png" });
       setNewAvatar(croppedFile);
@@ -44,31 +44,35 @@ export default function EditAvatar({
   };
 
   return (
-    <div className="relative w-48 h-48">
+    <div className="w-48">
       {isCropping ? (
-        <div className="relative w-full h-full">
-          <Cropper
-            src={previewUrl}
-            style={{ height: "100%", width: "100%" }}
-            initialAspectRatio={1}
-            aspectRatio={1}
-            guides={true}
-            viewMode={1}
-            background={false}
-            responsive={true}
-            autoCropArea={1}
-            checkOrientation={false}
-            ref={cropperRef}
-          />
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+        <div className="flex flex-col items-center">
+          <div className="w-48 h-48">
+            <Cropper
+              src={previewUrl}
+              style={{ height: "100%", width: "100%" }}
+              initialAspectRatio={1}
+              aspectRatio={1}
+              guides={true}
+              viewMode={1}
+              background={false}
+              responsive={true}
+              autoCropArea={1}
+              checkOrientation={false}
+              ref={cropperRef}
+            />
+          </div>
+
+          {/* Botões centralizados abaixo do cropper */}
+          <div className="flex gap-2 mt-4">
             <button
-              className="px-4 py-2 bg-green-500 text-white rounded"
+              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
               onClick={handleCropConfirm}
             >
               Confirmar
             </button>
             <button
-              className="px-4 py-2 bg-gray-300 rounded"
+              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition"
               onClick={handleCropCancel}
             >
               Cancelar
@@ -77,7 +81,7 @@ export default function EditAvatar({
         </div>
       ) : (
         <div
-          className="relative w-full h-full cursor-pointer group"
+          className="relative w-48 h-48 cursor-pointer group"
           onClick={() => fileInputRef.current?.click()}
         >
           <Avatar className="w-full h-full rounded-full overflow-hidden relative">
