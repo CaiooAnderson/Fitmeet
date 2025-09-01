@@ -68,12 +68,13 @@ export default function ActivityDetails({
       const scheduledDate = new Date(activity.scheduledDate);
       const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
 
-      const filtered = data.filter((p: any) => {
-        if (p.subscriptionStatus === "REJECTED") return false;
-        if (p.subscriptionStatus === "WAITING" && now >= checkinStart)
-          return false;
-        return true;
-      });
+      const filtered = data
+        .filter((p: any) => p.subscriptionStatus !== "REJECTED")
+        .filter(
+          (p: any) =>
+            !(p.subscriptionStatus === "WAITING" && now >= checkinStart)
+        )
+        .map((p: any) => ({ ...p }));
 
       const creator = {
         id: "creator-static-id",
@@ -83,9 +84,10 @@ export default function ActivityDetails({
         subscriptionStatus: "APPROVED",
       };
 
-      const fullList = filtered.some((p: any) => p.userId === creator.userId)
-        ? filtered.map((p: any) => ({ ...p }))
-        : [creator, ...filtered.map((p: any) => ({ ...p }))];
+      const alreadyInList = filtered.some(
+        (p: any) => p.userId === creator.userId
+      );
+      const fullList = alreadyInList ? filtered : [creator, ...filtered];
 
       setParticipants(fullList);
 
@@ -93,7 +95,8 @@ export default function ActivityDetails({
         (p: any) => p.userId !== activity.creator?.id
       );
       setParticipantCount(onlyParticipants.length);
-    } catch {
+    } catch (err) {
+      console.error("Erro ao buscar participantes:", err);
       setParticipants([]);
     }
   };
