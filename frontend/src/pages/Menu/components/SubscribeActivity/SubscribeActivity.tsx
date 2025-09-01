@@ -81,8 +81,7 @@ export default function SubscribeActivity({
     }
 
     const approvedOnly = data.filter(
-      (p: any) =>
-        p.subscriptionStatus === "APPROVED" && p.userId !== activity.creator?.id
+      (p: any) => p.subscriptionStatus === "APPROVED"
     );
 
     const creator = {
@@ -93,11 +92,18 @@ export default function SubscribeActivity({
       id: "creator",
     };
 
-    const fullList = [creator, ...approvedOnly];
+    const alreadyInList = approvedOnly.some(
+      (p: any) => p.userId === creator.userId
+    );
+
+    const fullList = alreadyInList ? approvedOnly : [creator, ...approvedOnly];
 
     setParticipants(fullList);
 
-    setParticipantCount(approvedOnly.length);
+    const onlyParticipants = fullList.filter(
+      (p: any) => p.userId !== activity.creator?.id
+    );
+    setParticipantCount(onlyParticipants.length);
   };
 
   const handleOpenUserDialog = async (userId: string) => {
@@ -385,6 +391,7 @@ export default function SubscribeActivity({
                       <div className="w-11 h-11 rounded-full bg-emerald-500 p-1">
                         <Avatar className="w-full h-full">
                           <AvatarImage
+                            key={participant.userId}
                             src={
                               participant.avatar
                                 ? participant.avatar
