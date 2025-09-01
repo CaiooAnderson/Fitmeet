@@ -501,7 +501,6 @@ export default function ActivityDetails({
                 <h3 className="text-[1.75rem] h-8 font-bebas">PARTICIPANTES</h3>
                 <div className="flex flex-col gap-2 h-full overflow-auto pr-1 [@media(max-width:640px)]:h-auto">
                   {participants.map((participant) => {
-                    const avatarUrl = participant.avatar;
 
                     return (
                       <div
@@ -514,10 +513,7 @@ export default function ActivityDetails({
                             <Avatar className="w-full h-full">
                               <AvatarImage
                                 key={participant.userId}
-                                src={
-                                  avatarUrl ||
-                                  import.meta.env.VITE_DEFAULT_AVATAR_URL
-                                }
+                                src={participant.avatarUrl}
                                 alt={`${participant.name || "Usuário"} avatar`}
                                 onClick={() =>
                                   handleOpenUserDialog(participant.userId)

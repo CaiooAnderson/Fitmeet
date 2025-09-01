@@ -397,11 +397,7 @@ export default function SubscribeActivity({
                         <Avatar className="w-full h-full">
                           <AvatarImage
                             key={participant.userId}
-                            src={
-                              participant.avatar
-                                ? participant.avatar
-                                : import.meta.env.VITE_DEFAULT_AVATAR_URL
-                            }
+                            src={participant.avatarUrl}
                             alt={`${participant.name || "Usuário"} avatar`}
                             onClick={() =>
                               handleOpenUserDialog(participant.userId)
