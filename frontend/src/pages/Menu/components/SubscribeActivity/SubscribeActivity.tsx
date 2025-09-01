@@ -70,7 +70,6 @@ export default function SubscribeActivity({
     const data = await res.json();
 
     const me = data.find((p: any) => p.userId === userId);
-
     if (!me) {
       setUserSubscriptionStatus(undefined);
       setConfirmedAt(null);
@@ -85,7 +84,7 @@ export default function SubscribeActivity({
     );
 
     const creator = {
-      id: "creator-id",
+      id: "creator-static-id",
       userId: activity.creator?.id,
       name: activity.creator?.name,
       avatar: activity.creator?.avatar,

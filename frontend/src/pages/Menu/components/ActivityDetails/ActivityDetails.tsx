@@ -60,11 +60,8 @@ export default function ActivityDetails({
     try {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/activities/${activity.id}/participants`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-
       const data = await res.json();
 
       const now = new Date();
@@ -73,10 +70,8 @@ export default function ActivityDetails({
 
       const filtered = data.filter((p: any) => {
         if (p.subscriptionStatus === "REJECTED") return false;
-
         if (p.subscriptionStatus === "WAITING" && now >= checkinStart)
           return false;
-
         return true;
       });
 
@@ -88,12 +83,9 @@ export default function ActivityDetails({
         subscriptionStatus: "APPROVED",
       };
 
-      const alreadyInList = filtered.some(
-        (p: any) => p.userId === creator.userId
-      );
-      const fullList = alreadyInList
+      const fullList = filtered.some((p: any) => p.userId === creator.userId)
         ? filtered.map((p: any) => ({ ...p }))
-        : [{ ...creator }, ...filtered.map((p: any) => ({ ...p }))];
+        : [creator, ...filtered.map((p: any) => ({ ...p }))];
 
       setParticipants(fullList);
 
