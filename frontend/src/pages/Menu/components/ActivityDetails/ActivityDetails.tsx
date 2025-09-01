@@ -50,6 +50,8 @@ export default function ActivityDetails({
     window.innerWidth < 640 ? window.innerWidth * 0.8 : 0
   );
   const [isSmOrLarger, setIsSmOrLarger] = useState(window.innerWidth >= 640);
+  const [selectedUserData, setSelectedUserData] = useState<any | null>(null);
+  const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
 
   const fetchParticipants = async () => {
     const token = sessionStorage.getItem("token");
@@ -178,6 +180,24 @@ export default function ActivityDetails({
     } catch (err) {
       toast.error("Erro ao encerrar a atividade.");
     }
+  };
+
+  const handleOpenUserDialog = (userId: string) => {
+    const participant = participants.find((p) => p.userId === userId);
+    if (!participant) return;
+
+    setSelectedUserData({
+      userId: participant.userId,
+      name: participant.name,
+      avatar: participant.avatar,
+      subscriptionStatus: participant.subscriptionStatus,
+      confirmedAt:
+        participant.userId === activity.creator?.id
+          ? activity.createdAt
+          : participant.confirmedAt,
+    });
+
+    setIsUserDialogOpen(true);
   };
 
   useEffect(() => {
@@ -501,14 +521,11 @@ export default function ActivityDetails({
                                   import.meta.env.VITE_DEFAULT_AVATAR_URL
                                 }
                                 alt={`${participant.name || "Usuário"} avatar`}
+                                onClick={() =>
+                                  handleOpenUserDialog(participant.userId)
+                                }
+                                className="cursor-pointer"
                                 onError={(e) => {
-                                  console.warn(
-                                    "Erro ao carregar imagem do participante:",
-                                    {
-                                      name: participant.name,
-                                      url: e.currentTarget.src,
-                                    }
-                                  );
                                   e.currentTarget.style.display = "none";
                                 }}
                               />
@@ -638,6 +655,68 @@ export default function ActivityDetails({
               )}
             </div>
           </div>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={isUserDialogOpen} onOpenChange={setIsUserDialogOpen}>
+        <AlertDialogTitle />
+        <AlertDialogDescription />
+        <AlertDialogContent className="max-w-md w-full border-0 rounded-2xl p-6">
+          <div className="sm:hidden fixed top-2 right-2 w-full z-50 flex justify-end px-6 py-2 mt-[calc(env(safe-area-inset-top)+1rem)]">
+            <AlertDialogClose />
+          </div>
+          <div className="hidden sm:flex absolute top-2 right-2">
+            <AlertDialogClose />
+          </div>
+          {selectedUserData ? (
+            <div className="flex flex-col items-center gap-6">
+              <div className="relative flex justify-center">
+                <Avatar className="w-24 h-24">
+                  <AvatarImage src={selectedUserData.avatar} />
+                  <AvatarFallback>
+                    {selectedUserData.name?.charAt(0) ?? "?"}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+
+              <h2 className="text-xl font-semibold text-center">
+                {selectedUserData.name}
+              </h2>
+
+              <div className="text-sm text-gray-700 w-full text-center">
+                <p>
+                  <span className="font-semibold text-gray-900">
+                    Status de Inscrição:
+                  </span>{" "}
+                  {selectedUserData.subscriptionStatus ?? "—"}
+                </p>
+              </div>
+
+              <div className="text-sm text-gray-700 w-full text-center">
+                <p>
+                  <span className="font-semibold text-gray-900">
+                    Confirmado em:
+                  </span>{" "}
+                  {selectedUserData.confirmedAt
+                    ? new Date(selectedUserData.confirmedAt).toLocaleString(
+                        "pt-BR",
+                        {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )
+                    : "Ainda não fez o Check-in"}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <p className="text-gray-500">
+              Não foi possível carregar o usuário.
+            </p>
+          )}
         </AlertDialogContent>
       </AlertDialog>
 
