@@ -114,6 +114,17 @@ export default function SubscribeActivity({
     setIsUserDialogOpen(true);
 
     try {
+      if (userId === activity.creator?.id) {
+        setSelectedUserData({
+          userId: activity.creator.id,
+          name: activity.creator.name,
+          avatar: activity.creator.avatar,
+          subscriptionStatus: "APPROVED",
+          confirmedAt: null,
+        });
+        return;
+      }
+
       const participantsRes = await fetch(
         `${import.meta.env.VITE_API_URL}/activities/${activity.id}/participants`,
         { headers: { Authorization: `Bearer ${token}` } }
@@ -451,6 +462,12 @@ export default function SubscribeActivity({
       <AlertDialog open={isUserDialogOpen} onOpenChange={setIsUserDialogOpen}>
         <AlertDialogTitle />
         <AlertDialogContent className="max-w-md w-full border-0 rounded-2xl p-6">
+          <div className="sm:hidden fixed top-2 right-2 w-full z-50 flex justify-end px-6 py-2 mt-[calc(env(safe-area-inset-top)+1rem)]">
+            <AlertDialogClose />
+          </div>
+          <div className="hidden sm:flex absolute top-2 right-2">
+            <AlertDialogClose />
+          </div>
           {loadingUser ? (
             <div className="flex justify-center items-center h-32">
               <span className="text-gray-500">Carregando...</span>
