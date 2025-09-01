@@ -52,7 +52,6 @@ export default function ActivityDetails({
   const [isSmOrLarger, setIsSmOrLarger] = useState(window.innerWidth >= 640);
   const [selectedUserData, setSelectedUserData] = useState<any | null>(null);
   const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
-  const [loadingUser, setLoadingUser] = useState(false);
 
   const fetchParticipants = async () => {
     const token = sessionStorage.getItem("token");
@@ -183,39 +182,20 @@ export default function ActivityDetails({
     }
   };
 
-  const handleOpenUserDialog = async (userId: string) => {
-    const token = sessionStorage.getItem("token");
-    if (!token) return;
+  const handleOpenUserDialog = (userId: string) => {
+    const participant = participants.find((p) => p.userId === userId);
+    if (!participant) return;
 
-    setLoadingUser(true);
+    setSelectedUserData({
+      userId: participant.userId,
+      name: participant.name,
+      avatar: participant.avatar,
+      subscriptionStatus: participant.subscriptionStatus,
+      confirmedAt: participant.confirmedAt,
+      achievements: participant.achievements ?? [],
+    });
+
     setIsUserDialogOpen(true);
-
-    try {
-      const userRes = await fetch(
-        `${import.meta.env.VITE_API_URL}/user/${userId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      const userData = await userRes.json();
-
-      const participantsRes = await fetch(
-        `${import.meta.env.VITE_API_URL}/activities/${activity.id}/participants`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      const participantsData = await participantsRes.json();
-      const participantExtra = participantsData.find(
-        (p: any) => p.userId === userId
-      );
-
-      setSelectedUserData({
-        ...userData,
-        subscriptionStatus: participantExtra?.subscriptionStatus,
-        confirmedAt: participantExtra?.confirmedAt,
-      });
-    } catch (err) {
-      console.error("Erro ao carregar usuário:", err);
-    } finally {
-      setLoadingUser(false);
-    }
   };
 
   useEffect(() => {
@@ -677,12 +657,11 @@ export default function ActivityDetails({
       </AlertDialog>
 
       <AlertDialog open={isUserDialogOpen} onOpenChange={setIsUserDialogOpen}>
+        <AlertDialogTitle className="sr-only">
+          Informações do Usuário
+        </AlertDialogTitle>
         <AlertDialogContent className="max-w-md w-full border-0 rounded-2xl p-6">
-          {loadingUser ? (
-            <div className="flex justify-center items-center h-32">
-              <span className="text-gray-500">Carregando...</span>
-            </div>
-          ) : selectedUserData ? (
+          {selectedUserData ? (
             <div className="flex flex-col items-center gap-6">
               <div className="relative flex justify-center">
                 <Avatar className="w-24 h-24">
@@ -691,9 +670,6 @@ export default function ActivityDetails({
                     {selectedUserData.name?.charAt(0) ?? "?"}
                   </AvatarFallback>
                 </Avatar>
-                <div className="absolute bottom-0 right-0 bg-emerald-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">
-                  Lv {selectedUserData.level}
-                </div>
               </div>
 
               <h2 className="text-xl font-semibold text-center">
