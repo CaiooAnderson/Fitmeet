@@ -660,6 +660,7 @@ export default function ActivityDetails({
 
       <AlertDialog open={isUserDialogOpen} onOpenChange={setIsUserDialogOpen}>
         <AlertDialogTitle />
+        <AlertDialogDescription />
         <AlertDialogContent className="max-w-md w-full border-0 rounded-2xl p-6">
           <div className="sm:hidden fixed top-2 right-2 w-full z-50 flex justify-end px-6 py-2 mt-[calc(env(safe-area-inset-top)+1rem)]">
             <AlertDialogClose />
@@ -696,7 +697,7 @@ export default function ActivityDetails({
                     ? new Date(selectedUserData.confirmedAt).toLocaleDateString(
                         "pt-BR"
                       )
-                    : "??/??/????"}
+                    : "Ainda não fez o Check-in"}
                 </p>
               </div>
             </div>
