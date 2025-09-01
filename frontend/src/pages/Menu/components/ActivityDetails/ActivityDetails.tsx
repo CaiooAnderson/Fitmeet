@@ -50,6 +50,9 @@ export default function ActivityDetails({
     window.innerWidth < 640 ? window.innerWidth * 0.8 : 0
   );
   const [isSmOrLarger, setIsSmOrLarger] = useState(window.innerWidth >= 640);
+  const [selectedUserData, setSelectedUserData] = useState<any | null>(null);
+  const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
+  const [loadingUser, setLoadingUser] = useState(false);
 
   const fetchParticipants = async () => {
     const token = sessionStorage.getItem("token");
@@ -177,6 +180,41 @@ export default function ActivityDetails({
       }));
     } catch (err) {
       toast.error("Erro ao encerrar a atividade.");
+    }
+  };
+
+  const handleOpenUserDialog = async (userId: string) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+
+    setLoadingUser(true);
+    setIsUserDialogOpen(true);
+
+    try {
+      const userRes = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/${userId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const userData = await userRes.json();
+
+      const participantsRes = await fetch(
+        `${import.meta.env.VITE_API_URL}/activities/${activity.id}/participants`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const participantsData = await participantsRes.json();
+      const participantExtra = participantsData.find(
+        (p: any) => p.userId === userId
+      );
+
+      setSelectedUserData({
+        ...userData,
+        subscriptionStatus: participantExtra?.subscriptionStatus,
+        confirmedAt: participantExtra?.confirmedAt,
+      });
+    } catch (err) {
+      console.error("Erro ao carregar usuário:", err);
+    } finally {
+      setLoadingUser(false);
     }
   };
 
@@ -501,14 +539,11 @@ export default function ActivityDetails({
                                   import.meta.env.VITE_DEFAULT_AVATAR_URL
                                 }
                                 alt={`${participant.name || "Usuário"} avatar`}
+                                onClick={() =>
+                                  handleOpenUserDialog(participant.userId)
+                                }
+                                className="cursor-pointer"
                                 onError={(e) => {
-                                  console.warn(
-                                    "Erro ao carregar imagem do participante:",
-                                    {
-                                      name: participant.name,
-                                      url: e.currentTarget.src,
-                                    }
-                                  );
                                   e.currentTarget.style.display = "none";
                                 }}
                               />
@@ -638,6 +673,74 @@ export default function ActivityDetails({
               )}
             </div>
           </div>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={isUserDialogOpen} onOpenChange={setIsUserDialogOpen}>
+        <AlertDialogContent className="max-w-md w-full border-0 rounded-2xl p-6">
+          {loadingUser ? (
+            <div className="flex justify-center items-center h-32">
+              <span className="text-gray-500">Carregando...</span>
+            </div>
+          ) : selectedUserData ? (
+            <div className="flex flex-col items-center gap-6">
+              <div className="relative flex justify-center">
+                <Avatar className="w-24 h-24">
+                  <AvatarImage src={selectedUserData.avatar} />
+                  <AvatarFallback>
+                    {selectedUserData.name?.charAt(0) ?? "?"}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="absolute bottom-0 right-0 bg-emerald-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">
+                  Lv {selectedUserData.level}
+                </div>
+              </div>
+
+              <h2 className="text-xl font-semibold text-center">
+                {selectedUserData.name}
+              </h2>
+
+              <div className="w-full">
+                <h3 className="font-medium mb-2 text-center">Conquistas</h3>
+                {selectedUserData.achievements?.length ? (
+                  <ul className="flex flex-wrap justify-center gap-2 text-sm text-gray-700">
+                    {selectedUserData.achievements.map((ach: any) => (
+                      <li
+                        key={ach.id}
+                        className="bg-gray-100 px-3 py-1 rounded-lg shadow-sm"
+                      >
+                        {ach.title}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-gray-500 text-sm text-center">
+                    Nenhuma conquista
+                  </p>
+                )}
+              </div>
+
+              <div className="text-sm text-gray-700 w-full text-center">
+                <p>
+                  <span className="font-medium">Status de Inscrição:</span>{" "}
+                  {selectedUserData.subscriptionStatus ?? "—"}
+                </p>
+              </div>
+
+              {selectedUserData.confirmedAt && (
+                <div className="text-sm text-gray-700 w-full text-center">
+                  <p>
+                    <span className="font-medium">Confirmado em:</span>{" "}
+                    {new Date(selectedUserData.confirmedAt).toLocaleString()}
+                  </p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <p className="text-gray-500">
+              Não foi possível carregar o usuário.
+            </p>
+          )}
         </AlertDialogContent>
       </AlertDialog>
 
