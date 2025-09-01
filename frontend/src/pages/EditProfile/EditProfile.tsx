@@ -165,7 +165,7 @@ export default function EditProfile() {
           onCreateActivity={() => setIsNewActivityOpen(true)}
         />
 
-        <div className="mt-14 w-80 mx-auto flex flex-col items-start gap-10">
+        <div className="mt-14 w-80 mx-auto flex flex-col items-start gap-10 [@media(max-width:320px)]:w-4/5">
           <Return />
 
           <div className="flex flex-col items-center w-full gap-10">
@@ -196,7 +196,7 @@ export default function EditProfile() {
           </div>
         </div>
 
-        <div className="mx-auto w-80 flex flex-col gap-6 mt-6">
+        <div className="mx-auto w-80 flex flex-col gap-6 mt-6 [@media(max-width:320px)]:w-4/5">
           <div className="grid grid-cols-2 gap-1.5 w-full">
             <Button className="h-12 w-full" onClick={handleUpdateUser}>
               {isLoading ? "Salvando..." : "Editar"}
