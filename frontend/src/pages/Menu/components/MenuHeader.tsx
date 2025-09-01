@@ -116,7 +116,7 @@ const MenuHeader = ({
                     </Avatar>
                   </div>
                   <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gradient-to-b from-[#00BC7D] to-[#009966] text-white text-xs font-bold px-2 py-[1px] rounded-sm shadow-md min-w-6 text-center">
-                    {level ?? 1}
+                    {level ?? 0}
                   </div>
                 </div>
               </DropdownMenuTrigger>
