@@ -85,18 +85,16 @@ export default function SubscribeActivity({
     );
 
     const creator = {
+      id: "creator-id",
       userId: activity.creator?.id,
       name: activity.creator?.name,
       avatar: activity.creator?.avatar,
       subscriptionStatus: "APPROVED",
-      id: "creator",
     };
 
-    const alreadyInList = approvedOnly.some(
-      (p: any) => p.userId === creator.userId
-    );
-
-    const fullList = alreadyInList ? approvedOnly : [creator, ...approvedOnly];
+    const fullList = approvedOnly.some((p: any) => p.userId === creator.userId)
+      ? approvedOnly.map((p: any) => ({ ...p }))
+      : [creator, ...approvedOnly.map((p: any) => ({ ...p }))];
 
     setParticipants(fullList);
 

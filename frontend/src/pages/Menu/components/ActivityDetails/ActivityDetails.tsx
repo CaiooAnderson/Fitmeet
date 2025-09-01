@@ -60,22 +60,28 @@ export default function ActivityDetails({
     try {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/activities/${activity.id}/participants`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
 
       const data = await res.json();
 
+      const now = new Date();
       const scheduledDate = new Date(activity.scheduledDate);
       const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
 
       const filtered = data.filter((p: any) => {
         if (p.subscriptionStatus === "REJECTED") return false;
+
         if (p.subscriptionStatus === "WAITING" && now >= checkinStart)
           return false;
+
         return true;
       });
 
       const creator = {
+        id: "creator-static-id",
         userId: activity.creator?.id,
         name: activity.creator?.name,
         avatar: activity.creator?.avatar,
@@ -85,7 +91,9 @@ export default function ActivityDetails({
       const alreadyInList = filtered.some(
         (p: any) => p.userId === creator.userId
       );
-      const fullList = alreadyInList ? filtered : [creator, ...filtered];
+      const fullList = alreadyInList
+        ? filtered.map((p: any) => ({ ...p }))
+        : [{ ...creator }, ...filtered.map((p: any) => ({ ...p }))];
 
       setParticipants(fullList);
 
@@ -93,8 +101,7 @@ export default function ActivityDetails({
         (p: any) => p.userId !== activity.creator?.id
       );
       setParticipantCount(onlyParticipants.length);
-    } catch (err) {
-      console.error("Erro ao buscar participantes:", err);
+    } catch {
       setParticipants([]);
     }
   };
@@ -503,7 +510,7 @@ export default function ActivityDetails({
 
                     return (
                       <div
-                        key={participant.id}
+                        key={participant.userId}
                         className="flex items-center justify-between h-13"
                         data-userid={participant.userId}
                       >
