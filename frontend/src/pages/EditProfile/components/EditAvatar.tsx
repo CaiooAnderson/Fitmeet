@@ -20,13 +20,11 @@ export default function EditAvatar({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const cropperRef = useRef<ReactCropperElement>(null);
   const [isCropping, setIsCropping] = useState(false);
-  const [tempPreview, setTempPreview] = useState<string>(previewUrl);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const objectUrl = URL.createObjectURL(file);
-    setTempPreview(objectUrl);
     setPreviewUrl(objectUrl);
     setIsCropping(true);
   };
@@ -35,7 +33,13 @@ export default function EditAvatar({
     const cropper = cropperRef.current?.cropper;
     if (!cropper) return;
 
-    cropper.getCroppedCanvas().toBlob((blob) => {
+    const canvas = cropper.getCroppedCanvas({
+      width: 200,
+      height: 200,
+      imageSmoothingQuality: "high",
+    });
+
+    canvas.toBlob((blob) => {
       if (!blob) return;
       const croppedFile = new File([blob], "avatar.png", { type: "image/png" });
       setNewAvatar(croppedFile);
@@ -55,9 +59,8 @@ export default function EditAvatar({
         <div className="flex flex-col items-center">
           <div className="w-48 h-48 rounded-full overflow-hidden border">
             <Cropper
-              src={tempPreview}
-              style={{ width: "100%", height: "100%" }}
-              initialAspectRatio={1}
+              src={previewUrl}
+              style={{ height: "100%", width: "100%" }}
               aspectRatio={1}
               guides={true}
               viewMode={1}
@@ -65,6 +68,8 @@ export default function EditAvatar({
               responsive={true}
               autoCropArea={1}
               checkOrientation={false}
+              cropBoxResizable={false}
+              dragMode="move"
               ref={cropperRef}
             />
           </div>
