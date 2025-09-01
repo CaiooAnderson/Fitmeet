@@ -67,16 +67,16 @@ export default function ActivityDetails({
 
       const data = await res.json();
 
+      console.log("Participants from API:", data);
+
       const now = new Date();
       const scheduledDate = new Date(activity.scheduledDate);
       const checkinStart = new Date(scheduledDate.getTime() - 30 * 60 * 1000);
 
       const filtered = data.filter((p: any) => {
         if (p.subscriptionStatus === "REJECTED") return false;
-
         if (p.subscriptionStatus === "WAITING" && now >= checkinStart)
           return false;
-
         return true;
       });
 
