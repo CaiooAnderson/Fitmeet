@@ -1,6 +1,10 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Camera } from "lucide-react";
+import Cropper, { ReactCropperElement } from "react-cropper";
+import "cropperjs/dist/cropper.css";
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 interface EditAvatarProps {
   previewUrl: string;
@@ -14,48 +18,98 @@ export default function EditAvatar({
   setPreviewUrl,
 }: EditAvatarProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const cropperRef = useRef<ReactCropperElement>(null);
+
+  const [cropImage, setCropImage] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setCropImage(url);
+      setOpen(true);
+    }
+  };
+
+  const handleCrop = () => {
+    const cropper = cropperRef.current?.cropper;
+    if (!cropper) return;
+
+    cropper.getCroppedCanvas({ width: 400, height: 400 }).toBlob((blob) => {
+      if (!blob) return;
+
+      const file = new File([blob], "avatar.jpg", { type: "image/jpeg" });
+
+      setNewAvatar(file);
+      setPreviewUrl(URL.createObjectURL(file));
+      setOpen(false);
+    }, "image/jpeg");
+  };
 
   return (
-    <div
-      className="relative w-48 h-48 cursor-pointer group"
-      onClick={() => fileInputRef.current?.click()}
-    >
-      <Avatar className="w-full h-full rounded-full overflow-hidden relative">
-        <AvatarImage
-          src={previewUrl}
-          alt="Avatar"
-          className="object-cover w-full h-full transition brightness-100 group-hover:brightness-75"
-        />
-        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity" />
-      </Avatar>
-
+    <>
       <div
-        className="
-          absolute bottom-2 right-2 bg-white p-3 rounded-full shadow-md
-          flex items-center justify-center
-          transition-transform duration-300
-          group-hover:scale-110
-          group-hover:rotate-12
-          z-10
-        "
-        aria-label="Alterar avatar"
+        className="relative w-48 h-48 cursor-pointer group"
+        onClick={() => fileInputRef.current?.click()}
       >
-        <Camera className="w-6 h-6 text-[var(--text)]" />
+        <Avatar className="w-full h-full rounded-full overflow-hidden relative">
+          <AvatarImage
+            src={previewUrl}
+            alt="Avatar"
+            className="object-cover w-full h-full transition brightness-100 group-hover:brightness-75"
+          />
+          <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity" />
+        </Avatar>
+
+        <div
+          className="
+            absolute bottom-2 right-2 bg-white p-3 rounded-full shadow-md
+            flex items-center justify-center
+            transition-transform duration-300
+            group-hover:scale-110
+            group-hover:rotate-12
+            z-10
+          "
+          aria-label="Alterar avatar"
+        >
+          <Camera className="w-6 h-6 text-[var(--text)]" />
+        </div>
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleFileChange}
+        />
       </div>
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) {
-            setNewAvatar(file);
-            setPreviewUrl(URL.createObjectURL(file));
-          }
-        }}
-      />
-    </div>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          {cropImage && (
+            <Cropper
+              src={cropImage}
+              style={{ height: 400, width: "100%" }}
+              aspectRatio={1}
+              guides={false}
+              viewMode={1}
+              ref={cropperRef}
+              autoCropArea={1}
+              background={false}
+              responsive={true}
+              checkOrientation={false}
+            />
+          )}
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setOpen(false)}>
+              Cancelar
+            </Button>
+            <Button onClick={handleCrop}>Confirmar</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
