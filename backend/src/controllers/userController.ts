@@ -4,6 +4,7 @@ import {
   uploadImage,
   getSignedAvatarUrl,
   bucketName,
+  uploadUserAvatar,
 } from "../services/s3Service";
 
 interface AuthenticatedRequest extends Request {
@@ -169,7 +170,7 @@ export const updateUserAvatar = async (
       return;
     }
 
-    const avatarKey = await uploadImage(req.file, "avatars");
+    const avatarKey = await uploadUserAvatar(req.file, req.user.id);
 
     await UserService.updateUserAvatar(req.user.id, avatarKey);
 
