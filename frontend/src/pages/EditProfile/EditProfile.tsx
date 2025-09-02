@@ -156,7 +156,7 @@ export default function EditProfile() {
       <div className="w-full max-w-[76.25rem]">
         <MenuHeader
           avatar={user.avatar ?? ""}
-          level={user.level ?? 1}
+          level={user.level ?? 0}
           name={user.name ?? ""}
           onLogout={() => {
             sessionStorage.removeItem("token");
@@ -168,7 +168,7 @@ export default function EditProfile() {
         <div className="mt-14 w-80 mx-auto flex flex-col items-start gap-10 [@media(max-width:320px)]:w-4/5">
           <Return />
 
-          <div className="flex flex-col items-center w-full gap-10">
+          <div className="flex flex-col items-center w-full">
             <EditAvatar
               previewUrl={previewUrl}
               setNewAvatar={setNewAvatar}
