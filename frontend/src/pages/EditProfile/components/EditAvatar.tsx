@@ -3,7 +3,13 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Camera } from "lucide-react";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { AlertDialog, AlertDialogClose, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
 interface EditAvatarProps {
@@ -89,12 +95,6 @@ export default function EditAvatar({
         <AlertDialogTitle />
         <AlertDialogDescription />
         <AlertDialogContent className="sm:max-w-[500px]">
-          <div className="sm:hidden fixed top-2 right-2 w-full z-50 flex justify-end px-6 py-2 mt-[calc(env(safe-area-inset-top)+1rem)]">
-            <AlertDialogClose />
-          </div>
-          <div className="hidden sm:flex absolute top-2 right-2">
-            <AlertDialogClose />
-          </div>
           {cropImage && (
             <Cropper
               src={cropImage}
@@ -110,7 +110,7 @@ export default function EditAvatar({
             />
           )}
 
-          <AlertDialogFooter className="justify-center gap-4 mt-4">
+          <AlertDialogFooter>
             <Button variant="outline" onClick={() => setOpen(false)}>
               Cancelar
             </Button>
