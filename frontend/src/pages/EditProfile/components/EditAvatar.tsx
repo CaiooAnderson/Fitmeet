@@ -94,11 +94,11 @@ export default function EditAvatar({
       <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogTitle />
         <AlertDialogDescription />
-        <AlertDialogContent className="sm:max-w-[500px]">
+        <AlertDialogContent className="w-full max-w-[500px] sm:max-w-[500px] p-4 md:p-6 h-auto max-h-[90vh] overflow-y-auto">
           {cropImage && (
             <Cropper
               src={cropImage}
-              style={{ height: 400, width: "100%" }}
+              style={{ height: 320, width: "100%" }}
               aspectRatio={1}
               guides={false}
               viewMode={1}
