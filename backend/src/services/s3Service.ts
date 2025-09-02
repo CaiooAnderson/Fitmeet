@@ -33,7 +33,6 @@ export async function createBucketIfNotExists() {
   } catch (error: any) {
     if (error.$metadata?.httpStatusCode === 404) {
       console.log("Bucket não encontrado, criando...");
-      // await s3.send(new CreateBucketCommand({ Bucket: bucketName }));
       console.log("Por favor crie o bucket manualmente no Backblaze B2");
     } else {
       throw error;
@@ -147,4 +146,18 @@ export async function getDefaultAvatarUrl(expiresInSeconds = 3600) {
   });
 
   return await getSignedUrl(s3, command, { expiresIn: expiresInSeconds });
+}
+
+export async function uploadUserAvatar(file: SimpleFile, userId: string) {
+  const fileKey = `avatars/${userId}/avatar.jpg`;
+  const uploadParams = {
+    Bucket: bucketName,
+    Key: fileKey,
+    Body: file.buffer,
+    ContentType: file.mimetype,
+  };
+
+  await s3.send(new PutObjectCommand(uploadParams));
+
+  return fileKey;
 }
